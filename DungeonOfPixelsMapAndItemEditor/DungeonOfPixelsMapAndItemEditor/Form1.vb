@@ -1,7 +1,7 @@
 ﻿Public Class Form1
 
     Dim mode As Integer = -1
-    Dim menu_button(640) As Button
+    Public menu_button(640) As Button
     Dim current_color As System.Drawing.Color = Color.Black
     Dim mouse_clicked As Boolean = False
 
@@ -42,8 +42,8 @@
                     .Text = "□"
                     .FlatStyle = FlatStyle.Flat
                     .FlatAppearance.BorderSize = 0
-                    .Size = New System.Drawing.Size(20, 20)
-                    .Location = New System.Drawing.Point(3 + i * 20, 3 + j * 20)
+                    .Size = New System.Drawing.Size(26, 26)
+                    .Location = New System.Drawing.Point(3 + i * 26, 3 + j * 26)
                     .Visible = True
                     .BackColor = Color.Black
                     .ForeColor = Color.White
@@ -261,5 +261,9 @@
         Form2.TextBox1.Text = GenText
         Form2.TextBox2.Text = GenColor
         Form2.Show()
+    End Sub
+
+    Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
+        Form3.Show()
     End Sub
 End Class

@@ -2,7 +2,6 @@
 #include "../conf.inc"
 #include "../lib/lib.h"
 
-
 void init_colormap(color* colormap)
 {
   for(int i =0; i<=W*H*2; i++)
