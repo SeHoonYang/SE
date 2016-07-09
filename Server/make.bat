@@ -10,7 +10,7 @@ CD ..
 
 ECHO Copy data files
 
-XCOPY data bin\release\data\ /Y
+XCOPY data bin\release\data\ /Y /E
 
 REM ECHO Create object files
 

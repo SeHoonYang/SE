@@ -36,7 +36,7 @@ int init_console()
   buffer1=GetStdHandle(STD_OUTPUT_HANDLE);
   buffer2=CreateConsoleScreenBuffer(GENERIC_WRITE,FILE_SHARE_READ,0,CONSOLE_TEXTMODE_BUFFER,NULL);
 
-  /* Initialize initial screen. !Free later */
+  /* Initialize initial screen. !Free later! */
   last_colormap = (color *)malloc(W*H*2*sizeof(color) + 1);
   last_screen = (char *)malloc(W*H*2 + 1);
 
@@ -65,10 +65,11 @@ static void print_screen(char* screen, color* colormap)
   current_buffer = current_buffer == buffer1 ? buffer2 : buffer1;
 }
 
-void_update_screen(char* screen, color* colormap)
+void update_screen(char* screen, color* colormap)
 {
   last_screen = screen;
-  last_colormap = colormap;
+  if(colormap != NULL)
+    last_colormap = colormap;
 }
 
 void show_screen()

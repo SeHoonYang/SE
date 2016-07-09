@@ -8,3 +8,14 @@ C:\Users\root\Desktop\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndIt
 C:\Users\root\Desktop\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.exe
 C:\Users\root\Desktop\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.xml
 C:\Users\root\Desktop\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.pdb
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\bin\Debug\DungeonOfPixelsMapAndItemEditor.exe.config
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.exe
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.xml
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.pdb
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\bin\Debug\DungeonOfPixelsMapAndItemEditor.exe
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\bin\Debug\DungeonOfPixelsMapAndItemEditor.pdb
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\bin\Debug\DungeonOfPixelsMapAndItemEditor.xml
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form1.resources
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Resources.resources
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.vbproj.GenerateResource.Cache
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form2.resources

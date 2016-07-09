@@ -3,7 +3,7 @@
 #include "color.h"
 
 int init_console(void);
-void update_screen(char* , color* );
+void update_screen(char *, color *);
 void show_screen(void);
 
 #endif

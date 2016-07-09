@@ -9,4 +9,6 @@ typedef struct
 
 #define ctoi(C) C.bgcolor * 16 + C.textcolor
 
+void colormap_from_string(char* , color *);
+
 #endif

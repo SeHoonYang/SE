@@ -10,7 +10,7 @@ CD ..
 
 ECHO Copy data files
 
-XCOPY data bin\release\data\ /Y
+XCOPY data bin\release\data\ /Y /E
 
 REM ECHO Create object files
 
@@ -21,7 +21,7 @@ SET /A tcc_errors = 0
 IF %ERRORLEVEL% == 0 (
 ECHO [main]
 ECHO   -release.exe
-tcc -lws2_32 -o ../bin/release/release.exe ../main.c ../console/color.c ../console/cons.c ../network/ysock.c
+tcc -lws2_32 -o ../bin/release/release.exe ../main.c ../console/color.c ../console/cons.c ../network/ysock.c ../network/nwking.c ../menu/menu.c ../lib/lib.c
 SET /A tcc_errors = %tcc_errors% + %ERRORLEVEL%
 )
 
