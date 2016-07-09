@@ -42,8 +42,8 @@
                     .Text = "□"
                     .FlatStyle = FlatStyle.Flat
                     .FlatAppearance.BorderSize = 0
-                    .Size = New System.Drawing.Size(26, 26)
-                    .Location = New System.Drawing.Point(3 + i * 26, 3 + j * 26)
+                    .Size = New System.Drawing.Size(27, 27)
+                    .Location = New System.Drawing.Point(3 + i * 27, 3 + j * 27)
                     .Visible = True
                     .BackColor = Color.Black
                     .ForeColor = Color.White
@@ -174,7 +174,6 @@
                 End If
             Next
         Next
-        GenText = GenText + "\n"
 
         Dim GenColor = ""
         For j = 0 To 19

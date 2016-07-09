@@ -7,7 +7,7 @@ static HANDLE buffer1, buffer2;
 static HANDLE current_buffer;
 static char* last_screen;
 static color* last_colormap;
-
+static int printing = 0;
 static int init_buffer(HANDLE b)
 {
   /* Set console size */
@@ -67,14 +67,36 @@ static void print_screen(char* screen, color* colormap)
 
 void update_screen(char* screen, color* colormap)
 {
-  last_screen = screen;
+  if(screen != NULL)
+    last_screen = screen;
   if(colormap != NULL)
     last_colormap = colormap;
 }
 
+void update_screen_string(char* p, int position)
+{
+  strncpy(last_screen + position, p, strlen(p));
+}
+
+void stop_printing()
+{
+  printing = 0;
+}
+
+void resume_printing()
+{
+  printing = 1;
+}
+
 void show_screen()
 {
-  system("cls");
-  print_screen(last_screen,last_colormap);
-  Sleep(30);
+  while(1)
+  {
+    if(printing)
+    {
+      print_screen(last_screen,last_colormap);
+      Sleep(30);
+    }else
+      Sleep(30);
+  }
 }

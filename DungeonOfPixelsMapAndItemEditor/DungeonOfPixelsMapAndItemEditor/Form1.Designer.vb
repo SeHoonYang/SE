@@ -78,7 +78,7 @@ Partial Class Form1
         Me.TabControl1.Location = New System.Drawing.Point(0, 0)
         Me.TabControl1.Name = "TabControl1"
         Me.TabControl1.SelectedIndex = 0
-        Me.TabControl1.Size = New System.Drawing.Size(846, 601)
+        Me.TabControl1.Size = New System.Drawing.Size(879, 621)
         Me.TabControl1.TabIndex = 0
         '
         'TabPage1
@@ -86,7 +86,7 @@ Partial Class Form1
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage1.Size = New System.Drawing.Size(649, 455)
+        Me.TabPage1.Size = New System.Drawing.Size(871, 595)
         Me.TabPage1.TabIndex = 0
         Me.TabPage1.Text = "Map Editor"
         Me.TabPage1.UseVisualStyleBackColor = True
@@ -96,7 +96,7 @@ Partial Class Form1
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(649, 455)
+        Me.TabPage2.Size = New System.Drawing.Size(838, 575)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Item Editor"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -157,17 +157,17 @@ Partial Class Form1
         'SplitContainer1.Panel2
         '
         Me.SplitContainer1.Panel2.Controls.Add(Me.ToolStrip1)
-        Me.SplitContainer1.Size = New System.Drawing.Size(894, 601)
-        Me.SplitContainer1.SplitterDistance = 846
+        Me.SplitContainer1.Size = New System.Drawing.Size(929, 621)
+        Me.SplitContainer1.SplitterDistance = 879
         Me.SplitContainer1.TabIndex = 3
         '
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Right
         Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox1, Me.DrawText, Me.ToolStripSplitButton1, Me.BackgroundColor, Me.TextColor, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(11, 0)
+        Me.ToolStrip1.Location = New System.Drawing.Point(13, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(33, 601)
+        Me.ToolStrip1.Size = New System.Drawing.Size(33, 621)
         Me.ToolStrip1.TabIndex = 3
         Me.ToolStrip1.Text = "ToolStrip1"
         '
@@ -384,7 +384,7 @@ Partial Class Form1
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 12.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(894, 601)
+        Me.ClientSize = New System.Drawing.Size(929, 621)
         Me.Controls.Add(Me.SplitContainer1)
         Me.KeyPreview = True
         Me.Name = "Form1"
