@@ -1,4 +1,3 @@
-// std IO needs to be removed after make intial colormap
 #include <stdio.h>
 #include "menu.h"
 #include "menu.inc"
@@ -158,6 +157,7 @@ int show_create_account_menu()
 
   return 0;
 }
+
 static show_login_menu(void)
 {
   return 0;

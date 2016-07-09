@@ -8,6 +8,7 @@ static HANDLE current_buffer;
 static char* last_screen;
 static color* last_colormap;
 static int printing = 0;
+
 static int init_buffer(HANDLE b)
 {
   /* Set console size */
