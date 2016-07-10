@@ -35,7 +35,7 @@ struct packet
 };
 
 struct packet* init_packet(int);
-void marshal_packet(struct packet *, char *, int, int);
+void marshal_packet(struct packet *, char *, int);
 void free_packet(struct packet *);
 int pkt_isvalid(struct packet *);
 

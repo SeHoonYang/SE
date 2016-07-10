@@ -13,7 +13,7 @@ int main()
 {
   /* Initialization */
   init_console();
-  //init_network("127.0.0.1", 2033, &input);
+  init_network("127.0.0.1", 2033, &input);
 
   /* Start printing thread */
   printing_thread = _beginthread(&show_screen,0,NULL);
@@ -32,7 +32,7 @@ int main()
   }
 
   /* Release resources */
-  //close_network();
+  close_network();
   
   return 0;
 }

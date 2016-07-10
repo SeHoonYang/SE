@@ -1,4 +1,6 @@
 #include "ysock.h"
+#include "packet.h"
+#include "../usr/usr.h"
 
 static int buffer_size;
 
@@ -56,9 +58,50 @@ void start_server(SOCKET s)
 
   while(1)
   {
-    //memset(buffer, 0x00, buffer_size);
     client = accept(s, (struct sockaddr *)&client_addr, &c);
-    int r = recv(client, buffer, buffer_size,0);
+
+    /* Receive a packet*/
+
+    /* Note that we will use large buffer to
+       receive the data in a single loop     */
+    recv(client, buffer, buffer_size,0);
+
+    /* Analyze the packet */
+    int invalid = pkt_isvalid((struct packet *)buffer);
+    int pkt_header = ((struct packet *)buffer)->header;
+
+    /* Create a packet */
+    struct packet* to_send;
+    
+    if(invalid)
+    {
+      to_send = init_packet(0);
+    }
+    else
+    {
+      /* Registration request */
+      if(pkt_header == 1)
+        to_send = init_packet(2);
+    }
+
+    /* Server operation */
+    if(!invalid)
+    {
+      if(pkt_header == 1)
+      {
+        printf("Account create request : %s\n", ((struct packet *)buffer)->buffer);
+        int success = create_account(((struct packet *)buffer)->buffer,((struct packet *)buffer)->buffer+10);
+        char send_buffer[1];
+        send_buffer[0] = success + '0';
+        marshal_packet(to_send,send_buffer,1);
+      }
+    }
+
+    /* Send state of the server */
+    send(client, (char *)to_send, sizeof(struct packet),0);
+
+    /* Free the packet */
+    free_packet(to_send);
 
     close(client);
   }

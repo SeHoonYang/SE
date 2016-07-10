@@ -1,4 +1,5 @@
 #include "ysock.h"
+#include "packet.h"
 
 static int buffer_size;
 
@@ -45,23 +46,6 @@ int connect_client(SOCKET*s, int port, char* host)
 void open_server(SOCKET s, int queue)
 {
   listen(s, queue);
-}
-
-void start_server(SOCKET s)
-{
-  SOCKET client;
-  struct sockaddr_in client_addr;
-  char buffer[buffer_size];
-  int c = sizeof(struct sockaddr_in);
-
-  while(1)
-  {
-    //memset(buffer, 0x00, buffer_size);
-    client = accept(s, (struct sockaddr *)&client_addr, &c);
-    int r = recv(client, buffer, buffer_size,0);
-
-    close(client);
-  }
 }
 
 void close_socket(SOCKET s)

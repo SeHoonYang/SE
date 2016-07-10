@@ -4,6 +4,7 @@
 #include "../console/cons.h"
 #include "../console/color.h"
 #include "../conf.inc"
+#include "../network/nwking.h"
 
 static int _max(int r, int l)
 {
@@ -146,6 +147,18 @@ int show_create_account_menu()
         if(key == 13)
         {
           /* Send server the register request */
+          struct packet* p = init_packet(1);
+
+          /* Marshal data to the packet */
+          marshal_packet(p, ID, 10, 0);
+          marshal_packet(p, PWD, 10, 10);
+
+          /* Send and receive data from the server */
+          send_once(p);
+
+          /* Free the packet structure */
+          free_packet(p);
+
           return show_menu();
         }
         colormap_from_string(third_reg_cstring, colormap);

@@ -1,6 +1,5 @@
 #include "nwking.h"
 #include "ysock.h"
-#include "packet.h"
 
 #define frequency 30
 
