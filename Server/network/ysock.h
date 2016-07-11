@@ -5,7 +5,6 @@
 
 int init_socket(int);
 int init_server(SOCKET*, int);
-int connect_client(SOCKET*, int, char*);
 void open_server(SOCKET, int);
 void start_server(SOCKET);
 void close_socket(SOCKET);

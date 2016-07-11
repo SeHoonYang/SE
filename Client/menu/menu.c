@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <windows.h>
 #include "menu.h"
 #include "menu.inc"
 #include "../console/cons.h"
@@ -154,17 +155,21 @@ int show_create_account_menu()
           marshal_packet(p, PWD, 10, 10);
 
           /* Send and receive data from the server */
-          send_once(p);
+          int recv_amount;
+          send_once(p, &recv_amount);
           
           int account_created = 1;
-          if(!pkt_isvalid(p) || p->buffer[0] == '0')
+          if(!pkt_isvalid(p) || p->buffer[0] == '0' || recv_amount == -1)
             account_created = 0;
 
           /* Free the packet structure */
           free_packet(p);
 
           /* Show success/fail, according to account_created */
-          /* Not implemented yet */
+          if(account_created)
+            MessageBox(0, "Account created", "Dungeon of Pixels", 0);
+          else
+            MessageBox(0, "Fail to create an account", "Fail to create an account", 0);
 
           return show_menu();
         }

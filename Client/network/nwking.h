@@ -6,6 +6,6 @@
 void init_network(char*, int, char*);
 void send_input(void);
 void close_network(void);
-struct packet* send_once(struct packet *);
+struct packet* send_once(struct packet *, int *);
 
 #endif
