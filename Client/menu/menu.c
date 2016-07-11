@@ -91,6 +91,8 @@ int show_create_account_menu()
   /* Show initial_screen */
   colormap_from_string(first_reg_cstring, colormap);
   update_screen(regist, colormap);
+  update_screen_string("          ",924);
+
   char key = 0;
   int menu_index = 0;
 
@@ -169,7 +171,7 @@ int show_create_account_menu()
           if(account_created)
             MessageBox(0, "Account created", "Dungeon of Pixels", 0);
           else
-            MessageBox(0, "Fail to create an account", "Fail to create an account", 0);
+            MessageBox(0, "Fail to create an account", "Dungeon of Pixels", 0);
 
           return show_menu();
         }
@@ -177,6 +179,7 @@ int show_create_account_menu()
         update_screen(NULL, colormap);
         break;
     }
+
     key = getch();
   }
 

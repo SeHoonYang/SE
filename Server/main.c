@@ -2,17 +2,29 @@
 #include "network/nwking.h"
 #include "usr/usr.h"
 
+SOCKET server_socket;
+
+static void _start_server()
+{
+  start_server(server_socket);
+}
+
 int main()
 {
   /* Get arguments / Make GUI. It depends */
-  SOCKET server_socket;
 
-  int s = init_socket(sizeof(struct packet));
-  int d = init_server(&server_socket, 2033);
+  /* Add thread to properly stop the server */
+  init_socket(sizeof(struct packet));
+  init_server(&server_socket, 2033);
   open_server(server_socket,3);
-  printf("Server opened\n");
+  printf("Server has opened\n");
 
-  start_server(server_socket);
+  /* Networking thread */
+  _beginthread(&_start_server,0,NULL);
+
+  while(getch() != 27);
+
+  /* Terminate the server */
   close_socket(server_socket);
 
   end_socket();
