@@ -89,8 +89,8 @@ void start_server(SOCKET s)
     {
       if(pkt_header == 1)
       {
-        printf("Account create request : %s\n", ((struct packet *)buffer)->buffer);
         int success = create_account(((struct packet *)buffer)->buffer,((struct packet *)buffer)->buffer+10);
+        printf("Account creation request : %s(%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
         char send_buffer[1];
         send_buffer[0] = success + '0';
         marshal_packet(to_send,send_buffer,1);

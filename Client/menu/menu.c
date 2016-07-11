@@ -155,9 +155,16 @@ int show_create_account_menu()
 
           /* Send and receive data from the server */
           send_once(p);
+          
+          int account_created = 1;
+          if(!pkt_isvalid(p) || p->buffer[0] == '0')
+            account_created = 0;
 
           /* Free the packet structure */
           free_packet(p);
+
+          /* Show success/fail, according to account_created */
+          /* Not implemented yet */
 
           return show_menu();
         }
