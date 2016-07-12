@@ -1,5 +1,9 @@
 # SE
 
+# Documents
+Documents (release plan, sprint plans, etc) are in the docs folder.
+We will upload image of our physical scrum board on docs folder as soon as possible.
+
 # Dungeon of Pixels by Team Keter
 
 # How to run
