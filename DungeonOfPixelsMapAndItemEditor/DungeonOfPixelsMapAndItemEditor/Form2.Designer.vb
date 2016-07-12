@@ -70,7 +70,7 @@ Partial Class Form2
         Me.Controls.Add(Me.TextBox1)
         Me.Controls.Add(Me.Label1)
         Me.Name = "Form2"
-        Me.Text = "Form2"
+        Me.Text = "Menu Generated"
         Me.ResumeLayout(False)
         Me.PerformLayout()
 

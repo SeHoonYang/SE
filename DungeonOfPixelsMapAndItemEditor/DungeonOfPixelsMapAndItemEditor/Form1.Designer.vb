@@ -25,6 +25,8 @@ Partial Class Form1
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.TabControl1 = New System.Windows.Forms.TabControl()
         Me.TabPage1 = New System.Windows.Forms.TabPage()
+        Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -32,6 +34,8 @@ Partial Class Form1
         Me.Button1 = New System.Windows.Forms.Button()
         Me.SplitContainer1 = New System.Windows.Forms.SplitContainer()
         Me.ToolStrip1 = New System.Windows.Forms.ToolStrip()
+        Me.ToolStripLabel1 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator1 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripTextBox1 = New System.Windows.Forms.ToolStripTextBox()
         Me.DrawText = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripSplitButton1 = New System.Windows.Forms.ToolStripSplitButton()
@@ -60,13 +64,36 @@ Partial Class Form1
         Me.BackgroundColor = New System.Windows.Forms.ToolStripButton()
         Me.TextColor = New System.Windows.Forms.ToolStripButton()
         Me.ToolStripButton1 = New System.Windows.Forms.ToolStripButton()
+        Me.ToolStripSeparator2 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolstripLabel2 = New System.Windows.Forms.ToolStripLabel()
+        Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
+        Me.ToolStripTextBox2 = New System.Windows.Forms.ToolStripTextBox()
+        Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
+        Me.HScrollBar1 = New System.Windows.Forms.HScrollBar()
+        Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button5 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
+        Me.TabPage1.SuspendLayout()
+        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer2.Panel1.SuspendLayout()
+        Me.SplitContainer2.Panel2.SuspendLayout()
+        Me.SplitContainer2.SuspendLayout()
+        CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer3.Panel1.SuspendLayout()
+        Me.SplitContainer3.Panel2.SuspendLayout()
+        Me.SplitContainer3.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer4.Panel2.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -83,6 +110,7 @@ Partial Class Form1
         '
         'TabPage1
         '
+        Me.TabPage1.Controls.Add(Me.SplitContainer2)
         Me.TabPage1.Location = New System.Drawing.Point(4, 22)
         Me.TabPage1.Name = "TabPage1"
         Me.TabPage1.Padding = New System.Windows.Forms.Padding(3)
@@ -91,12 +119,49 @@ Partial Class Form1
         Me.TabPage1.Text = "Map Editor"
         Me.TabPage1.UseVisualStyleBackColor = True
         '
+        'SplitContainer2
+        '
+        Me.SplitContainer2.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer2.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer2.Name = "SplitContainer2"
+        '
+        'SplitContainer2.Panel1
+        '
+        Me.SplitContainer2.Panel1.Controls.Add(Me.SplitContainer3)
+        '
+        'SplitContainer2.Panel2
+        '
+        Me.SplitContainer2.Panel2.Controls.Add(Me.VScrollBar1)
+        Me.SplitContainer2.Panel2MinSize = 15
+        Me.SplitContainer2.Size = New System.Drawing.Size(865, 589)
+        Me.SplitContainer2.SplitterDistance = 845
+        Me.SplitContainer2.TabIndex = 0
+        '
+        'SplitContainer3
+        '
+        Me.SplitContainer3.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer3.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer3.Name = "SplitContainer3"
+        Me.SplitContainer3.Orientation = System.Windows.Forms.Orientation.Horizontal
+        '
+        'SplitContainer3.Panel1
+        '
+        Me.SplitContainer3.Panel1.Controls.Add(Me.SplitContainer4)
+        '
+        'SplitContainer3.Panel2
+        '
+        Me.SplitContainer3.Panel2.Controls.Add(Me.HScrollBar1)
+        Me.SplitContainer3.Panel2MinSize = 15
+        Me.SplitContainer3.Size = New System.Drawing.Size(845, 589)
+        Me.SplitContainer3.SplitterDistance = 568
+        Me.SplitContainer3.TabIndex = 0
+        '
         'TabPage2
         '
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
-        Me.TabPage2.Size = New System.Drawing.Size(838, 575)
+        Me.TabPage2.Size = New System.Drawing.Size(871, 595)
         Me.TabPage2.TabIndex = 1
         Me.TabPage2.Text = "Item Editor"
         Me.TabPage2.UseVisualStyleBackColor = True
@@ -108,7 +173,7 @@ Partial Class Form1
         Me.TabPage3.Controls.Add(Me.Button1)
         Me.TabPage3.Location = New System.Drawing.Point(4, 22)
         Me.TabPage3.Name = "TabPage3"
-        Me.TabPage3.Size = New System.Drawing.Size(838, 575)
+        Me.TabPage3.Size = New System.Drawing.Size(871, 595)
         Me.TabPage3.TabIndex = 2
         Me.TabPage3.Text = "Menu Editor"
         Me.TabPage3.UseVisualStyleBackColor = True
@@ -116,9 +181,9 @@ Partial Class Form1
         'Button2
         '
         Me.Button2.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Button2.Location = New System.Drawing.Point(0, 529)
+        Me.Button2.Location = New System.Drawing.Point(0, 549)
         Me.Button2.Name = "Button2"
-        Me.Button2.Size = New System.Drawing.Size(838, 23)
+        Me.Button2.Size = New System.Drawing.Size(871, 23)
         Me.Button2.TabIndex = 2
         Me.Button2.Text = "Import"
         Me.Button2.UseVisualStyleBackColor = True
@@ -137,9 +202,9 @@ Partial Class Form1
         'Button1
         '
         Me.Button1.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Button1.Location = New System.Drawing.Point(0, 552)
+        Me.Button1.Location = New System.Drawing.Point(0, 572)
         Me.Button1.Name = "Button1"
-        Me.Button1.Size = New System.Drawing.Size(838, 23)
+        Me.Button1.Size = New System.Drawing.Size(871, 23)
         Me.Button1.TabIndex = 0
         Me.Button1.Text = "GenerateMenu"
         Me.Button1.UseVisualStyleBackColor = True
@@ -164,17 +229,28 @@ Partial Class Form1
         'ToolStrip1
         '
         Me.ToolStrip1.Dock = System.Windows.Forms.DockStyle.Right
-        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripTextBox1, Me.DrawText, Me.ToolStripSplitButton1, Me.BackgroundColor, Me.TextColor, Me.ToolStripButton1})
-        Me.ToolStrip1.Location = New System.Drawing.Point(13, 0)
+        Me.ToolStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ToolStripLabel1, Me.ToolStripSeparator1, Me.ToolStripTextBox1, Me.DrawText, Me.ToolStripSplitButton1, Me.BackgroundColor, Me.TextColor, Me.ToolStripButton1, Me.ToolStripSeparator2, Me.ToolstripLabel2, Me.ToolStripSeparator3, Me.ToolStripTextBox2, Me.ToolStripButton2})
+        Me.ToolStrip1.Location = New System.Drawing.Point(7, 0)
         Me.ToolStrip1.Name = "ToolStrip1"
-        Me.ToolStrip1.Size = New System.Drawing.Size(33, 621)
+        Me.ToolStrip1.Size = New System.Drawing.Size(39, 621)
         Me.ToolStrip1.TabIndex = 3
         Me.ToolStrip1.Text = "ToolStrip1"
+        '
+        'ToolStripLabel1
+        '
+        Me.ToolStripLabel1.Name = "ToolStripLabel1"
+        Me.ToolStripLabel1.Size = New System.Drawing.Size(36, 15)
+        Me.ToolStripLabel1.Text = "Menu"
+        '
+        'ToolStripSeparator1
+        '
+        Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(36, 6)
         '
         'ToolStripTextBox1
         '
         Me.ToolStripTextBox1.Name = "ToolStripTextBox1"
-        Me.ToolStripTextBox1.Size = New System.Drawing.Size(28, 23)
+        Me.ToolStripTextBox1.Size = New System.Drawing.Size(34, 23)
         '
         'DrawText
         '
@@ -182,7 +258,7 @@ Partial Class Form1
         Me.DrawText.Image = CType(resources.GetObject("DrawText.Image"), System.Drawing.Image)
         Me.DrawText.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.DrawText.Name = "DrawText"
-        Me.DrawText.Size = New System.Drawing.Size(30, 20)
+        Me.DrawText.Size = New System.Drawing.Size(36, 20)
         Me.DrawText.Text = "TextTool"
         '
         'ToolStripSplitButton1
@@ -192,7 +268,7 @@ Partial Class Form1
         Me.ToolStripSplitButton1.Image = CType(resources.GetObject("ToolStripSplitButton1.Image"), System.Drawing.Image)
         Me.ToolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripSplitButton1.Name = "ToolStripSplitButton1"
-        Me.ToolStripSplitButton1.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripSplitButton1.Size = New System.Drawing.Size(36, 20)
         Me.ToolStripSplitButton1.Text = "4"
         '
         'BlackToolStripMenuItem
@@ -359,7 +435,7 @@ Partial Class Form1
         Me.BackgroundColor.Image = CType(resources.GetObject("BackgroundColor.Image"), System.Drawing.Image)
         Me.BackgroundColor.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.BackgroundColor.Name = "BackgroundColor"
-        Me.BackgroundColor.Size = New System.Drawing.Size(30, 20)
+        Me.BackgroundColor.Size = New System.Drawing.Size(36, 20)
         Me.BackgroundColor.Text = "BackgroundColorTool"
         '
         'TextColor
@@ -368,7 +444,7 @@ Partial Class Form1
         Me.TextColor.Image = CType(resources.GetObject("TextColor.Image"), System.Drawing.Image)
         Me.TextColor.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.TextColor.Name = "TextColor"
-        Me.TextColor.Size = New System.Drawing.Size(30, 20)
+        Me.TextColor.Size = New System.Drawing.Size(36, 20)
         Me.TextColor.Text = "ForeColorTool"
         '
         'ToolStripButton1
@@ -377,8 +453,99 @@ Partial Class Form1
         Me.ToolStripButton1.Image = CType(resources.GetObject("ToolStripButton1.Image"), System.Drawing.Image)
         Me.ToolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta
         Me.ToolStripButton1.Name = "ToolStripButton1"
-        Me.ToolStripButton1.Size = New System.Drawing.Size(30, 20)
+        Me.ToolStripButton1.Size = New System.Drawing.Size(36, 20)
         Me.ToolStripButton1.Text = "Eraser"
+        '
+        'ToolStripSeparator2
+        '
+        Me.ToolStripSeparator2.Name = "ToolStripSeparator2"
+        Me.ToolStripSeparator2.Size = New System.Drawing.Size(36, 6)
+        '
+        'ToolstripLabel2
+        '
+        Me.ToolstripLabel2.Name = "ToolstripLabel2"
+        Me.ToolstripLabel2.Size = New System.Drawing.Size(36, 15)
+        Me.ToolstripLabel2.Text = "Map"
+        '
+        'ToolStripSeparator3
+        '
+        Me.ToolStripSeparator3.Name = "ToolStripSeparator3"
+        Me.ToolStripSeparator3.Size = New System.Drawing.Size(36, 6)
+        '
+        'ToolStripTextBox2
+        '
+        Me.ToolStripTextBox2.Name = "ToolStripTextBox2"
+        Me.ToolStripTextBox2.Size = New System.Drawing.Size(34, 23)
+        '
+        'ToolStripButton2
+        '
+        Me.ToolStripButton2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image
+        Me.ToolStripButton2.Image = CType(resources.GetObject("ToolStripButton2.Image"), System.Drawing.Image)
+        Me.ToolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta
+        Me.ToolStripButton2.Name = "ToolStripButton2"
+        Me.ToolStripButton2.Size = New System.Drawing.Size(36, 20)
+        Me.ToolStripButton2.Text = "PortalTool"
+        '
+        'HScrollBar1
+        '
+        Me.HScrollBar1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.HScrollBar1.Location = New System.Drawing.Point(0, 0)
+        Me.HScrollBar1.Name = "HScrollBar1"
+        Me.HScrollBar1.Size = New System.Drawing.Size(845, 17)
+        Me.HScrollBar1.TabIndex = 0
+        '
+        'VScrollBar1
+        '
+        Me.VScrollBar1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VScrollBar1.Location = New System.Drawing.Point(0, 0)
+        Me.VScrollBar1.Name = "VScrollBar1"
+        Me.VScrollBar1.Size = New System.Drawing.Size(16, 589)
+        Me.VScrollBar1.TabIndex = 0
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer4.Name = "SplitContainer4"
+        '
+        'SplitContainer4.Panel2
+        '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button5)
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button4)
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button3)
+        Me.SplitContainer4.Size = New System.Drawing.Size(845, 568)
+        Me.SplitContainer4.SplitterDistance = 799
+        Me.SplitContainer4.TabIndex = 0
+        '
+        'Button3
+        '
+        Me.Button3.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Button3.Location = New System.Drawing.Point(0, 0)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(42, 195)
+        Me.Button3.TabIndex = 0
+        Me.Button3.Text = "New Map"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'Button4
+        '
+        Me.Button4.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Button4.Location = New System.Drawing.Point(0, 195)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(42, 176)
+        Me.Button4.TabIndex = 1
+        Me.Button4.Text = "Load Map"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Button5
+        '
+        Me.Button5.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Button5.Location = New System.Drawing.Point(0, 371)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(42, 197)
+        Me.Button5.TabIndex = 2
+        Me.Button5.Text = "Export Map"
+        Me.Button5.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -390,6 +557,15 @@ Partial Class Form1
         Me.Name = "Form1"
         Me.Text = "Editor"
         Me.TabControl1.ResumeLayout(False)
+        Me.TabPage1.ResumeLayout(False)
+        Me.SplitContainer2.Panel1.ResumeLayout(False)
+        Me.SplitContainer2.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer2.ResumeLayout(False)
+        Me.SplitContainer3.Panel1.ResumeLayout(False)
+        Me.SplitContainer3.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer3.ResumeLayout(False)
         Me.TabPage3.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -398,6 +574,9 @@ Partial Class Form1
         Me.SplitContainer1.ResumeLayout(False)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
+        Me.SplitContainer4.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer4.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -438,5 +617,20 @@ Partial Class Form1
     Friend WithEvents LightGrayToolStripMenuItem As System.Windows.Forms.ToolStripMenuItem
     Friend WithEvents ToolStripButton1 As System.Windows.Forms.ToolStripButton
     Friend WithEvents Button2 As System.Windows.Forms.Button
+    Friend WithEvents ToolStripLabel1 As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripSeparator1 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripSeparator2 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolstripLabel2 As System.Windows.Forms.ToolStripLabel
+    Friend WithEvents ToolStripSeparator3 As System.Windows.Forms.ToolStripSeparator
+    Friend WithEvents ToolStripTextBox2 As System.Windows.Forms.ToolStripTextBox
+    Friend WithEvents ToolStripButton2 As System.Windows.Forms.ToolStripButton
+    Friend WithEvents SplitContainer2 As System.Windows.Forms.SplitContainer
+    Friend WithEvents SplitContainer3 As System.Windows.Forms.SplitContainer
+    Friend WithEvents HScrollBar1 As System.Windows.Forms.HScrollBar
+    Friend WithEvents VScrollBar1 As System.Windows.Forms.VScrollBar
+    Friend WithEvents SplitContainer4 As System.Windows.Forms.SplitContainer
+    Friend WithEvents Button5 As System.Windows.Forms.Button
+    Friend WithEvents Button4 As System.Windows.Forms.Button
+    Friend WithEvents Button3 As System.Windows.Forms.Button
 
 End Class

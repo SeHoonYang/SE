@@ -265,4 +265,9 @@
     Private Sub Button2_Click(sender As Object, e As EventArgs) Handles Button2.Click
         Form3.Show()
     End Sub
+
+    Private Sub ToolStripButton2_Click(sender As Object, e As EventArgs) Handles ToolStripButton2.Click
+        mode = 5
+    End Sub
+
 End Class
