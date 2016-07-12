@@ -12,7 +12,9 @@ ECHO Copy data files
 
 XCOPY data bin\release\data\ /Y /E
 
-REM ECHO Create object files
+ECHO Copy run.bat
+
+COPY run.bat bin\release\ /Y
 
 CD tcc
 
