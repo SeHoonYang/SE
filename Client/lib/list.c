@@ -46,12 +46,6 @@ void remove_list(struct list* lst, void* contents)
   }
 }
 
-/* Get contents of the list_elem e */
-void* get_contents(struct list_elem* e)
-{
-  return e->conts;
-}
-
 /* Return n'th contents in the list.
    Return NUUL if n > size           */
 void* get_contents_n(struct list* lst,int n)

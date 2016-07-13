@@ -4,7 +4,8 @@
 #include "map.h"
 #include "../lib/lib.h"
 #define ELEM_NUM 5
-#define MAX_STRLEN 1000
+#define MAX_STRLEN 1800
+#define MAX_MAP_SIZE 200*200*2*5
 
 struct map* map_load_data(char *map_id)
 {
@@ -14,8 +15,7 @@ struct map* map_load_data(char *map_id)
   /* Parsing buffers */
   char map_data[ELEM_NUM][MAX_STRLEN];
   char buf[MAX_STRLEN];
-  char output[MAX_STRLEN] = "";
-  char *separator = "#";
+  char output[MAX_MAP_SIZE];
 
   /* Open File */
   FILE *map_file =fopen(map_id,"r");
@@ -36,10 +36,10 @@ struct map* map_load_data(char *map_id)
   /* Parsing formatted data */
   int i = 0;
 
-  char *p = strtok (output, "#");
+  char *p = strtok(output, "#");
   while (p != NULL)
   {
-    char output[MAX_STRLEN] = "";
+    char output[MAX_MAP_SIZE] = "";
     strcpy(output, p);
 
     memmove(&output[0], &output[1], strlen(output));

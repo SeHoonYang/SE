@@ -42,7 +42,6 @@ void init_list(struct list*);
 void clear_list(struct list*);
 void push_list(struct list*, void*);
 void remove_list(struct list*, void*);
-void* get_contents(struct list_elem*);
 void* get_contents_n(struct list*,int);
 int list_size(struct list*);
 struct list_elem* list_begin(struct list*);

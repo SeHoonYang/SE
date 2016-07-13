@@ -1,19 +1,22 @@
 #include <windows.h>
 #include <stdio.h>
+#include "lib/lib.h"
 #include "console/cons.h"
 #include "network/nwking.h"
 #include "menu/menu.h"
+#include "game/item.h"
 
 HANDLE printing_thread;
 HANDLE networking_thread;
 
 char input = 0;
 
-int main()
+int main(int argc, char** argv)
 {
   /* Initialization */
   init_console();
-  init_network("127.0.0.1", 2033, &input);
+  init_network(argv[1], strn_to_int(argv[2],5), &input);
+  init_item();
 
   /* Start printing thread */
   printing_thread = _beginthread(&show_screen,0,NULL);
