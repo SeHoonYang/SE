@@ -6,6 +6,9 @@ We will upload image of our physical scrum board on docs folder as soon as possi
 
 # Dungeon of Pixels by Team Keter
 
+# כתר
+Keter means Crown in hebrew.
+
 # How to run
 Execute make.bat to make an executable file.
 Note that tcc only works on the windows environment,
