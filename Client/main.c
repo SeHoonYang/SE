@@ -13,6 +13,14 @@ char input = 0;
 
 int main(int argc, char** argv)
 {
+  /* This program must be executed with 2 parameters */
+  if(argc != 3)
+  {
+    printf("Execute run.bat to start this program\n");
+    system("PAUSE");
+    return -1;
+  }
+
   /* Initialization */
   init_console();
   init_network(argv[1], strn_to_int(argv[2],5), &input);
@@ -36,6 +44,7 @@ int main(int argc, char** argv)
 
   /* Release resources */
   close_network();
-  
+  free_inventory();
+
   return 0;
 }

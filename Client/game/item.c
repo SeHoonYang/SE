@@ -74,3 +74,16 @@ int have_item(int id, int d)
 
   return 0;
 }
+
+void free_inventory()
+{
+  /* Inventory iteration */
+  struct list_elem* e;
+  for(e = list_begin(&inventory); e != list_end(&inventory); e = list_next(e))
+  {
+    /* Free item_in_memory structures */
+    free(e->conts);
+  }
+
+  clear_list(&inventory);
+}
