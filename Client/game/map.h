@@ -1,7 +1,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
-#define MAX_PORTALS 10
+#define MAX_PORTALS 20
 #define MAX_MONSTERSPWN 10
 
 struct portal
@@ -29,6 +29,6 @@ struct map
   struct monster_spwn spwn_pts[MAX_MONSTERSPWN];
 };
 
-char *map_load_data(char *map_id);
+struct map* map_load_data(char *map_id);
 
 #endif
