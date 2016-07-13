@@ -27,6 +27,12 @@ Partial Class Form1
         Me.TabPage1 = New System.Windows.Forms.TabPage()
         Me.SplitContainer2 = New System.Windows.Forms.SplitContainer()
         Me.SplitContainer3 = New System.Windows.Forms.SplitContainer()
+        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
+        Me.Button5 = New System.Windows.Forms.Button()
+        Me.Button4 = New System.Windows.Forms.Button()
+        Me.Button3 = New System.Windows.Forms.Button()
+        Me.HScrollBar1 = New System.Windows.Forms.HScrollBar()
+        Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
         Me.TabPage2 = New System.Windows.Forms.TabPage()
         Me.TabPage3 = New System.Windows.Forms.TabPage()
         Me.Button2 = New System.Windows.Forms.Button()
@@ -69,12 +75,9 @@ Partial Class Form1
         Me.ToolStripSeparator3 = New System.Windows.Forms.ToolStripSeparator()
         Me.ToolStripTextBox2 = New System.Windows.Forms.ToolStripTextBox()
         Me.ToolStripButton2 = New System.Windows.Forms.ToolStripButton()
-        Me.HScrollBar1 = New System.Windows.Forms.HScrollBar()
-        Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
-        Me.SplitContainer4 = New System.Windows.Forms.SplitContainer()
-        Me.Button3 = New System.Windows.Forms.Button()
-        Me.Button4 = New System.Windows.Forms.Button()
-        Me.Button5 = New System.Windows.Forms.Button()
+        Me.SplitContainer5 = New System.Windows.Forms.SplitContainer()
+        Me.Button6 = New System.Windows.Forms.Button()
+        Me.Button7 = New System.Windows.Forms.Button()
         Me.TabControl1.SuspendLayout()
         Me.TabPage1.SuspendLayout()
         CType(Me.SplitContainer2, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -85,15 +88,19 @@ Partial Class Form1
         Me.SplitContainer3.Panel1.SuspendLayout()
         Me.SplitContainer3.Panel2.SuspendLayout()
         Me.SplitContainer3.SuspendLayout()
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer4.Panel2.SuspendLayout()
+        Me.SplitContainer4.SuspendLayout()
+        Me.TabPage2.SuspendLayout()
         Me.TabPage3.SuspendLayout()
         CType(Me.SplitContainer1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SplitContainer1.Panel1.SuspendLayout()
         Me.SplitContainer1.Panel2.SuspendLayout()
         Me.SplitContainer1.SuspendLayout()
         Me.ToolStrip1.SuspendLayout()
-        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).BeginInit()
-        Me.SplitContainer4.Panel2.SuspendLayout()
-        Me.SplitContainer4.SuspendLayout()
+        CType(Me.SplitContainer5, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.SplitContainer5.Panel2.SuspendLayout()
+        Me.SplitContainer5.SuspendLayout()
         Me.SuspendLayout()
         '
         'TabControl1
@@ -134,7 +141,7 @@ Partial Class Form1
         Me.SplitContainer2.Panel2.Controls.Add(Me.VScrollBar1)
         Me.SplitContainer2.Panel2MinSize = 15
         Me.SplitContainer2.Size = New System.Drawing.Size(865, 589)
-        Me.SplitContainer2.SplitterDistance = 845
+        Me.SplitContainer2.SplitterDistance = 835
         Me.SplitContainer2.TabIndex = 0
         '
         'SplitContainer3
@@ -152,12 +159,74 @@ Partial Class Form1
         '
         Me.SplitContainer3.Panel2.Controls.Add(Me.HScrollBar1)
         Me.SplitContainer3.Panel2MinSize = 15
-        Me.SplitContainer3.Size = New System.Drawing.Size(845, 589)
-        Me.SplitContainer3.SplitterDistance = 568
+        Me.SplitContainer3.Size = New System.Drawing.Size(835, 589)
+        Me.SplitContainer3.SplitterDistance = 560
         Me.SplitContainer3.TabIndex = 0
+        '
+        'SplitContainer4
+        '
+        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
+        Me.SplitContainer4.Name = "SplitContainer4"
+        '
+        'SplitContainer4.Panel2
+        '
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button5)
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button4)
+        Me.SplitContainer4.Panel2.Controls.Add(Me.Button3)
+        Me.SplitContainer4.Size = New System.Drawing.Size(835, 560)
+        Me.SplitContainer4.SplitterDistance = 789
+        Me.SplitContainer4.TabIndex = 0
+        '
+        'Button5
+        '
+        Me.Button5.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Button5.Location = New System.Drawing.Point(0, 363)
+        Me.Button5.Name = "Button5"
+        Me.Button5.Size = New System.Drawing.Size(42, 197)
+        Me.Button5.TabIndex = 2
+        Me.Button5.Text = "Export Map"
+        Me.Button5.UseVisualStyleBackColor = True
+        '
+        'Button4
+        '
+        Me.Button4.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Button4.Location = New System.Drawing.Point(0, 195)
+        Me.Button4.Name = "Button4"
+        Me.Button4.Size = New System.Drawing.Size(42, 176)
+        Me.Button4.TabIndex = 1
+        Me.Button4.Text = "Load Map"
+        Me.Button4.UseVisualStyleBackColor = True
+        '
+        'Button3
+        '
+        Me.Button3.Dock = System.Windows.Forms.DockStyle.Top
+        Me.Button3.Location = New System.Drawing.Point(0, 0)
+        Me.Button3.Name = "Button3"
+        Me.Button3.Size = New System.Drawing.Size(42, 195)
+        Me.Button3.TabIndex = 0
+        Me.Button3.Text = "New Map"
+        Me.Button3.UseVisualStyleBackColor = True
+        '
+        'HScrollBar1
+        '
+        Me.HScrollBar1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.HScrollBar1.Location = New System.Drawing.Point(0, 0)
+        Me.HScrollBar1.Name = "HScrollBar1"
+        Me.HScrollBar1.Size = New System.Drawing.Size(835, 25)
+        Me.HScrollBar1.TabIndex = 0
+        '
+        'VScrollBar1
+        '
+        Me.VScrollBar1.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.VScrollBar1.Location = New System.Drawing.Point(0, 0)
+        Me.VScrollBar1.Name = "VScrollBar1"
+        Me.VScrollBar1.Size = New System.Drawing.Size(26, 589)
+        Me.VScrollBar1.TabIndex = 0
         '
         'TabPage2
         '
+        Me.TabPage2.Controls.Add(Me.SplitContainer5)
         Me.TabPage2.Location = New System.Drawing.Point(4, 22)
         Me.TabPage2.Name = "TabPage2"
         Me.TabPage2.Padding = New System.Windows.Forms.Padding(3)
@@ -486,66 +555,39 @@ Partial Class Form1
         Me.ToolStripButton2.Size = New System.Drawing.Size(36, 20)
         Me.ToolStripButton2.Text = "PortalTool"
         '
-        'HScrollBar1
+        'SplitContainer5
         '
-        Me.HScrollBar1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.HScrollBar1.Location = New System.Drawing.Point(0, 0)
-        Me.HScrollBar1.Name = "HScrollBar1"
-        Me.HScrollBar1.Size = New System.Drawing.Size(845, 17)
-        Me.HScrollBar1.TabIndex = 0
+        Me.SplitContainer5.Dock = System.Windows.Forms.DockStyle.Fill
+        Me.SplitContainer5.Location = New System.Drawing.Point(3, 3)
+        Me.SplitContainer5.Name = "SplitContainer5"
         '
-        'VScrollBar1
+        'SplitContainer5.Panel2
         '
-        Me.VScrollBar1.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.VScrollBar1.Location = New System.Drawing.Point(0, 0)
-        Me.VScrollBar1.Name = "VScrollBar1"
-        Me.VScrollBar1.Size = New System.Drawing.Size(16, 589)
-        Me.VScrollBar1.TabIndex = 0
+        Me.SplitContainer5.Panel2.Controls.Add(Me.Button7)
+        Me.SplitContainer5.Panel2.Controls.Add(Me.Button6)
+        Me.SplitContainer5.Size = New System.Drawing.Size(865, 589)
+        Me.SplitContainer5.SplitterDistance = 640
+        Me.SplitContainer5.TabIndex = 0
         '
-        'SplitContainer4
+        'Button6
         '
-        Me.SplitContainer4.Dock = System.Windows.Forms.DockStyle.Fill
-        Me.SplitContainer4.Location = New System.Drawing.Point(0, 0)
-        Me.SplitContainer4.Name = "SplitContainer4"
+        Me.Button6.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Button6.Location = New System.Drawing.Point(0, 549)
+        Me.Button6.Name = "Button6"
+        Me.Button6.Size = New System.Drawing.Size(221, 40)
+        Me.Button6.TabIndex = 0
+        Me.Button6.Text = "Export Item"
+        Me.Button6.UseVisualStyleBackColor = True
         '
-        'SplitContainer4.Panel2
+        'Button7
         '
-        Me.SplitContainer4.Panel2.Controls.Add(Me.Button5)
-        Me.SplitContainer4.Panel2.Controls.Add(Me.Button4)
-        Me.SplitContainer4.Panel2.Controls.Add(Me.Button3)
-        Me.SplitContainer4.Size = New System.Drawing.Size(845, 568)
-        Me.SplitContainer4.SplitterDistance = 799
-        Me.SplitContainer4.TabIndex = 0
-        '
-        'Button3
-        '
-        Me.Button3.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Button3.Location = New System.Drawing.Point(0, 0)
-        Me.Button3.Name = "Button3"
-        Me.Button3.Size = New System.Drawing.Size(42, 195)
-        Me.Button3.TabIndex = 0
-        Me.Button3.Text = "New Map"
-        Me.Button3.UseVisualStyleBackColor = True
-        '
-        'Button4
-        '
-        Me.Button4.Dock = System.Windows.Forms.DockStyle.Top
-        Me.Button4.Location = New System.Drawing.Point(0, 195)
-        Me.Button4.Name = "Button4"
-        Me.Button4.Size = New System.Drawing.Size(42, 176)
-        Me.Button4.TabIndex = 1
-        Me.Button4.Text = "Load Map"
-        Me.Button4.UseVisualStyleBackColor = True
-        '
-        'Button5
-        '
-        Me.Button5.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.Button5.Location = New System.Drawing.Point(0, 371)
-        Me.Button5.Name = "Button5"
-        Me.Button5.Size = New System.Drawing.Size(42, 197)
-        Me.Button5.TabIndex = 2
-        Me.Button5.Text = "Export Map"
-        Me.Button5.UseVisualStyleBackColor = True
+        Me.Button7.Dock = System.Windows.Forms.DockStyle.Bottom
+        Me.Button7.Location = New System.Drawing.Point(0, 509)
+        Me.Button7.Name = "Button7"
+        Me.Button7.Size = New System.Drawing.Size(221, 40)
+        Me.Button7.TabIndex = 1
+        Me.Button7.Text = "Import item"
+        Me.Button7.UseVisualStyleBackColor = True
         '
         'Form1
         '
@@ -566,6 +608,10 @@ Partial Class Form1
         Me.SplitContainer3.Panel2.ResumeLayout(False)
         CType(Me.SplitContainer3, System.ComponentModel.ISupportInitialize).EndInit()
         Me.SplitContainer3.ResumeLayout(False)
+        Me.SplitContainer4.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer4.ResumeLayout(False)
+        Me.TabPage2.ResumeLayout(False)
         Me.TabPage3.ResumeLayout(False)
         Me.SplitContainer1.Panel1.ResumeLayout(False)
         Me.SplitContainer1.Panel2.ResumeLayout(False)
@@ -574,9 +620,9 @@ Partial Class Form1
         Me.SplitContainer1.ResumeLayout(False)
         Me.ToolStrip1.ResumeLayout(False)
         Me.ToolStrip1.PerformLayout()
-        Me.SplitContainer4.Panel2.ResumeLayout(False)
-        CType(Me.SplitContainer4, System.ComponentModel.ISupportInitialize).EndInit()
-        Me.SplitContainer4.ResumeLayout(False)
+        Me.SplitContainer5.Panel2.ResumeLayout(False)
+        CType(Me.SplitContainer5, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.SplitContainer5.ResumeLayout(False)
         Me.ResumeLayout(False)
 
     End Sub
@@ -632,5 +678,8 @@ Partial Class Form1
     Friend WithEvents Button5 As System.Windows.Forms.Button
     Friend WithEvents Button4 As System.Windows.Forms.Button
     Friend WithEvents Button3 As System.Windows.Forms.Button
+    Friend WithEvents SplitContainer5 As System.Windows.Forms.SplitContainer
+    Friend WithEvents Button7 As System.Windows.Forms.Button
+    Friend WithEvents Button6 As System.Windows.Forms.Button
 
 End Class

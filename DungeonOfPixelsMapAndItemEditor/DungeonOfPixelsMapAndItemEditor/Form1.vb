@@ -2,6 +2,7 @@
 
     Dim mode As Integer = -1
     Public menu_button(640) As Button
+    Public item_button(49) As Button
     Dim current_color As System.Drawing.Color = Color.Black
     Dim mouse_clicked As Boolean = False
 
@@ -51,6 +52,24 @@
                 TabPage3.Controls.Add(menu_button(j * 32 + i))
                 AddHandler menu_button(j * 32 + i).MouseEnter, AddressOf MenuButtonHoverHandler
                 AddHandler menu_button(j * 32 + i).MouseClick, AddressOf MenuButtonClickHandler
+            Next
+        Next
+        For i = 0 To 6
+            For j = 0 To 6
+                item_button(7 * j + i) = New Button
+                With item_button(7 * j + i)
+                    .Text = "□"
+                    .FlatStyle = FlatStyle.Flat
+                    .FlatAppearance.BorderSize = 0
+                    .Size = New System.Drawing.Size(27, 27)
+                    .Location = New System.Drawing.Point(3 + i * 27, 3 + 27 * j)
+                    .Visible = True
+                    .BackColor = Color.Black
+                    .ForeColor = Color.White
+                End With
+                SplitContainer5.Panel1.Controls.Add(item_button(j * 7 + i))
+                AddHandler item_button(j * 7 + i).MouseEnter, AddressOf MenuButtonHoverHandler
+                AddHandler item_button(j * 7 + i).MouseClick, AddressOf MenuButtonClickHandler
             Next
         Next
     End Sub
@@ -270,4 +289,106 @@
         mode = 5
     End Sub
 
+    Private Sub Button6_Click(sender As Object, e As EventArgs) Handles Button6.Click
+        Dim GenText = ""
+        For j = 0 To 6
+            For i = 0 To 6
+                If item_button(j * 7 + i).Text = " " Then
+                    GenText = GenText + "  "
+                Else
+                    GenText = GenText + item_button(j * 7 + i).Text
+                End If
+            Next
+        Next
+
+        Dim GenColor = ""
+        For j = 0 To 6
+            For i = 0 To 6
+                Dim c = 0
+                Select Case item_button(j * 7 + i).ForeColor
+                    Case Color.Black
+                        c = c + 0
+                    Case Color.Navy
+                        c = c + 1
+                    Case Color.Green
+                        c = c + 2
+                    Case Color.Teal
+                        c = c + 3
+                    Case Color.Maroon
+                        c = c + 4
+                    Case Color.Purple
+                        c = c + 5
+                    Case Color.Olive
+                        c = c + 6
+                    Case LightGrayToolStripMenuItem.ForeColor
+                        c = c + 7
+                    Case DarkGrayToolStripMenuItem.ForeColor
+                        c = c + 8
+                    Case Color.Blue
+                        c = c + 9
+                    Case Color.Lime
+                        c = c + 10
+                    Case Color.Cyan
+                        c = c + 11
+                    Case Color.Red
+                        c = c + 12
+                    Case Color.Magenta
+                        c = c + 13
+                    Case Color.Yellow
+                        c = c + 14
+                    Case Color.White
+                        c = c + 15
+                End Select
+                Select Case item_button(j * 7 + i).BackColor
+                    Case Color.Black
+                        c = c + 0 * 16
+                    Case Color.Navy
+                        c = c + 1 * 16
+                    Case Color.Green
+                        c = c + 2 * 16
+                    Case Color.Teal
+                        c = c + 3 * 16
+                    Case Color.Maroon
+                        c = c + 4 * 16
+                    Case Color.Purple
+                        c = c + 5 * 16
+                    Case Color.Olive
+                        c = c + 6 * 16
+                    Case LightGrayToolStripMenuItem.ForeColor
+                        c = c + 7 * 16
+                    Case DarkGrayToolStripMenuItem.ForeColor
+                        c = c + 8 * 16
+                    Case Color.Blue
+                        c = c + 9 * 16
+                    Case Color.Lime
+                        c = c + 10 * 16
+                    Case Color.Cyan
+                        c = c + 11 * 16
+                    Case Color.Red
+                        c = c + 12 * 16
+                    Case Color.Magenta
+                        c = c + 13 * 16
+                    Case Color.Yellow
+                        c = c + 14 * 16
+                    Case Color.White
+                        c = c + 15 * 16
+                End Select
+                If c.ToString.Length = 1 Then
+                    GenColor = GenColor + "00" + c.ToString + "00" + c.ToString
+                ElseIf c.ToString.Length = 2 Then
+                    GenColor = GenColor + "0" + c.ToString + "0" + c.ToString
+                Else
+                    GenColor = GenColor + c.ToString + c.ToString
+                End If
+            Next
+        Next
+        GenColor = GenColor
+        Form2.TextBox1.Text = GenText
+        Form2.TextBox2.Text = GenColor
+        Form2.Show()
+    End Sub
+
+    Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
+
+    End Sub
 End Class
