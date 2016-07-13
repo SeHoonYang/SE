@@ -22,13 +22,28 @@ void clear_list(struct list* lst)
 /* Push contents to the list */
 void push_list(struct list* lst, void* contents)
 {
-  return;
+  struct list_elem* e = (struct list_elem*)malloc(sizeof(struct list_elem));
+  e->conts = contents;
+  
+  e->next = lst->head.next;
+  lst->head.next = e;
 }
 
 /* Remove contents from the list */
 void remove_list(struct list* lst, void* contents)
 {
-  return;
+  struct list_elem* e;
+  struct list_elem* prev = &lst->head;
+  for(e = list_begin(lst);e != list_end(lst);e = list_next(e))
+  {
+    if(e->conts == contents)
+    {
+      prev->next = e->next;
+      free(e);
+      break;
+    }
+    prev = e;
+  }
 }
 
 /* Get contents of the list_elem e */
@@ -41,13 +56,24 @@ void* get_contents(struct list_elem* e)
    Return NUUL if n > size           */
 void* get_contents_n(struct list* lst,int n)
 {
+  struct list_elem* e;
+  int c = n;
+  for(e = list_begin(lst);e != list_end(lst);e = list_next(e))
+  {
+    if(c-- == 0)
+      return e->conts;
+  }
   return NULL;
 }
 
 /* Return the size of list */
 int list_size(struct list* lst)
 {
-  return 0;
+  int c = 0;
+  struct list_elem* e;
+  for(e = list_begin(lst);e != list_end(lst);e = list_next(e))
+    c++;
+  return c;
 }
 
 /* Return the first element of the list */
