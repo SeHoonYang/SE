@@ -9,6 +9,7 @@ void init_colormap(color* colormap)
     colormap[i].bgcolor = 0;
     colormap[i].textcolor = 7;
   }
+
   colormap[W*H*2].textcolor = 0;
 }
 

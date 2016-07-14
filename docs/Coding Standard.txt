@@ -1,0 +1,35 @@
+Indentation
+  2 spaces
+
+Rules for function declaration
+  for function header, do not write argument name
+    ex) void ex_func1(int);
+  for pointer type argument, position of '*' doesn't matter
+    ex) void ex_func2(int *); (O)
+        void ex_func3(int*); (O)
+  for multiple arguments, keep one space between arguments
+    ex) void ex_func4(int, char *, float);
+  for function body, locate '{' on the next line of the function name
+    ex) void ex_func1(int foo)
+        {
+          /* bar */
+        }
+  do not use upper case letters for function name, you can use lower case letters, digits and underbar(_)
+
+Rules for struct
+  similar as function declaration, locate '{' on the next line of the name
+    ex) struct foo
+        {
+          int bar;
+        };
+
+Rules for comments
+  do not use double slash (//)
+  use slash with star to explane the function/structure (/* ~ */)
+  *but double slash may be used to comment out one line temporarily
+
+Rules for macros
+  use upper case letters
+
+Above rules may not be applied to external libraries or functions.
+  see strtok_r function on lib/lib.c

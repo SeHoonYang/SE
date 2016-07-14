@@ -2,7 +2,7 @@
 #include "ysock.h"
 #include "packet.h"
 
-#define frequency 30
+#define FREQUENCY 30
 
 static SOCKET client_socket;
 static int port;
@@ -33,7 +33,7 @@ void send_input()
 {
   while(!closed)
   {
-    Sleep(frequency);
+    Sleep(FREQUENCY);
     connect_client(&client_socket, port, host);
     send(client_socket, data, 2, 0);
     //revc(client_socket, p, p->buffer_size, 0);

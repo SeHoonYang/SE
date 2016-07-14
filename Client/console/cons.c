@@ -50,7 +50,7 @@ static void print_screen(char* screen, color* colormap)
 {
   int last_color = ctoi(colormap[0]);
   int last_index = 0;
-  for(int i=0;i<=W*H*2;i++)
+  for(int i = 0;i <= W*H*2;i++)
   {
     if(ctoi(colormap[i]) != last_color)
     {
