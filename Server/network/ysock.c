@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "ysock.h"
 #include "packet.h"
 #include "../usr/usr.h"
@@ -92,7 +93,7 @@ void start_server(SOCKET s)
         /* Account creation request */
 
         int success = create_account(((struct packet *)buffer)->buffer, ((struct packet *)buffer)->buffer+11);
-        printf("Account creation request : %s, (%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
+        printf("Account creation request : %s (%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
         char data_buffer[1];
         data_buffer[0] = success + '0';
         marshal_packet(to_send, data_buffer, 1, 0);
@@ -101,16 +102,34 @@ void start_server(SOCKET s)
       {
         /* Log in request */
 
-        char id[11], pwd[11];
+        char id[11], pwd[11], buf[11];
 
         /* Resolve the pachket data */
-        memcpy(id,((struct packet *)buffer)->buffer,11);
-        memcpy(pwd,((struct packet *)buffer)->buffer+11,11);
+        memcpy(id, ((struct packet *)buffer)->buffer, 11);
+        memcpy(pwd, ((struct packet *)buffer)->buffer+11, 11);
 
         /* Change current directory */
         chdir("./data/userdata/");
 
-        /* Load user data to the user cache */
+        /* Compare passwords */
+        int success = 1;
+        FILE* user_file = fopen(id,"r");
+        if(user_file == NULL)
+          success = 0;
+        else
+        {
+          fgets(buf,11,user_file);
+          success = !strcmp(buf,pwd);
+        }
+
+        printf("Log in request : %s (%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
+
+        if(success)
+        {
+          /* Load user data to the user cache */
+
+          fclose(user_file);
+        }
 
         /* Return to the base directory */
         chdir("../../");

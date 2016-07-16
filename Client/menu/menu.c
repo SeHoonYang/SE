@@ -153,8 +153,8 @@ int show_create_account_menu()
           struct packet* p = init_packet(1);
 
           /* Marshal data to the packet */
-          marshal_packet(p, ID, 10, 0);
-          marshal_packet(p, PWD, 10, 10);
+          marshal_packet(p, ID, 11, 0);
+          marshal_packet(p, PWD, 11, 11);
 
           /* Send and receive data from the server */
           int recv_amount;
@@ -258,8 +258,8 @@ static show_login_menu(void)
           struct packet* p = init_packet(6);
 
           /* Marshal data to the packet */
-          marshal_packet(p, ID, 10, 0);
-          marshal_packet(p, PWD, 10, 11);
+          marshal_packet(p, ID, 11, 0);
+          marshal_packet(p, PWD, 11, 11);
 
           /* Send and receive data from the server */
           int recv_amount;
