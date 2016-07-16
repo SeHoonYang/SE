@@ -1,7 +1,11 @@
-Coding Standard 1.2 July 15th, 2016 revised
+Coding Standard 1.3 July 15th, 2016 revised
 
 Indentation
   2 spaces, do not use tab
+
+Rules for header file(.h)
+  to avoid overlap function declaration, add #ifdef,#ifdef, and #endif directives
+  if name of the header file is *.h, name of the macro should be _*_H_
 
 Rules for function declaration
   for function header, do not write argument name
@@ -16,7 +20,7 @@ Rules for function declaration
         {
           /* bar */
         }
-  do not use upper case letters for function name, you can use lower case letters, digits and underbar(_)
+  do not use upper case letters for function name, you can use lower case letters, digits, and underbar(_)
 
 Rules for struct
   similar as function declaration, locate '{' on the next line of the name
@@ -33,7 +37,10 @@ Rules for comments
   *or double slash can be used inside of /**/ comment
 
 Rules for macros
-  use upper case letters to declare macros(it does not mean normal variable names can not have upper case letter)
+  use upper case letters to declare macros(it does not mean normal variable names can not have upper case letters)
+
+Additionaly,
+  do not use inline keyword, it will be ignored by Tiny C Compiler
 
 Above rules may not be applied to external libraries or functions.
   see strtok_r function on lib/lib.c

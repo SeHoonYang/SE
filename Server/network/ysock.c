@@ -126,8 +126,9 @@ void start_server(SOCKET s)
 
         if(success)
         {
-          /* Load user data to the user cache */
+          /* Load user data to the user data cache */
 
+          /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);
         }
 
