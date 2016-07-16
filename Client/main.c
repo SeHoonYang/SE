@@ -45,6 +45,7 @@ int main(int argc, char** argv)
   /* Release resources */
   close_network();
   free_inventory();
+  end_console();
 
   return 0;
 }

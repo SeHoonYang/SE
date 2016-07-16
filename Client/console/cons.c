@@ -101,3 +101,13 @@ void show_screen()
       Sleep(30);
   }
 }
+
+void end_console()
+{
+  /* Stop referencing last_~ */
+  printing = 0;
+
+  /* Freeing resources */
+  free(last_screen);
+  free(last_colormap);
+}

@@ -8,5 +8,6 @@ void show_screen(void);
 void stop_printing(void);
 void resume_printing(void);
 void update_screen_string(char*, int);
+void end_console(void);
 
 #endif
