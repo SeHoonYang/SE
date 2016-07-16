@@ -1,7 +1,7 @@
-Coding Standard 1.1 July 15th, 2016 revised
+Coding Standard 1.2 July 15th, 2016 revised
 
 Indentation
-  2 spaces
+  2 spaces, do not use tab
 
 Rules for function declaration
   for function header, do not write argument name
@@ -20,6 +20,7 @@ Rules for function declaration
 
 Rules for struct
   similar as function declaration, locate '{' on the next line of the name
+  also do not user upper case letter for structure name
     ex) struct foo
         {
           int bar;
@@ -32,7 +33,7 @@ Rules for comments
   *or double slash can be used inside of /**/ comment
 
 Rules for macros
-  use upper case letters
+  use upper case letters to declare macros(it does not mean normal variable names can not have upper case letter)
 
 Above rules may not be applied to external libraries or functions.
   see strtok_r function on lib/lib.c

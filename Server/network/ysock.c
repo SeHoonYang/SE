@@ -64,7 +64,7 @@ void start_server(SOCKET s)
 
     /* Note that we will use large buffer to
        receive the data in a single loop     */
-    recv(client, buffer, buffer_size,0);
+    recv(client, buffer, buffer_size, 0);
 
     /* Analyze the packet */
     int invalid = pkt_isvalid((struct packet *)buffer);
@@ -89,16 +89,30 @@ void start_server(SOCKET s)
     {
       if(pkt_header == 1)
       {
-        int success = create_account(((struct packet *)buffer)->buffer,((struct packet *)buffer)->buffer+10);
+        /* Account creation request */
+
+        int success = create_account(((struct packet *)buffer)->buffer, ((struct packet *)buffer)->buffer+10);
         printf("Account creation request : %s(%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
-        char send_buffer[1];
-        send_buffer[0] = success + '0';
-        marshal_packet(to_send,send_buffer,1);
+        char data_buffer[1];
+        data_buffer[0] = success + '0';
+        marshal_packet(to_send, data_buffer, 1);
+      }
+      else if(pkt_header == 6)
+      {
+        /* Log in request */
+
+        char id[11],pwd[11];
+
+        /* Change current directory */
+        chdir("./data/userdata/");
+
+        /* Return to the base directory */
+        chdir("../../");
       }
     }
 
     /* Send state of the server */
-    send(client, (char *)to_send, sizeof(struct packet),0);
+    send(client, (char *)to_send, sizeof(struct packet), 0);
 
     /* Free the packet */
     free_packet(to_send);

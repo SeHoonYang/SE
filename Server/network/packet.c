@@ -7,8 +7,8 @@ struct packet *init_packet(int h){
   return pkt;
 }
 
-void marshal_packet(struct packet *pkt, char *data, int size){
-  memcpy(pkt->buffer, data, size);
+void marshal_packet(struct packet *pkt, char *data, int size, int offset){
+  memcpy(pkt->buffer + offset, data, size);
 }
 
 void free_packet(struct packet *pkt){
