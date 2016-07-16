@@ -15,8 +15,8 @@
    2 : Server quick responce
        -buffer[0] : 1 for success, 0 for failure
    6 : Login request
-       -buffer[0-9] : ID
-       -buffer[10-19] : Password
+       -buffer[0-10] : ID
+       -buffer[11-21] : Password
 
    // After the game start //
    3 : User input
@@ -33,7 +33,7 @@
 struct packet
 {
   int header;
-  int buffer[BUFFER_SIZE];
+  char buffer[BUFFER_SIZE];
   int magic;
 };
 

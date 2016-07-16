@@ -91,20 +91,26 @@ void start_server(SOCKET s)
       {
         /* Account creation request */
 
-        int success = create_account(((struct packet *)buffer)->buffer, ((struct packet *)buffer)->buffer+10);
-        printf("Account creation request : %s(%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
+        int success = create_account(((struct packet *)buffer)->buffer, ((struct packet *)buffer)->buffer+11);
+        printf("Account creation request : %s, (%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
         char data_buffer[1];
         data_buffer[0] = success + '0';
-        marshal_packet(to_send, data_buffer, 1);
+        marshal_packet(to_send, data_buffer, 1, 0);
       }
       else if(pkt_header == 6)
       {
         /* Log in request */
 
-        char id[11],pwd[11];
+        char id[11], pwd[11];
+
+        /* Resolve the pachket data */
+        memcpy(id,((struct packet *)buffer)->buffer,11);
+        memcpy(pwd,((struct packet *)buffer)->buffer+11,11);
 
         /* Change current directory */
         chdir("./data/userdata/");
+
+        /* Load user data to the user cache */
 
         /* Return to the base directory */
         chdir("../../");

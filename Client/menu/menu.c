@@ -259,7 +259,7 @@ static show_login_menu(void)
 
           /* Marshal data to the packet */
           marshal_packet(p, ID, 10, 0);
-          marshal_packet(p, PWD, 10, 10);
+          marshal_packet(p, PWD, 10, 11);
 
           /* Send and receive data from the server */
           int recv_amount;
