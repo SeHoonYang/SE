@@ -1,3 +1,5 @@
+Coding Standard 1.1 July 15th, 2016 revised
+
 Indentation
   2 spaces
 
@@ -27,6 +29,7 @@ Rules for comments
   do not use double slash (//)
   use slash with star to explane the function/structure (/* ~ */)
   *but double slash may be used to comment out one line temporarily
+  *or double slash can be used inside of /**/ comment
 
 Rules for macros
   use upper case letters
