@@ -279,7 +279,7 @@ static show_login_menu(void)
             return 0;
           }
           else
-            MessageBox(0, "Fail to log in", "Dungeon of Pixels", 0);
+            MessageBox(0, "Failed to log in", "Dungeon of Pixels", 0);
 
           return show_menu();
         }

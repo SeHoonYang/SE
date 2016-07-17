@@ -61,9 +61,8 @@ void start_server(SOCKET s)
   {
     client = accept(s, (struct sockaddr *)&client_addr, &c);
 
-    /* Receive a packet*/
-
-    /* Note that we will use large buffer to
+    /* Receive a packet.
+       Note that we will use large buffer to
        receive the data in a single loop     */
     recv(client, buffer, buffer_size, 0);
 
@@ -94,6 +93,7 @@ void start_server(SOCKET s)
 
         int success = create_account(((struct packet *)buffer)->buffer, ((struct packet *)buffer)->buffer+11);
         printf("Account creation request : %s (%s)\n", ((struct packet *)buffer)->buffer, success == 1 ? "Success" : "Fail");
+
         char data_buffer[1];
         data_buffer[0] = success + '0';
         marshal_packet(to_send, data_buffer, 1, 0);
@@ -114,6 +114,7 @@ void start_server(SOCKET s)
         /* Compare passwords */
         int success = 1;
         FILE* user_file = fopen(id,"r");
+
         if(user_file == NULL)
           success = 0;
         else
@@ -126,7 +127,7 @@ void start_server(SOCKET s)
 
         if(success)
         {
-          /* Load user data to the user data cache */
+          /* Load user data to the map data cache */
 
           /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);

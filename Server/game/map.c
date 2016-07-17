@@ -50,7 +50,6 @@ struct map* map_load_data(char *map_id)
 
   /* Allocate memory for map data */
   struct map *map = (struct map *)malloc(sizeof(struct map));
-  map->map_id = strn_to_int(map_id, 4);
 
   /* Parsing */
   char map_elems[2][4];

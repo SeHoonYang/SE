@@ -19,7 +19,6 @@ struct monster_spwn
 
 struct map
 {
-  int map_id;
   int height;
   int width;
   char geo[32*20*2+1];

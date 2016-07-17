@@ -1,5 +1,5 @@
-#ifndef __LIST_H_
-#define __LIST_H_
+#ifndef _LIST_H_
+#define _LIST_H_
 
 /* list.h 
    Simple implementation of singly linked list
