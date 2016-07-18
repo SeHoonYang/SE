@@ -4,7 +4,9 @@
 #include "../lib/list.h"
 #include "map.h"
 
-/* Map data structure. It includes
+/*
+
+   Map data structure. It includes
 
    1. Map data
    2. width/height
@@ -20,6 +22,7 @@
 struct map_data
 {
   struct map* map;
+  struct monster_spwn monster_spawned[MAX_MONSTERSPWN];
   struct list user_data;
 };
 

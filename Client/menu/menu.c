@@ -274,10 +274,7 @@ static show_login_menu(void)
 
           /* Show success/fail, according to loggedin */
           if(loggedin)
-          {
-            /* Not implemented yet */
-            return 0;
-          }
+            return 1;
           else
             MessageBox(0, "Failed to log in", "Dungeon of Pixels", 0);
 

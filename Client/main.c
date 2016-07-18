@@ -34,7 +34,7 @@ int main(int argc, char** argv)
     return 0;
 
   /* Start networking thread */
-  //networking_thread = _beginthread(&send_input,0,NULL);
+  networking_thread = _beginthread(&send_input,0,NULL);
 
   /* Main thread. Get user input */
   while(input != 27)

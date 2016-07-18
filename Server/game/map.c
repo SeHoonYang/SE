@@ -125,5 +125,8 @@ struct map* map_load_data(char *map_id)
   }
   map->monster_num = i;
 
+  /* Change directory */
+  chdir("../../");
+
   return map;
 }

@@ -12,6 +12,6 @@ void load_maps()
     map_data_array[i].map = map_load_data(str);
     init_list(&map_data_array[i].user_data);
     free(str);
-    printf("  Map : %d has been loaded on the memory\n", i);
+    printf("  Map : #%d has been loaded on the memory\n", i);
   }
 }

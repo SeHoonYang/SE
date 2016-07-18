@@ -2,6 +2,7 @@
 #include "ysock.h"
 #include "packet.h"
 #include "../usr/usr.h"
+#include "../lib/lib.h"
 
 static int buffer_size;
 
@@ -102,7 +103,7 @@ void start_server(SOCKET s)
       {
         /* Log in request */
 
-        char id[11], pwd[11], buf[11];
+        char id[11], pwd[11], buf[12];
 
         /* Resolve the pachket data */
         memcpy(id, ((struct packet *)buffer)->buffer, 11);
@@ -119,7 +120,8 @@ void start_server(SOCKET s)
           success = 0;
         else
         {
-          fgets(buf,11,user_file);
+          fgets(buf,12,user_file);
+          buf[strlen(buf)-1] = 0;
           success = !strcmp(buf,pwd);
         }
 
@@ -128,10 +130,40 @@ void start_server(SOCKET s)
         if(success)
         {
           /* Load user data to the map data cache */
+          int mid;
+          unsigned short x,y,hp,mp;
+          unsigned pos, h;
+          char* token;
+
+          fgets(buf,12,user_file);
+          buf[strlen(buf)-1] = 0;
+          mid = strn_to_int(buf, 12);
+
+          fgets(buf,12,user_file);
+          token = strtok(buf," ");
+          x = (unsigned short)strn_to_int(token,5);
+          token = strtok(NULL," ");
+          token[strlen(token)-1] = 0;
+          y = (unsigned short)strn_to_int(token,5);
+          pos = 65536 * y + x;
+
+          fgets(buf,12,user_file);
+          token = strtok(buf," ");
+          hp = (unsigned short)strn_to_int(token,5);
+          token = strtok(NULL," ");
+          token[strlen(token)-1] = 0;
+          mp = (unsigned short)strn_to_int(token,5);
+          h = 65536 * mp + hp;
+
+          load_user_data(id, mid, pos, h);
 
           /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);
         }
+
+        char data_buffer[1];
+        data_buffer[0] = success + '0';
+        marshal_packet(to_send, data_buffer, 1, 0);
 
         /* Return to the base directory */
         chdir("../../");

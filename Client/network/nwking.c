@@ -35,7 +35,7 @@ void send_input()
   {
     Sleep(FREQUENCY);
     connect_client(&client_socket, port, host);
-    send(client_socket, data, 2, 0);
+    //send(client_socket, data, 2, 0);
     //revc(client_socket, p, p->buffer_size, 0);
     close_socket(client_socket);
     *data = 0;
@@ -46,4 +46,14 @@ void close_network()
 {
   closed = 1;
   end_socket();
+}
+
+void stop_network()
+{
+  closed = 1;
+}
+
+void resume_network()
+{
+  closed = 0;
 }
