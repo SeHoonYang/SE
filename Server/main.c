@@ -15,6 +15,9 @@ int main()
   /* Get arguments / Make GUI. It depends */
 
   /* Initializing */
+  printf("Initializing data structures\n");
+  init_user_data();
+
   printf("Loading map data to the memory\n");
   load_maps();
 

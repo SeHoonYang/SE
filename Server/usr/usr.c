@@ -29,6 +29,11 @@ int create_account(char * ID, char * PWD)
   return 1;
 }
 
+void init_user_data()
+{
+  init_list(&user_list);
+}
+
 void load_user_data(char* ID, int mid, unsigned pos, unsigned h)
 {
   /* Create user data */

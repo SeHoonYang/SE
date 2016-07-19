@@ -55,7 +55,7 @@ void start_server(SOCKET s)
 {
   SOCKET client;
   struct sockaddr_in client_addr;
-  char buffer[buffer_size];
+  char buffer[sizeof(struct packet) + 1];
   int c = sizeof(struct sockaddr_in);
 
   while(1)
@@ -68,7 +68,7 @@ void start_server(SOCKET s)
     recv(client, buffer, buffer_size, 0);
 
     /* Analyze the packet */
-    int invalid = pkt_isvalid((struct packet *)buffer);
+    int invalid = !pkt_isvalid((struct packet *)buffer);
     int pkt_header = ((struct packet *)buffer)->header;
 
     /* Create a packet */
@@ -80,8 +80,9 @@ void start_server(SOCKET s)
     }
     else
     {
-      /* Registration request */
       if(pkt_header == 1)
+        to_send = init_packet(2);
+      else if(pkt_header == 6)
         to_send = init_packet(2);
     }
 

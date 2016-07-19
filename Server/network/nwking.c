@@ -24,8 +24,8 @@ void init_network(char* _host, int _port, char* _data)
 struct packet* send_once(struct packet* p, int* recv_amount)
 {
   connect_client(&client_socket, port, host);
-  send(client_socket, (char *)p, BUFFER_SIZE, 0);
-  *recv_amount = recv(client_socket, (char *)p, BUFFER_SIZE, 0);
+  send(client_socket, (char *)p, sizeof(struct packet), 0);
+  *recv_amount = recv(client_socket, (char *)p, sizeof(struct packet), 0);
   close_socket(client_socket);  
 }
 

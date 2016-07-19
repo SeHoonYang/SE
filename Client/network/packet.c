@@ -1,5 +1,5 @@
 #include "packet.h"
-#define PKT_MAGIC 0xaabbcc
+#define PKT_MAGIC 0xaabbcc;
 
 struct packet *init_packet(int h){
   struct packet *pkt = (struct packet *)calloc(1, sizeof(struct packet));

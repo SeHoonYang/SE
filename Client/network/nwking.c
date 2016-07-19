@@ -24,8 +24,8 @@ void init_network(char* _host, int _port, char* _data)
 struct packet* send_once(struct packet* p, int* recv_amount)
 {
   connect_client(&client_socket, port, host);
-  send(client_socket, (char *)p, BUFFER_SIZE, 0);
-  *recv_amount = recv(client_socket, (char *)p, BUFFER_SIZE, 0);
+  send(client_socket, (char *)p, sizeof(struct packet), 0);
+  *recv_amount = recv(client_socket, (char *)p, sizeof(struct packet), 0);
   close_socket(client_socket);  
 }
 
@@ -35,8 +35,14 @@ void send_input()
   {
     Sleep(FREQUENCY);
     connect_client(&client_socket, port, host);
+
+    /* Create packet */
+    struct packet *p = init_packet(3);
+    marshal_packet(p, data, 1, 0);
+    
     //send(client_socket, data, 2, 0);
     //revc(client_socket, p, p->buffer_size, 0);
+
     close_socket(client_socket);
     *data = 0;
   }
