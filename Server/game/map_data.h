@@ -27,5 +27,8 @@ struct map_data
 };
 
 void load_maps(void);
+void get_map_status(int, char *);
+void add_user_to_map(int, int);
+void rem_user_from_map(int, int);
 
 #endif

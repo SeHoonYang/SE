@@ -1,6 +1,7 @@
 #include "nwking.h"
 #include "ysock.h"
 #include "packet.h"
+#include "../console/cons.h"
 
 #define FREQUENCY 30
 
@@ -37,33 +38,42 @@ struct packet* send_once(struct packet* p, int* recv_amount)
 
 void send_input()
 {
-  while(!closed)
+  while(1)
   {
-    Sleep(FREQUENCY);
-
     /* Keys to send are specified */
     if(*data != 75 && *data != 80 && *data != 72 && *data != 77)
       *data = 0;
 
-    connect_client(&client_socket, port, host);
-
     /* Create packet */
     struct packet *p = init_packet(3);
     marshal_packet(p, data, 1, 0);
-    
-    send(client_socket, (char *)p, sizeof(struct packet), 0);
-    recv(client_socket, (char *)p, sizeof(struct packet), 0);
+
+    int recv_amount;
+    send_once(p, &recv_amount);
 
     /* Analyze the server responce */
     if(p->header == 4 && pkt_isvalid(p))
     {
-      /* Not implemented yet */
-    }
+      int obj_num = (int)p->buffer[0];
 
-    close_socket(client_socket);
+      /* Not implemented yet */
+      for(int i = 0; i < obj_num; ++i)
+      {
+        if(*(int *)(p->buffer+12+i*19) == user_index)
+        {
+          unsigned short x = *(unsigned short *)(p->buffer+16+i*19);
+          unsigned short y = *(unsigned short *)(p->buffer+18+i*19);
+char buf[100];
+sprintf(buf, "x : %d, y : %d", x, y);
+SetConsoleTitle(buf);
+        }
+      }
+    }
 
     free(p);
     *data = 0;
+
+    Sleep(FREQUENCY);
   }
 }
 

@@ -269,13 +269,16 @@ static show_login_menu(void)
           if(!pkt_isvalid(p) || p->buffer[0] == '0' || recv_amount == -1 || p->header != 7)
             loggedin = 0;
 
+          /* Save user id */
+          int uid = *(int *)(p->buffer+1);
+
           /* Free the packet structure */
           free_packet(p);
 
           /* Show success/fail, according to loggedin */
           if(loggedin)
           {
-            set_user_index(*(int *)(p->buffer+1));
+            set_user_index(uid);
             return 1;
           }
           else

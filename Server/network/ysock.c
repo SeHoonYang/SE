@@ -3,6 +3,7 @@
 #include "packet.h"
 #include "../usr/usr.h"
 #include "../lib/lib.h"
+#include "../game/map_data.h"
 
 static int buffer_size;
 static int user_index;
@@ -160,6 +161,7 @@ void start_server(SOCKET s)
           h = 65536 * mp + hp;
 
           load_user_data(id, user_index, mid, pos, h);
+          add_user_to_map(mid, user_index);
 
           /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);
@@ -195,8 +197,10 @@ void start_server(SOCKET s)
           /* Not implemented yet */
         }
 
-        /* Send server state */
-
+        /* Get server state */
+        char server_data_buffer[BUFFER_SIZE];
+        get_map_status(get_user_map_id(sent_user), server_data_buffer);
+        marshal_packet(to_send, server_data_buffer, BUFFER_SIZE, 0);
       }
     }
 

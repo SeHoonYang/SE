@@ -89,3 +89,27 @@ void update_user_location(int idx, char key)
     break;
   }
 }
+
+int get_user_map_id(int idx)
+{
+  struct list_elem* e;
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+  {
+    if(((struct user_data*)e->conts)->user_index == idx)
+    {
+      return ((struct user_data*)e->conts)->map_id;
+    }
+  }
+}
+
+struct user_data* get_user_data(int idx)
+{
+  struct list_elem* e;
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+  {
+    if(((struct user_data*)e->conts)->user_index == idx)
+    {
+      return (struct user_data*)e->conts;
+    }
+  }
+}
