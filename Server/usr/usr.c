@@ -34,8 +34,16 @@ void init_user_data()
   init_list(&user_list);
 }
 
-void load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
+int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
 {
+  /* Actually, we need to check whether the player has already logged in or not */
+  struct list_elem* e;
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+  {
+    if(((struct user_data*)e->conts)->user_index == idx)
+      return -1;
+  }
+
   /* Create user data */
   struct user_data *d = (struct user_data *)malloc(sizeof(struct user_data));
   strncpy(d->id, ID, 11);
@@ -48,10 +56,10 @@ void load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
 
   printf("User data has been loaded : map #%d (%d, %d) hp:%d mp:%d\n", d->map_id, d->x, d->y, d->hp, d->mp);
 
-  /* Actually, we need to check whether the player has already logged in or not */
-
   /* Add to the list */
   push_list(&user_list, d);
+
+  return 0;
 }
 
 void clear_user_data()
@@ -71,6 +79,7 @@ void update_user_location(int idx, char key)
   {
     /* Skeleton */
     if(((struct user_data*)e->conts)->user_index == idx)
+    {
       switch(key)
       {
         case 75:
@@ -86,7 +95,8 @@ void update_user_location(int idx, char key)
           ((struct user_data*)e->conts)->y++;
           break;
       }
-    break;
+      break;
+    }
   }
 }
 
@@ -100,6 +110,8 @@ int get_user_map_id(int idx)
       return ((struct user_data*)e->conts)->map_id;
     }
   }
+
+  return -1;
 }
 
 struct user_data* get_user_data(int idx)
@@ -112,4 +124,6 @@ struct user_data* get_user_data(int idx)
       return (struct user_data*)e->conts;
     }
   }
+
+  return NULL;
 }

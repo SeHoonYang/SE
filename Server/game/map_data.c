@@ -23,6 +23,7 @@ void add_user_to_map(int mid, int uid)
   *ud = uid;
 
   push_list(&map_data_array[mid].user_data, ud);
+  printf("%d users are in the map #%d\n", list_size(&map_data_array[mid].user_data), mid);
 }
 
 void rem_user_to_map(int mid, int uid)
@@ -50,10 +51,10 @@ void get_map_status(int mid, char* buff)
   {
     struct user_data* d = get_user_data(*(int *)(e->conts));
 
-    strncpy(buff+1+num_obj*19, d->id, 11);
-    memcpy(buff+12+num_obj*19, &d->user_index, 4);
-    memcpy(buff+16+num_obj*19, &d->x, 2);
-    memcpy(buff+18+num_obj*19, &d->y, 2);
+    strncpy(buff+1+(int)num_obj*19, d->id, 11);
+    memcpy(buff+12+(int)num_obj*19, &d->user_index, 4);
+    memcpy(buff+16+(int)num_obj*19, &d->x, 2);
+    memcpy(buff+18+(int)num_obj*19, &d->y, 2);
 
     num_obj = num_obj + 1;
   }

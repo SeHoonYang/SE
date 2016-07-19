@@ -110,7 +110,7 @@ void start_server(SOCKET s)
 
         char id[11], pwd[11], buf[12];
 
-        /* Resolve the pachket data */
+        /* Resolve the packet data */
         memcpy(id, ((struct packet *)buffer)->buffer, 11);
         memcpy(pwd, ((struct packet *)buffer)->buffer+11, 11);
 
@@ -160,8 +160,11 @@ void start_server(SOCKET s)
           mp = (unsigned short)strn_to_int(token,5);
           h = 65536 * mp + hp;
 
-          load_user_data(id, user_index, mid, pos, h);
-          add_user_to_map(mid, user_index);
+          /* Load user data to the cache. Not yet overlapped login handled */
+          if(load_user_data(id, user_index, mid, pos, h) == 0)
+            add_user_to_map(mid, user_index);
+          else
+            success = 0;
 
           /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);

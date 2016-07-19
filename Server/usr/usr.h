@@ -15,7 +15,7 @@ struct user_data
 };
 
 int create_account(char *, char *);
-void load_user_data(char *, int, int, unsigned, unsigned);
+int load_user_data(char *, int, int, unsigned, unsigned);
 void init_user_data(void);
 void clear_user_data(void);
 void update_user_location(int, char);

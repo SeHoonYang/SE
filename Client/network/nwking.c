@@ -47,6 +47,7 @@ void send_input()
     /* Create packet */
     struct packet *p = init_packet(3);
     marshal_packet(p, data, 1, 0);
+    marshal_packet(p, (char *)&user_index, 4, 1);
 
     int recv_amount;
     send_once(p, &recv_amount);
