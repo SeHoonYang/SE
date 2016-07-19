@@ -17,10 +17,14 @@
    6 : Login request
        -buffer[0-10] : ID
        -buffer[11-21] : Password
+   7 : Server login responce
+       -buffer[0] : 1 for success, 0 for failure
+       -bufer[1-4] : user index
 
    // After the game start //
    3 : User input
        -buffer[0] : char
+       -bufer[1-4] : user index
    4 : Server responce
        -buffer[0] : # of object
        -buffer[1 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]

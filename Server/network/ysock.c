@@ -5,6 +5,7 @@
 #include "../lib/lib.h"
 
 static int buffer_size;
+static int user_index;
 
 int init_socket(int s)
 {
@@ -83,7 +84,9 @@ void start_server(SOCKET s)
       if(pkt_header == 1)
         to_send = init_packet(2);
       else if(pkt_header == 6)
-        to_send = init_packet(2);
+        to_send = init_packet(7);
+      else if(pkt_header == 3)
+        to_send = init_packet(4);
     }
 
     /* Server operation */
@@ -156,7 +159,7 @@ void start_server(SOCKET s)
           mp = (unsigned short)strn_to_int(token,5);
           h = 65536 * mp + hp;
 
-          load_user_data(id, mid, pos, h);
+          load_user_data(id, user_index, mid, pos, h);
 
           /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);
@@ -165,9 +168,35 @@ void start_server(SOCKET s)
         char data_buffer[1];
         data_buffer[0] = success + '0';
         marshal_packet(to_send, data_buffer, 1, 0);
+        marshal_packet(to_send, (char *)&user_index, 4, 1);
+
+        /* Increase user index */
+        if(success)
+          user_index++;
 
         /* Return to the base directory */
         chdir("../../");
+      }
+      else if(pkt_header == 3)
+      {
+        /* Update server state and give result to the client */
+        char key = ((struct packet *)buffer)->buffer[0];
+        int sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
+
+        /* Arrow keys */
+        if(key == 72 || key == 75 || key == 77 || key == 80)
+          update_user_location(sent_user, key);
+        else if(key == 0)
+        {
+          /* Do nothing */
+        }
+        else
+        {
+          /* Not implemented yet */
+        }
+
+        /* Send server state */
+
       }
     }
 

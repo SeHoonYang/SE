@@ -21,7 +21,7 @@ SET /A tcc_errors = 0
 IF %ERRORLEVEL% == 0 (
 ECHO [main]
 ECHO   -release.exe
-tcc -lws2_32 -o ../bin/release/release.exe ../main.c ../usr/usr.c ../network/ysock.c ../network/nwking.c ../network/packet.c ../game/map_data.c ../lib/list.c ../lib/lib.c ../game/map.c
+tcc -lws2_32 -o ../bin/release/release.exe ../main.c ../usr/usr.c ../network/ysock.c ../network/packet.c ../game/map_data.c ../lib/list.c ../lib/lib.c ../game/map.c
 SET /A tcc_errors = %tcc_errors% + %ERRORLEVEL%
 )
 

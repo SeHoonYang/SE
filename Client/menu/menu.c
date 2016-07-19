@@ -266,7 +266,7 @@ static show_login_menu(void)
           send_once(p, &recv_amount);
           
           int loggedin = 1;
-          if(!pkt_isvalid(p) || p->buffer[0] == '0' || recv_amount == -1)
+          if(!pkt_isvalid(p) || p->buffer[0] == '0' || recv_amount == -1 || p->header != 7)
             loggedin = 0;
 
           /* Free the packet structure */
@@ -274,7 +274,10 @@ static show_login_menu(void)
 
           /* Show success/fail, according to loggedin */
           if(loggedin)
+          {
+            set_user_index(*(int *)(p->buffer+1));
             return 1;
+          }
           else
             MessageBox(0, "Failed to log in", "Dungeon of Pixels", 0);
 

@@ -1,5 +1,6 @@
+#include <stdio.h>
+#include "network/packet.h"
 #include "network/ysock.h"
-#include "network/nwking.h"
 #include "usr/usr.h"
 #include "game/map_data.h"
 

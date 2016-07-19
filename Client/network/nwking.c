@@ -4,11 +4,17 @@
 
 #define FREQUENCY 30
 
+static user_index;
 static SOCKET client_socket;
 static int port;
 static char* host;
 static char* data;
 static int closed;
+
+void set_user_index(int i)
+{
+  user_index = i;
+}
 
 void init_network(char* _host, int _port, char* _data)
 {
@@ -34,16 +40,29 @@ void send_input()
   while(!closed)
   {
     Sleep(FREQUENCY);
+
+    /* Keys to send are specified */
+    if(*data != 75 && *data != 80 && *data != 72 && *data != 77)
+      *data = 0;
+
     connect_client(&client_socket, port, host);
 
     /* Create packet */
     struct packet *p = init_packet(3);
     marshal_packet(p, data, 1, 0);
     
-    //send(client_socket, data, 2, 0);
-    //revc(client_socket, p, p->buffer_size, 0);
+    send(client_socket, (char *)p, sizeof(struct packet), 0);
+    recv(client_socket, (char *)p, sizeof(struct packet), 0);
+
+    /* Analyze the server responce */
+    if(p->header == 4 && pkt_isvalid(p))
+    {
+      /* Not implemented yet */
+    }
 
     close_socket(client_socket);
+
+    free(p);
     *data = 0;
   }
 }

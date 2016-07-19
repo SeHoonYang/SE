@@ -34,11 +34,12 @@ void init_user_data()
   init_list(&user_list);
 }
 
-void load_user_data(char* ID, int mid, unsigned pos, unsigned h)
+void load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
 {
   /* Create user data */
   struct user_data *d = (struct user_data *)malloc(sizeof(struct user_data));
   strncpy(d->id, ID, 11);
+  d->user_index = idx;
   d->map_id = mid;
   d->x = pos % 65536;
   d->y = pos / 65536;
@@ -61,4 +62,30 @@ void clear_user_data()
     free(e->conts);
 
   clear_list(&user_list);
+}
+
+void update_user_location(int idx, char key)
+{
+  struct list_elem* e;
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+  {
+    /* Skeleton */
+    if(((struct user_data*)e->conts)->user_index == idx)
+      switch(key)
+      {
+        case 75:
+          ((struct user_data*)e->conts)->x--;
+          break;
+        case 77:
+          ((struct user_data*)e->conts)->x++;
+          break;
+        case 72:
+          ((struct user_data*)e->conts)->y--;
+          break;
+        case 80:
+          ((struct user_data*)e->conts)->y++;
+          break;
+      }
+    break;
+  }
 }
