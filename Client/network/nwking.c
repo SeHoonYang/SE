@@ -78,18 +78,23 @@ void send_input()
       {
         if(*(int *)(p->buffer+13+i*19) == user_index)
         {
-          unsigned short x = *(unsigned short *)(p->buffer+17+i*19);
-          unsigned short y = *(unsigned short *)(p->buffer+19+i*19);
+          int x = (int)(*(unsigned short *)(p->buffer+17+i*19));
+          int y = (int)(*(unsigned short *)(p->buffer+19+i*19));
 
           struct map* map = load_map(map_id);
-          int o_x = _min(map->width-32,_max(0,(int)x-15));
-          int o_y = _min(map->height-20,_max(0,(int)y-9));
+          int o_x = _min(map->width-32,_max(0,x-15));
+          int o_y = _min(map->height-20,_max(0,y-9));
+
+          int delta_x = x - o_x;
+          int delta_y = y - o_y;
 
           for(int n = 0; n < 20; ++n)
             memcpy(map_buffer + n * 64, map->geo + (o_x + (o_y + n) * map->width) * 2, 64);
 
           for(int n = 0; n < 20; ++n)
             memcpy(color_buffer + n * 64, map->cgeo + (o_x + (o_y + n) * map->width) * 2, 64*2);
+
+          memcpy(map_buffer + delta_y * 32 * 2 + delta_x * 2, "¡Þ",2);
 
           update_screen(map_buffer, color_buffer);
         }

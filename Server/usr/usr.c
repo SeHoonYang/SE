@@ -3,6 +3,16 @@
 #include "direct.h"
 #include "../lib/list.h"
 
+static int _min(int l, int r)
+{
+  return r < l ? r : l;
+}
+
+static int _max(int l, int r)
+{
+  return r < l ? l : r;
+}
+
 /* It would be better with hash */
 static struct list user_list;
 
