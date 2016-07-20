@@ -38,7 +38,7 @@ struct packet* send_once(struct packet* p, int* recv_amount)
 
 void send_input()
 {
-  while(1)
+  while(!closed)
   {
     /* Keys to send are specified */
     if(*data != 75 && *data != 80 && *data != 72 && *data != 77)
@@ -64,6 +64,7 @@ void send_input()
         {
           unsigned short x = *(unsigned short *)(p->buffer+16+i*19);
           unsigned short y = *(unsigned short *)(p->buffer+18+i*19);
+
 char buf[100];
 sprintf(buf, "x : %d, y : %d", x, y);
 SetConsoleTitle(buf);
