@@ -3,6 +3,7 @@
 #include "packet.h"
 #include "../console/cons.h"
 #include "../console/color.h"
+#include "../lib/list.h"
 #include "../game/map.h"
 
 static int _min(int r, int l)
@@ -73,32 +74,60 @@ void send_input()
       int map_id = (int)p->buffer[0];
       int obj_num = (int)p->buffer[1];
 
+      int id = 0;
+      struct list others;
+      init_list(&others);
+
       /* Not implemented yet */
       for(int i = 0; i < obj_num; ++i)
       {
         if(*(int *)(p->buffer+13+i*19) == user_index)
+          id = i;
+        else
         {
-          int x = (int)(*(unsigned short *)(p->buffer+17+i*19));
-          int y = (int)(*(unsigned short *)(p->buffer+19+i*19));
-
-          struct map* map = load_map(map_id);
-          int o_x = _min(map->width-32,_max(0,x-15));
-          int o_y = _min(map->height-20,_max(0,y-9));
-
-          int delta_x = x - o_x;
-          int delta_y = y - o_y;
-
-          for(int n = 0; n < 20; ++n)
-            memcpy(map_buffer + n * 64, map->geo + (o_x + (o_y + n) * map->width) * 2, 64);
-
-          for(int n = 0; n < 20; ++n)
-            memcpy(color_buffer + n * 64, map->cgeo + (o_x + (o_y + n) * map->width) * 2, 64*2);
-
-          memcpy(map_buffer + delta_y * 32 * 2 + delta_x * 2, "¡Þ",2);
-
-          update_screen(map_buffer, color_buffer);
+          int* ti = (int *)malloc(4);
+          *ti = i;
+          push_list(&others,ti);
         }
       }
+
+      int x = (int)(*(unsigned short *)(p->buffer+17+id*19));
+      int y = (int)(*(unsigned short *)(p->buffer+19+id*19));
+
+      struct map* map = load_map(map_id);
+      int o_x = _min(map->width-32,_max(0,x-15));
+      int o_y = _min(map->height-20,_max(0,y-9));
+
+      int delta_x = x - o_x;
+      int delta_y = y - o_y;
+
+      for(int n = 0; n < 20; ++n)
+        memcpy(map_buffer + n * 64, map->geo + (o_x + (o_y + n) * map->width) * 2, 64);
+
+      for(int n = 0; n < 20; ++n)
+        memcpy(color_buffer + n * 64, map->cgeo + (o_x + (o_y + n) * map->width) * 2, 64*2);
+
+      /* Plot others */
+      struct list_elem* e;
+      for(e = list_begin(&others); e != list_end(&others); e = list_next(e))
+      {
+        /* If other in the screen */
+        if(o_x <= (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) && o_x + 32 > (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) &&
+           o_y <= (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)) && o_y + 20 > (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)))
+        {
+          memcpy(map_buffer + ((int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)) - o_y) * 32 * 2 + ((int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) - o_x) * 2, "¡ß",2);
+        }
+      }
+
+      /* Plot user */
+      memcpy(map_buffer + delta_y * 32 * 2 + delta_x * 2, "¡Þ",2);
+      for(e = list_begin(&others); e != list_end(&others); e = list_next(e))
+      {
+        free(e->conts);
+      }
+      clear_list(&others);
+
+      update_screen(map_buffer, color_buffer);
     }
 
     free(p);
