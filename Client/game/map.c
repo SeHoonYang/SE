@@ -3,9 +3,39 @@
 #include <string.h>
 #include "map.h"
 #include "../lib/lib.h"
+#include "../lib/list.h"
+
 #define ELEM_NUM 5
 #define MAX_STRLEN 1800
 #define MAX_MAP_SIZE 200*200*2*5
+
+static struct list map_list;
+
+struct map* load_map(int mid)
+{
+  /* Search the list */
+  struct list_elem* e;
+  for(e = list_begin(&map_list); e != list_end(&map_list); e = list_next(e))
+  {
+    if(((struct map*)(e->conts))->map_id == mid)
+      return (struct map*)(e->conts);
+  }
+
+  /* Load map from the file */
+  char* mid_str = int_to_str(mid);
+  struct map* new_map = map_load_data(mid_str);
+  free(mid_str);
+
+  /* Add map to the list */
+  push_list(&map_list, new_map);
+
+  return new_map;
+}
+
+void init_map_list()
+{
+  init_list(&map_list);
+}
 
 struct map* map_load_data(char *map_id)
 {
@@ -70,6 +100,7 @@ struct map* map_load_data(char *map_id)
 
   /* Geometry of map */
   i = 0;
+  map->geo = (char *)malloc(map->width * map->height * 2 + 1);
   token = strtok(map_data[1], "\n");
   strncpy(map->geo + (i++)*2*(map->width), token, 2*(map->width));
   while(token != NULL)
@@ -82,15 +113,21 @@ struct map* map_load_data(char *map_id)
 
   /* Colors in map */
   i = 0;
+  char* temp = (char *)malloc(map->width * map->height * 2 * 3 + 1);
+  map->cgeo = (color *)malloc(map->width * map->height * 2 * sizeof(color) + 1);
+
   token = strtok(map_data[2], "\n");
-  strncpy(map->cgeo + (i++)*6*(map->width), token, 6*(map->width));
+  strncpy(temp + (i++)*6*(map->width), token, 6*(map->width));
   while(token != NULL)
   {
     token = strtok(NULL, "\n");
     if(token != NULL)
-      strncpy(map->cgeo + (i++)*6*(map->width), token, 6*(map->width));
+      strncpy(temp + (i++)*6*(map->width), token, 6*(map->width));
   }
-  map->cgeo[6*(map->width)*(map->height)] = 0;
+  temp[6*(map->width)*(map->height)] = 0;
+  colormap_from_string(map->width, map->height, temp, map->cgeo);
+
+  free(temp);
 
   /* Portals */
   char *newline_token;

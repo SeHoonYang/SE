@@ -166,7 +166,7 @@ void start_server(SOCKET s)
           else
             success = 0;
 
-          /* Cache must have to be implemented with hash, but temporarily implemented with linked list */
+          /* Cache must be implemented with hash, but temporarily implemented with linked list */
           fclose(user_file);
         }
 

@@ -5,6 +5,7 @@
 #include "network/nwking.h"
 #include "menu/menu.h"
 #include "game/item.h"
+#include "game/map.h"
 
 HANDLE printing_thread;
 HANDLE networking_thread;
@@ -23,6 +24,7 @@ int main(int argc, char** argv)
 
   /* Initialization */
   init_console();
+  init_map_list();
   init_network(argv[1], strn_to_int(argv[2],5), &input);
   init_item();
 

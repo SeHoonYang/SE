@@ -26,8 +26,9 @@
        -buffer[0] : char
        -bufer[1-4] : user index
    4 : Server responce
-       -buffer[0] : # of object
-       -buffer[1 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]
+       -buffer[0] : map id
+       -buffer[1] : # of object
+       -buffer[2 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]
    
    // object data : coordinate(2),direction(1),HP(4) ...
    5 : Data

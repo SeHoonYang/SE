@@ -1,6 +1,7 @@
 #ifndef _MAP_H_
 #define _MAP_H_
 
+#include "../console/color.h"
 #include "../conf.inc"
 
 struct portal
@@ -22,14 +23,16 @@ struct map
   int map_id;
   int height;
   int width;
-  char geo[32*20*2+1];
-  char cgeo[32*20*2*3+1];
+  char* geo;
+  color* cgeo;
   int portal_num;
   int monster_num;
   struct portal portals[MAX_PORTALS];
   struct monster_spwn spwn_pts[MAX_MONSTERSPWN];
 };
 
-struct map* map_load_data(char *map_id);
+void init_map_list(void);
+struct map* load_map(int);
+struct map* map_load_data(char *);
 
 #endif

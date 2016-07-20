@@ -1,6 +1,16 @@
 #include "lib.h"
 #include <stdio.h>
 
+static int _pow(int r, int l)
+{
+  int rst = 1;
+
+  while(l-- > 0)
+    rst *= r;
+
+  return rst;
+}
+
 int str3_to_int(char* s)
 {
   int sum = 0;
@@ -67,4 +77,31 @@ char* strtok_r(
     *nextp = str;
 
     return ret;
+}
+
+char* int_to_str(int i)
+{
+  int temp = i;
+  int n = 0;
+  if(i == 0)
+    n = 1;
+  else
+  {
+    while(temp != 0)
+    {
+      temp /= 10;
+      n++;
+    }
+  }
+
+  char* rst = (char *)malloc(n+1);
+
+  for(int k = 0; k < n; ++k)
+  {
+    *(rst + k) = '0' + (i / _pow(10,n-k-1) % 10);
+  }
+
+  *(rst + n) = 0;
+
+  return rst;
 }

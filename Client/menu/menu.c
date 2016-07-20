@@ -30,7 +30,7 @@ static color colormap[(32*20*2+1)*3];
 int show_menu()
 {
   /* Show initial_screen */
-  colormap_from_string(initial_cstring, colormap);
+  colormap_from_string(32, 20, initial_cstring, colormap);
   update_screen(initial_screen, colormap);
 
   /* Printing starts from here to prevent synchronization problem */
@@ -59,19 +59,19 @@ int show_menu()
       case 0:
         if(key == 13)
           return show_create_account_menu();
-        colormap_from_string(first_cstring, colormap);
+        colormap_from_string(32, 20, first_cstring, colormap);
         update_screen(first_menu, colormap);
         break;
       case 1:
         if(key == 13)
           return show_login_menu();
-        colormap_from_string(second_cstring, colormap);
+        colormap_from_string(32, 20, second_cstring, colormap);
         update_screen(second_menu, colormap);
         break;
       case 2:
         if(key == 13)
           return 0;
-        colormap_from_string(third_cstring, colormap);
+        colormap_from_string(32, 20, third_cstring, colormap);
         update_screen(third_menu, colormap);
         break;
     }
@@ -89,7 +89,7 @@ int show_create_account_menu()
   int PWD_index = 0;
 
   /* Show initial_screen */
-  colormap_from_string(first_reg_cstring, colormap);
+  colormap_from_string(32, 20, first_reg_cstring, colormap);
   update_screen(regist, colormap);
   update_screen_string("          ",924);
 
@@ -116,7 +116,7 @@ int show_create_account_menu()
     switch(menu_index)
     {
       case 0:
-        colormap_from_string(first_reg_cstring, colormap);
+        colormap_from_string(32, 20, first_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
         if(!arrow_pressed && valid_ID_char(key) && ID_index < 10)
@@ -132,7 +132,7 @@ int show_create_account_menu()
 
         break;
       case 1:
-        colormap_from_string(second_reg_cstring, colormap);
+        colormap_from_string(32, 20, second_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
         if(!arrow_pressed && valid_ID_char(key) && PWD_index < 10)
@@ -175,7 +175,7 @@ int show_create_account_menu()
 
           return show_menu();
         }
-        colormap_from_string(third_reg_cstring, colormap);
+        colormap_from_string(32, 20, third_reg_cstring, colormap);
         update_screen(NULL, colormap);
         break;
     }
@@ -194,7 +194,7 @@ static show_login_menu(void)
   int PWD_index = 0;
 
   /* Show initial_screen */
-  colormap_from_string(first_reg_cstring, colormap);
+  colormap_from_string(32, 20, first_reg_cstring, colormap);
   update_screen(login, colormap);
   update_screen_string("          ",924);
 
@@ -221,7 +221,7 @@ static show_login_menu(void)
     switch(menu_index)
     {
       case 0:
-        colormap_from_string(first_reg_cstring, colormap);
+        colormap_from_string(32, 20, first_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
         if(!arrow_pressed && valid_ID_char(key) && ID_index < 10)
@@ -237,7 +237,7 @@ static show_login_menu(void)
 
         break;
       case 1:
-        colormap_from_string(second_reg_cstring, colormap);
+        colormap_from_string(32, 20, second_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
         if(!arrow_pressed && valid_ID_char(key) && PWD_index < 10)
@@ -286,7 +286,7 @@ static show_login_menu(void)
 
           return show_menu();
         }
-        colormap_from_string(third_reg_cstring, colormap);
+        colormap_from_string(32, 20, third_reg_cstring, colormap);
         update_screen(NULL, colormap);
         break;
     }

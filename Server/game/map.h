@@ -3,6 +3,12 @@
 
 #include "../conf.inc"
 
+typedef struct
+{
+  char bgcolor;
+  char textcolor;
+} color;
+
 struct portal
 {
   int x_pos;
@@ -21,14 +27,14 @@ struct map
 {
   int height;
   int width;
-  char geo[32*20*2+1];
-  char cgeo[32*20*2*3+1];
+  char* geo;
+  color* cgeo;
   int portal_num;
   int monster_num;
   struct portal portals[MAX_PORTALS];
   struct monster_spwn spwn_pts[MAX_MONSTERSPWN];
 };
 
-struct map* map_load_data(char *map_id);
+struct map* map_load_data(char *);
 
 #endif

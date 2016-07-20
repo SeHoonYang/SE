@@ -51,12 +51,13 @@ void get_map_status(int mid, char* buff)
   {
     struct user_data* d = get_user_data(*(int *)(e->conts));
 
-    strncpy(buff+1+(int)num_obj*19, d->id, 11);
-    memcpy(buff+12+(int)num_obj*19, &d->user_index, 4);
-    memcpy(buff+16+(int)num_obj*19, &d->x, 2);
-    memcpy(buff+18+(int)num_obj*19, &d->y, 2);
+    strncpy(buff+2+(int)num_obj*19, d->id, 11);
+    memcpy(buff+13+(int)num_obj*19, &d->user_index, 4);
+    memcpy(buff+17+(int)num_obj*19, &d->x, 2);
+    memcpy(buff+19+(int)num_obj*19, &d->y, 2);
 
     num_obj = num_obj + 1;
   }
-  buff[0] = num_obj;
+  buff[0] = (char)mid;
+  buff[1] = num_obj;
 }

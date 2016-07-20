@@ -7,6 +7,19 @@
 #define MAX_STRLEN 1800
 #define MAX_MAP_SIZE 200*200*2*5
 
+static void colormap_from_string(int w, int h, char* s, color* colormap)
+{
+  /* Note that string s must formatted as "XXXYYYZZZ ---\n" */
+
+  for(int i = 0; i < h; ++i)
+    for(int j = 0; j < w*2; ++j)
+      {
+        int current_color = str3_to_int(s + (i*w*2 + j) * 3);
+        colormap[i*w*2 + j].bgcolor = current_color / 16;
+        colormap[i*w*2 + j].textcolor = current_color % 16;
+      }
+}
+
 struct map* map_load_data(char *map_id)
 {
   /* Change directory */
@@ -69,6 +82,7 @@ struct map* map_load_data(char *map_id)
 
   /* Geometry of map */
   i = 0;
+  map->geo = (char *)malloc(map->width * map->height * 2 + 1);
   token = strtok(map_data[1], "\n");
   strncpy(map->geo + (i++)*2*(map->width), token, 2*(map->width));
   while(token != NULL)
@@ -81,15 +95,21 @@ struct map* map_load_data(char *map_id)
 
   /* Colors in map */
   i = 0;
+  char* temp = (char *)malloc(map->width * map->height * 2 * 3 + 1);
+  map->cgeo = (color *)malloc(map->width * map->height * 2 * sizeof(color) + 1);
+
   token = strtok(map_data[2], "\n");
-  strncpy(map->cgeo + (i++)*6*(map->width), token, 6*(map->width));
+  strncpy(temp + (i++)*6*(map->width), token, 6*(map->width));
   while(token != NULL)
   {
     token = strtok(NULL, "\n");
     if(token != NULL)
-      strncpy(map->cgeo + (i++)*6*(map->width), token, 6*(map->width));
+      strncpy(temp + (i++)*6*(map->width), token, 6*(map->width));
   }
-  map->cgeo[6*(map->width)*(map->height)] = 0;
+  temp[6*(map->width)*(map->height)] = 0;
+
+  colormap_from_string(map->width, map->height, temp, map->cgeo);
+  free(temp);
 
   /* Portals */
   char *newline_token;
