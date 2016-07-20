@@ -91,15 +91,6 @@ void send_input()
           for(int n = 0; n < 20; ++n)
             memcpy(color_buffer + n * 64, map->cgeo + (o_x + (o_y + n) * map->width) * 2, 64*2);
 
-stop_printing();
-system("cls");
-for(int i = 0; i < 32*20*2; ++i)
-{
-  if(color_buffer[i].bgcolor != 15 || color_buffer[i].textcolor != 15)
-    printf("%d : %d %d ", i,color_buffer[i].bgcolor,color_buffer[i].textcolor);
-}
-exit(-1);
-
           update_screen(map_buffer, color_buffer);
         }
       }

@@ -15,7 +15,7 @@ void init_colormap(color* colormap)
 
 void colormap_from_string(int w, int h, char* s, color* colormap)
 {
-  /* Note that string s must formatted as "XXXYYYZZZ ---\n" */
+  /* Note that string s must be formatted as "XXXYYYZZZ ---\n" */
 
   for(int i = 0; i < h; ++i)
     for(int j = 0; j < w*2; ++j)

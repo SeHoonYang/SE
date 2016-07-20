@@ -6,6 +6,7 @@
 #include "../lib/list.h"
 
 #define ELEM_NUM 5
+/* W * H < 5700; */
 #define MAX_STRLEN 1800
 #define MAX_MAP_SIZE 200*200*2*5
 
@@ -43,7 +44,7 @@ struct map* map_load_data(char *map_id)
   chdir("./data/maps");
 
   /* Parsing buffers */
-  char map_data[ELEM_NUM][MAX_STRLEN];
+  char map_data[ELEM_NUM][MAX_STRLEN*19];
   char buf[MAX_STRLEN];
   char output[MAX_MAP_SIZE];
 
@@ -114,16 +115,18 @@ struct map* map_load_data(char *map_id)
   /* Colors in map */
   i = 0;
   char* temp = (char *)malloc(map->width * map->height * 2 * 3 + 1);
-  map->cgeo = (color *)malloc(map->width * map->height * 2 * sizeof(color) + 1);
+  map->cgeo = (color *)malloc((map->width * map->height * 2 + 1)*sizeof(color));
 
   token = strtok(map_data[2], "\n");
   strncpy(temp + (i++)*6*(map->width), token, 6*(map->width));
+
   while(token != NULL)
   {
     token = strtok(NULL, "\n");
     if(token != NULL)
       strncpy(temp + (i++)*6*(map->width), token, 6*(map->width));
   }
+
   temp[6*(map->width)*(map->height)] = 0;
   colormap_from_string(map->width, map->height, temp, map->cgeo);
 
