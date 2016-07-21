@@ -27,7 +27,7 @@ int strn_to_int(char* s, int n)
 
   for(int i = 0; i < n; ++i)
   {
-    if(s[i] == '\0')
+    if(s[i] == '\0' || s[i] == '\n')
       break;
     sum = sum * 10 + s[i] - '0';
   }

@@ -11,7 +11,6 @@ static int total_thread;
 
 void data_rs_loop(SOCKET c)
 {
-  SOCKET client = c;
   char buffer[sizeof(struct packet) + 1];
   int error_count = 0;
   int sent_user = -1;
@@ -162,7 +161,7 @@ void start_server(SOCKET s)
     int create_new_thread = 0;
 
     /* Create a packet */
-    struct packet* to_send;
+    struct packet* to_send = (struct packet *)NULL;
     
     if(invalid)
     {
@@ -176,6 +175,10 @@ void start_server(SOCKET s)
         to_send = init_packet(7);
       else if(pkt_header == 3)
         to_send = init_packet(4);
+      else if(pkt_header == 8)
+        to_send = init_packet(0);
+      else
+        to_send = (struct packet *)NULL;
     }
 
     /* Server operation */
@@ -282,10 +285,11 @@ void start_server(SOCKET s)
     send(client, (char *)to_send, sizeof(struct packet), 0);
 
     /* Free the packet */
-    free_packet(to_send);
+    if(to_send != NULL)
+      free_packet(to_send);
 
     if(create_new_thread)
-      _beginthread(&data_rs_loop, 0, (void *)client);
+      _beginthread(data_rs_loop, 0, client);
     else
       close(client);
   }

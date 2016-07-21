@@ -14,6 +14,8 @@ struct portal
   int x_pos;
   int y_pos;
   int dest_map_id;
+  int dest_x_pos;
+  int dest_y_pos;
 };
 
 struct monster_spwn
@@ -28,7 +30,6 @@ struct map
   int height;
   int width;
   char* geo;
-  color* cgeo;
   int portal_num;
   int monster_num;
   struct portal portals[MAX_PORTALS];

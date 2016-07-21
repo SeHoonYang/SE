@@ -7,6 +7,6 @@
 #define H 20
 #define MAX_PORTALS 20
 #define MAX_MONSTERSPWN 10
-#define MAX_MAP 1
+#define MAX_MAP 2
 
 #endif

@@ -130,7 +130,6 @@ void update_user_location(int idx, char key)
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
   {
-    /* Skeleton */
     if(((struct user_data*)e->conts)->user_index == idx)
     {
       switch(key)

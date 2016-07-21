@@ -29,7 +29,7 @@ int main(int argc, char** argv)
   init_item();
 
   /* Start printing thread */
-  printing_thread = _beginthread(&show_screen,0,NULL);
+  printing_thread = _beginthread(show_screen,0,NULL);
 
   /* Show initial menu */
   if(show_menu() == 0)
@@ -37,7 +37,7 @@ int main(int argc, char** argv)
 
   /* Start networking thread */
   request_server_make_thread();
-  networking_thread = _beginthread(&send_input,0,NULL);
+  networking_thread = _beginthread(send_input,0,NULL);
 
   /* Main thread. Get user input */
   while(input != 27)
