@@ -17,6 +17,7 @@ struct user_data
 int create_account(char *, char *);
 int load_user_data(char *, int, int, unsigned, unsigned);
 void init_user_data(void);
+void save_user_data(void);
 void clear_user_data(void);
 void update_user_location(int, char);
 int get_user_map_id(int);

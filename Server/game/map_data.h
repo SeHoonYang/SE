@@ -26,6 +26,7 @@ struct map_data
   struct list user_data;
 };
 
+int movable(int, int, int);
 void load_maps(void);
 void get_map_status(int, char *);
 void add_user_to_map(int, int);

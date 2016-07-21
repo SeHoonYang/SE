@@ -2,6 +2,7 @@
 #include "usr.h"
 #include "direct.h"
 #include "../lib/list.h"
+#include "../game/map_data.h"
 
 static int _min(int l, int r)
 {
@@ -72,6 +73,11 @@ int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
   return 0;
 }
 
+void save_user_data()
+{
+  return;
+}
+
 void clear_user_data()
 {
   struct list_elem* e;
@@ -93,16 +99,20 @@ void update_user_location(int idx, char key)
       switch(key)
       {
         case 75:
-          ((struct user_data*)e->conts)->x--;
+          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x-1, ((struct user_data*)e->conts)->y))
+            ((struct user_data*)e->conts)->x--;
           break;
         case 77:
-          ((struct user_data*)e->conts)->x++;
+          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x+1, ((struct user_data*)e->conts)->y))
+            ((struct user_data*)e->conts)->x++;
           break;
         case 72:
-          ((struct user_data*)e->conts)->y--;
+          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x, ((struct user_data*)e->conts)->y-1))
+            ((struct user_data*)e->conts)->y--;
           break;
         case 80:
-          ((struct user_data*)e->conts)->y++;
+          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x, ((struct user_data*)e->conts)->y+1))
+            ((struct user_data*)e->conts)->y++;
           break;
       }
       break;

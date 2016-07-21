@@ -44,12 +44,25 @@ void init_network(char* _host, int _port, char* _data)
   closed = 0;
 }
 
+void request_server_make_thread()
+{
+  struct packet *p = init_packet(8);
+
+  connect_client(&client_socket, port, host);
+
+  send(client_socket, (char *)p, sizeof(struct packet), 0);
+  /* Just for consistency */
+  recv(client_socket, (char *)p, sizeof(struct packet), 0);
+
+  free(p);
+}
+
 struct packet* send_once(struct packet* p, int* recv_amount)
 {
   connect_client(&client_socket, port, host);
   send(client_socket, (char *)p, sizeof(struct packet), 0);
   *recv_amount = recv(client_socket, (char *)p, sizeof(struct packet), 0);
-  close_socket(client_socket);  
+  close_socket(client_socket);
 }
 
 void send_input()
@@ -65,8 +78,8 @@ void send_input()
     marshal_packet(p, data, 1, 0);
     marshal_packet(p, (char *)&user_index, 4, 1);
 
-    int recv_amount;
-    send_once(p, &recv_amount);
+    send(client_socket, (char *)p, sizeof(struct packet), 0);
+    recv(client_socket, (char *)p, sizeof(struct packet), 0);
 
     /* Analyze the server responce */
     if(p->header == 4 && pkt_isvalid(p))
@@ -111,7 +124,7 @@ void send_input()
       struct list_elem* e;
       for(e = list_begin(&others); e != list_end(&others); e = list_next(e))
       {
-        /* If other in the screen */
+        /* If others in the screen */
         if(o_x <= (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) && o_x + 32 > (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) &&
            o_y <= (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)) && o_y + 20 > (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)))
         {
@@ -121,6 +134,8 @@ void send_input()
 
       /* Plot user */
       memcpy(map_buffer + delta_y * 32 * 2 + delta_x * 2, "¡Þ",2);
+
+      /* Clear list */
       for(e = list_begin(&others); e != list_end(&others); e = list_next(e))
       {
         free(e->conts);
@@ -140,6 +155,9 @@ void send_input()
 void close_network()
 {
   closed = 1;
+  Sleep(FREQUENCY);
+
+  close_socket(client_socket);
   end_socket();
 }
 

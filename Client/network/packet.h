@@ -32,6 +32,9 @@
    // object data : coordinate(2),direction(1),HP(4) ...
    5 : Data
 
+   // After the login //
+   8 : New thread creation request
+
 */
 
 struct packet

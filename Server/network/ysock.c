@@ -7,6 +7,78 @@
 
 static int buffer_size;
 static int user_index;
+static int total_thread;
+static void data_rs_loop(SOCKET c)
+{
+  SOCKET client = c;
+  char buffer[sizeof(struct packet) + 1];
+
+  while(1)
+  {
+    /* Receive a packet.
+       Note that we will use large buffer to
+       receive the data in a single loop     */
+    recv(c, buffer, buffer_size, 0);
+
+    /* Analyze the packet */
+    int invalid = !pkt_isvalid((struct packet *)buffer);
+    int pkt_header = ((struct packet *)buffer)->header;
+    int create_new_thread = 0;
+
+    /* Create a packet */
+    struct packet* to_send;
+    
+    if(invalid)
+    {
+      to_send = init_packet(0);
+    }
+    else
+    {
+      if(pkt_header == 1)
+        to_send = init_packet(2);
+      else if(pkt_header == 6)
+        to_send = init_packet(7);
+      else if(pkt_header == 3)
+        to_send = init_packet(4);
+    }
+
+    /* Server operation */
+    if(!invalid)
+    {
+      if(pkt_header == 3)
+      {
+        /* Update server state and give result to the client */
+        char key = ((struct packet *)buffer)->buffer[0];
+        int sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
+
+        /* Arrow keys */
+        if(key == 72 || key == 75 || key == 77 || key == 80)
+          update_user_location(sent_user, key);
+        else if(key == 0)
+        {
+          /* Do nothing */
+        }
+        else
+        {
+          /* Not implemented yet */
+        }
+
+        /* Get server state */
+        char server_data_buffer[BUFFER_SIZE];
+        get_map_status(get_user_map_id(sent_user), server_data_buffer);
+        marshal_packet(to_send, server_data_buffer, BUFFER_SIZE, 0);
+      }
+    }
+
+    /* Send state of the server */
+    send(c, (char *)to_send, sizeof(struct packet), 0);
+
+    /* Free the packet */
+    free_packet(to_send);
+  }
+
+  close_socket(c);
+}
 
 int init_socket(int s)
 {
@@ -72,6 +144,7 @@ void start_server(SOCKET s)
     /* Analyze the packet */
     int invalid = !pkt_isvalid((struct packet *)buffer);
     int pkt_header = ((struct packet *)buffer)->header;
+    int create_new_thread = 0;
 
     /* Create a packet */
     struct packet* to_send;
@@ -182,28 +255,11 @@ void start_server(SOCKET s)
         /* Return to the base directory */
         chdir("../../");
       }
-      else if(pkt_header == 3)
+      else if(pkt_header == 8)
       {
-        /* Update server state and give result to the client */
-        char key = ((struct packet *)buffer)->buffer[0];
-        int sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
-
-        /* Arrow keys */
-        if(key == 72 || key == 75 || key == 77 || key == 80)
-          update_user_location(sent_user, key);
-        else if(key == 0)
-        {
-          /* Do nothing */
-        }
-        else
-        {
-          /* Not implemented yet */
-        }
-
-        /* Get server state */
-        char server_data_buffer[BUFFER_SIZE];
-        get_map_status(get_user_map_id(sent_user), server_data_buffer);
-        marshal_packet(to_send, server_data_buffer, BUFFER_SIZE, 0);
+        /* Create new thread */
+        create_new_thread = 1;
+        printf("New thread has been created, total %d threads\n", ++total_thread);
       }
     }
 
@@ -213,7 +269,10 @@ void start_server(SOCKET s)
     /* Free the packet */
     free_packet(to_send);
 
-    close(client);
+    if(create_new_thread)
+      _beginthread(&data_rs_loop, 0, (void *)client);
+    else
+      close(client);
   }
 }
 

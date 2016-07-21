@@ -3,6 +3,7 @@
 
 #include "packet.h"
 
+void request_server_make_thread(void);
 void set_user_index(int);
 void init_network(char*, int, char*);
 void send_input(void);

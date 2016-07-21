@@ -4,6 +4,28 @@
 
 static struct map_data map_data_array[MAX_MAP];
 
+int movable(int mid, int x, int y)
+{
+  /* Check boundary */
+  if(x < 0 || x >= map_data_array[mid].map->width)
+    return 0;
+  else if(y < 0 || y >= map_data_array[mid].map->height)
+    return 0;
+
+  char next_block_1 = (map_data_array[mid].map->geo)[map_data_array[mid].map->width * 2 * y + x * 2];
+  char next_block_2 = (map_data_array[mid].map->geo)[map_data_array[mid].map->width * 2 * y + x * 2 + 1];
+
+  char* square = "бр";
+  char* square_fill = "бс";
+
+  if(next_block_1 == square[0] && next_block_2 == square[1])
+    return 0;
+  else if(next_block_1 == square_fill[0] && next_block_2 == square_fill[1])
+    return 0;
+
+  return 1;
+}
+
 /* Load map datas on the cache */
 void load_maps()
 {
