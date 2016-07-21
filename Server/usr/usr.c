@@ -17,6 +17,36 @@ static int _max(int l, int r)
 /* It would be better with hash */
 static struct list user_list;
 
+void release_user_data(int uid)
+{
+  struct list_elem* e;
+  struct list_elem* prev = &user_list.head;
+  int mid;
+
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+  {
+    if(((struct user_data*)e->conts)->user_index == uid)
+    {
+      mid = ((struct user_data*)e->conts)->map_id;
+      break;
+    }
+  }
+
+  rem_user_from_map(mid, uid);
+
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+  {
+    if(((struct user_data*)e->conts)->user_index == uid)
+    {
+      prev->next = e->next;
+      free(e->conts);
+      free(e);
+      break;
+    }
+    prev = e;
+  }
+}
+
 int create_account(char * ID, char * PWD)
 {
   chdir("./data/userdata");
@@ -51,7 +81,7 @@ int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
   {
-    if(((struct user_data*)e->conts)->user_index == idx)
+    if(!strcmp(((struct user_data*)e->conts)->id,ID))
       return -1;
   }
 
@@ -73,8 +103,15 @@ int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
   return 0;
 }
 
-void save_user_data()
+void save_user_data(int uid)
 {
+  /* Save specific user data */
+  return;
+}
+
+void save_users_data()
+{
+  /* Save entire user data to the file system */
   return;
 }
 

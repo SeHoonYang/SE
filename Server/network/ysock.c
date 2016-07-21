@@ -8,17 +8,34 @@
 static int buffer_size;
 static int user_index;
 static int total_thread;
-static void data_rs_loop(SOCKET c)
+
+void data_rs_loop(SOCKET c)
 {
   SOCKET client = c;
   char buffer[sizeof(struct packet) + 1];
+  int error_count = 0;
+  int sent_user = -1;
 
   while(1)
   {
     /* Receive a packet.
        Note that we will use large buffer to
        receive the data in a single loop     */
-    recv(c, buffer, buffer_size, 0);
+    int recv_amount = recv(c, buffer, buffer_size, 0);
+
+    if(recv_amount < 0)
+      error_count++;
+    else
+      error_count = 0;
+
+    /* Connection lost */
+    if(error_count > 20)
+    {
+      save_user_data(sent_user);
+      release_user_data(sent_user);
+      close_socket(c);
+      return;
+    }
 
     /* Analyze the packet */
     int invalid = !pkt_isvalid((struct packet *)buffer);
@@ -49,7 +66,7 @@ static void data_rs_loop(SOCKET c)
       {
         /* Update server state and give result to the client */
         char key = ((struct packet *)buffer)->buffer[0];
-        int sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
+        sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
 
         /* Arrow keys */
         if(key == 72 || key == 75 || key == 77 || key == 80)
@@ -76,8 +93,6 @@ static void data_rs_loop(SOCKET c)
     /* Free the packet */
     free_packet(to_send);
   }
-
-  close_socket(c);
 }
 
 int init_socket(int s)

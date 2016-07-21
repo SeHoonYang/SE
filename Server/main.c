@@ -34,7 +34,7 @@ int main()
   while(getch() != 27);
 
   /* Write behind; Write user data to file system */
-  save_user_data();
+  save_users_data();
 
   /* Release user data */
   clear_user_data();

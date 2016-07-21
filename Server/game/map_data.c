@@ -48,7 +48,7 @@ void add_user_to_map(int mid, int uid)
   printf("%d users are in the map #%d\n", list_size(&map_data_array[mid].user_data), mid);
 }
 
-void rem_user_to_map(int mid, int uid)
+void rem_user_from_map(int mid, int uid)
 {
   struct list_elem* e;
   for(e = list_begin(&map_data_array[mid].user_data); e != list_end(&map_data_array[mid].user_data); e = list_next(e))
