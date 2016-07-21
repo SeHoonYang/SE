@@ -33,6 +33,7 @@ void data_rs_loop(SOCKET c)
       save_user_data(sent_user);
       release_user_data(sent_user);
       close_socket(c);
+      total_thread--;
       return;
     }
 
@@ -277,7 +278,7 @@ void start_server(SOCKET s)
       {
         /* Create new thread */
         create_new_thread = 1;
-        printf("New thread has been created, total %d threads\n", ++total_thread);
+        printf("New thread has been created, total %d threads(could be inaccurate by race condition)\n", ++total_thread);
       }
     }
 

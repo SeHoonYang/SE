@@ -130,26 +130,40 @@ void update_user_location(int idx, char key)
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
   {
-    if(((struct user_data*)e->conts)->user_index == idx)
+    struct user_data* d = ((struct user_data*)e->conts);
+
+    if(d->user_index == idx)
     {
       switch(key)
       {
         case 75:
-          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x-1, ((struct user_data*)e->conts)->y))
-            ((struct user_data*)e->conts)->x--;
+          if(movable(d->map_id, d->x-1, d->y))
+            d->x--;
           break;
         case 77:
-          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x+1, ((struct user_data*)e->conts)->y))
-            ((struct user_data*)e->conts)->x++;
+          if(movable(d->map_id, d->x+1, d->y))
+            d->x++;
           break;
         case 72:
-          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x, ((struct user_data*)e->conts)->y-1))
-            ((struct user_data*)e->conts)->y--;
+          if(movable(d->map_id, d->x, d->y-1))
+            d->y--;
           break;
         case 80:
-          if(movable(((struct user_data*)e->conts)->map_id, ((struct user_data*)e->conts)->x, ((struct user_data*)e->conts)->y+1))
-            ((struct user_data*)e->conts)->y++;
+          if(movable(d->map_id, d->x, d->y+1))
+            d->y++;
           break;
+      }
+
+      struct portal* next_map = on_portal(d->map_id, d->x, d->y);
+
+      if(next_map != NULL)
+      {
+        rem_user_from_map(d->map_id, d->user_index);
+        add_user_to_map(next_map->dest_map_id, d->user_index);
+
+        d->map_id = next_map->dest_map_id;
+        d->x =  next_map->dest_x_pos;
+        d->y =  next_map->dest_y_pos;
       }
       break;
     }

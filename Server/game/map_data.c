@@ -1,8 +1,21 @@
+#include <stdio.h>
 #include "map_data.h"
 #include "../lib/lib.h"
 #include "../usr/usr.h"
 
 static struct map_data map_data_array[MAX_MAP];
+
+struct portal* on_portal(int mid, int x, int y)
+{
+  int max_portal = map_data_array[mid].map->portal_num;
+  for(int i = 0; i < max_portal; ++i)
+  {
+    if(map_data_array[mid].map->portals[i].x_pos == x && map_data_array[mid].map->portals[i].y_pos == y)
+      return &map_data_array[mid].map->portals[i];
+  }
+
+  return NULL;
+}
 
 int movable(int mid, int x, int y)
 {

@@ -26,6 +26,7 @@ struct map_data
   struct list user_data;
 };
 
+struct portal* on_portal(int, int, int);
 int movable(int, int, int);
 void load_maps(void);
 void get_map_status(int, char *);
