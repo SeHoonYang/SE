@@ -51,9 +51,7 @@ struct map* map_load_data(char *map_id)
       map->height = strn_to_int(h,3);
 
       map->geo = (char *)malloc(map->width * map->height * 2 + 1);
-      // This line is not needed for server the side // map->cgeo = (char *)malloc(map->width * map->height * 6 + 1);
       geo_temp = map->geo;
-      //color_temp = map->cgeo;
     }
     else if(mode == 2)
     {
