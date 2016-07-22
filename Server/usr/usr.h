@@ -4,6 +4,7 @@
 struct user_data
 {
   char id[11];
+  char pwd[11];
   int user_index;
   int map_id;
   /* x + y * 65536, hp + mp * 65536 */
@@ -15,7 +16,7 @@ struct user_data
 };
 
 int create_account(char *, char *);
-int load_user_data(char *, int, int, unsigned, unsigned);
+int load_user_data(char *, char *, int, int, unsigned, unsigned);
 void init_user_data(void);
 void save_users_data(void);
 void release_user_data(int);

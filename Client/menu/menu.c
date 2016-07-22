@@ -17,7 +17,7 @@ static int _min(int r, int l)
   return r < l ? r : l;
 }
 
-static int valid_ID_char(char c)
+static int valid_id_char(char c)
 {
   return ('a' <= c && 'z' >= c) || ('0' <= c && '9' >= c);
 }
@@ -119,7 +119,7 @@ int show_create_account_menu()
         colormap_from_string(32, 20, first_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
-        if(!arrow_pressed && valid_ID_char(key) && ID_index < 10)
+        if(!arrow_pressed && valid_id_char(key) && ID_index < 10)
         {
           ID[ID_index] = key;
           ID[++ID_index] = '\0';
@@ -135,7 +135,7 @@ int show_create_account_menu()
         colormap_from_string(32, 20, second_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
-        if(!arrow_pressed && valid_ID_char(key) && PWD_index < 10)
+        if(!arrow_pressed && valid_id_char(key) && PWD_index < 10)
         {
           PWD[PWD_index] = key;
           PWD[++PWD_index] = '\0';
@@ -224,7 +224,7 @@ static show_login_menu(void)
         colormap_from_string(32, 20, first_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
-        if(!arrow_pressed && valid_ID_char(key) && ID_index < 10)
+        if(!arrow_pressed && valid_id_char(key) && ID_index < 10)
         {
           ID[ID_index] = key;
           ID[++ID_index] = '\0';
@@ -240,7 +240,7 @@ static show_login_menu(void)
         colormap_from_string(32, 20, second_reg_cstring, colormap);
         update_screen(NULL, colormap);
         
-        if(!arrow_pressed && valid_ID_char(key) && PWD_index < 10)
+        if(!arrow_pressed && valid_id_char(key) && PWD_index < 10)
         {
           PWD[PWD_index] = key;
           PWD[++PWD_index] = '\0';

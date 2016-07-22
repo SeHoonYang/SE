@@ -1,4 +1,4 @@
-#include <fcntl.h>
+#include <stdio.h>
 #include "usr.h"
 #include "direct.h"
 #include "../lib/list.h"
@@ -52,20 +52,22 @@ int create_account(char * ID, char * PWD)
   chdir("./data/userdata");
 
   /* ID already exists */
-  if(open(ID,O_RDONLY) != -1)
+  FILE* f;
+  if(f = fopen(ID,"r") != NULL)
+  {
+    fclose(f);
     return 0;
+  }
 
   /* Create an account */
-  int fd = open(ID, O_CREAT | O_RDWR);
+  f = fopen(ID, "w");
 
   /* Write basic user data */
-  write(fd, PWD, strlen(PWD));
-  write(fd, "\n0", 2);
-  write(fd, "\n10 11", 6);
-  write(fd, "\n10 5", 5);
-  write(fd, "\n", 1);
+  fwrite(PWD, 1, strlen(PWD), f);
+  fwrite("\n0\n10 11\n10 5\n", 1, 14, f);
   
-  close(fd);
+  fclose(f);
+  chdir("../../");
 
   return 1;
 }
@@ -75,7 +77,7 @@ void init_user_data()
   init_list(&user_list);
 }
 
-int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
+int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h)
 {
   /* Actually, we need to check whether the player has already logged in or not */
   struct list_elem* e;
@@ -88,6 +90,7 @@ int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
   /* Create user data */
   struct user_data *d = (struct user_data *)malloc(sizeof(struct user_data));
   strncpy(d->id, ID, 11);
+  strncpy(d->pwd, PWD, 11);
   d->user_index = idx;
   d->map_id = mid;
   d->x = pos % 65536;
@@ -106,7 +109,51 @@ int load_user_data(char* ID, int idx, int mid, unsigned pos, unsigned h)
 void save_user_data(int uid)
 {
   /* Save specific user data */
-  return;
+  chdir("./data/userdata/");
+
+  /* Get user data */
+  struct user_data* d = get_user_data(uid);
+  FILE* f = fopen(d->id,"w");
+  if(f == NULL)
+    printf("Fail to save user data : %s\n", d->id);
+
+  /* Write password */
+  fwrite(d->pwd, 1, strlen(d->pwd), f);
+  fwrite("\n", 1, 1, f);
+
+  /* Write map */
+  char* map_str = int_to_str((int)(d->map_id));
+
+  fwrite(map_str, 1, strlen(map_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(map_str);  
+
+  /* Write coordinate */
+  char* x_str = int_to_str((int)(d->x));
+  char* y_str = int_to_str((int)(d->y));
+  fwrite(x_str, 1, strlen(x_str), f);
+  fwrite(" ", 1, 1, f);
+  fwrite(y_str, 1, strlen(y_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(x_str);
+  free(y_str);
+
+  /* Write HP/MP */
+  char* hp_str = int_to_str((int)(d->hp));
+  char* mp_str = int_to_str((int)(d->mp));
+  fwrite(hp_str, 1, strlen(hp_str), f);
+  fwrite(" ", 1, 1, f);
+  fwrite(mp_str, 1, strlen(mp_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(hp_str);
+  free(mp_str);
+
+  fclose(f);
+
+  chdir("../../");
 }
 
 void save_users_data()

@@ -30,6 +30,7 @@ void data_rs_loop(SOCKET c)
     /* Connection lost */
     if(error_count > 20)
     {
+      printf("Connection has been lost : %s\n", get_user_data(sent_user)->id);
       save_user_data(sent_user);
       release_user_data(sent_user);
       close_socket(c);
@@ -253,7 +254,7 @@ void start_server(SOCKET s)
           h = 65536 * mp + hp;
 
           /* Load user data to the cache. Not yet overlapped login handled */
-          if(load_user_data(id, user_index, mid, pos, h) == 0)
+          if(load_user_data(id, pwd, user_index, mid, pos, h) == 0)
             add_user_to_map(mid, user_index);
           else
             success = 0;

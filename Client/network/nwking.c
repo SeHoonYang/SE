@@ -16,7 +16,7 @@ static int _max(int r, int l)
   return r < l ? l : r;
 }
 
-#define FREQUENCY 30
+#define PERIOD 40
 
 static char map_buffer[32*20*2+1];
 static color color_buffer[32*20*2*sizeof(color)+1];
@@ -148,14 +148,14 @@ void send_input()
     free(p);
     *data = 0;
 
-    Sleep(FREQUENCY);
+    Sleep(PERIOD);
   }
 }
 
 void close_network()
 {
   closed = 1;
-  Sleep(FREQUENCY);
+  Sleep(PERIOD * 2);
 
   close_socket(client_socket);
   end_socket();
