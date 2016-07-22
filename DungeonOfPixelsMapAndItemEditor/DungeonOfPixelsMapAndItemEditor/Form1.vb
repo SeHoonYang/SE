@@ -1,12 +1,18 @@
 ﻿Public Class Form1
 
     Dim mode As Integer = -1
+    Public map_x As Integer
+    Public map_y As Integer
+
     Public menu_button(640) As Button
     Public item_button(49) As Button
+    Public map_button(40000) As Button
+    Public instantiated(40000) As Boolean
+
     Dim current_color As System.Drawing.Color = Color.Black
     Dim mouse_clicked As Boolean = False
 
-    Private Sub MenuButtonHoverHandler(ByVal sender As Object, ByVal e As System.EventArgs)
+    Public Sub MenuButtonHoverHandler(ByVal sender As Object, ByVal e As System.EventArgs)
         If mouse_clicked Then
             If mode = 1 Then
                 CType(sender, Button).Text = ToolStripTextBox1.Text
@@ -21,21 +27,25 @@
             End If
         End If
     End Sub
-    Private Sub MenuButtonClickHandler(ByVal sender As Object, ByVal e As System.EventArgs)
-            If mode = 1 Then
-                CType(sender, Button).Text = ToolStripTextBox1.Text
-            ElseIf mode = 2 Then
-                CType(sender, Button).BackColor = current_color
-            ElseIf mode = 3 Then
-                CType(sender, Button).ForeColor = current_color
-            ElseIf mode = 4 Then
-                CType(sender, Button).Text = "  "
-                CType(sender, Button).BackColor = Color.Black
-                CType(sender, Button).ForeColor = Color.White
-            End If
+    Public Sub MenuButtonClickHandler(ByVal sender As Object, ByVal e As System.EventArgs)
+        If mode = 1 Then
+            CType(sender, Button).Text = ToolStripTextBox1.Text
+        ElseIf mode = 2 Then
+            CType(sender, Button).BackColor = current_color
+        ElseIf mode = 3 Then
+            CType(sender, Button).ForeColor = current_color
+        ElseIf mode = 4 Then
+            CType(sender, Button).Text = "  "
+            CType(sender, Button).BackColor = Color.Black
+            CType(sender, Button).ForeColor = Color.White
+        End If
     End Sub
 
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        For i = 0 To 39999
+            instantiated(i) = False
+        Next
+        Me.DoubleBuffered = True
         For i = 0 To 31
             For j = 0 To 19
                 menu_button(j * 32 + i) = New Button
@@ -43,8 +53,8 @@
                     .Text = "□"
                     .FlatStyle = FlatStyle.Flat
                     .FlatAppearance.BorderSize = 0
-                    .Size = New System.Drawing.Size(27, 27)
-                    .Location = New System.Drawing.Point(3 + i * 27, 3 + j * 27)
+                    .Size = New System.Drawing.Size(25, 25)
+                    .Location = New System.Drawing.Point(3 + i * 25, 3 + j * 25)
                     .Visible = True
                     .BackColor = Color.Black
                     .ForeColor = Color.White
@@ -382,7 +392,6 @@
                 End If
             Next
         Next
-        GenColor = GenColor
         Form2.TextBox1.Text = GenText
         Form2.TextBox2.Text = GenColor
         Form2.Show()
@@ -390,5 +399,121 @@
 
     Private Sub Button7_Click(sender As Object, e As EventArgs) Handles Button7.Click
 
+    End Sub
+
+    Private Sub Button3_Click(sender As Object, e As EventArgs) Handles Button3.Click
+        Form4.Show()
+    End Sub
+
+    Private Sub HScrollBar1_Scroll(sender As Object, e As ScrollEventArgs)
+
+    End Sub
+
+    Private Sub Button4_Click(sender As Object, e As EventArgs) Handles Button4.Click
+        Form5.show()
+    End Sub
+
+    Private Sub Button5_Click(sender As Object, e As EventArgs) Handles Button5.Click
+        Dim GenText = ""
+        For j = 0 To map_y - 1
+            For i = 0 To map_x - 1
+                If map_button(j * map_x + i).Text = " " Then
+                    GenText = GenText + "  "
+                ElseIf map_button(j * map_x + i).Text = "" Then
+                    GenText = GenText + "  "
+                Else
+                    GenText = GenText + map_button(j * map_x + i).Text
+                End If
+            Next
+            GenText = GenText + vbNewLine
+        Next
+
+        Dim GenColor = ""
+        For j = 0 To map_y - 1
+            For i = 0 To map_x - 1
+                Dim c = 0
+                Select Case map_button(j * map_x + i).ForeColor
+                    Case Color.Black
+                        c = c + 0
+                    Case Color.Navy
+                        c = c + 1
+                    Case Color.Green
+                        c = c + 2
+                    Case Color.Teal
+                        c = c + 3
+                    Case Color.Maroon
+                        c = c + 4
+                    Case Color.Purple
+                        c = c + 5
+                    Case Color.Olive
+                        c = c + 6
+                    Case LightGrayToolStripMenuItem.ForeColor
+                        c = c + 7
+                    Case DarkGrayToolStripMenuItem.ForeColor
+                        c = c + 8
+                    Case Color.Blue
+                        c = c + 9
+                    Case Color.Lime
+                        c = c + 10
+                    Case Color.Cyan
+                        c = c + 11
+                    Case Color.Red
+                        c = c + 12
+                    Case Color.Magenta
+                        c = c + 13
+                    Case Color.Yellow
+                        c = c + 14
+                    Case Color.White
+                        c = c + 15
+                End Select
+                Select Case map_button(j * map_x + i).BackColor
+                    Case Color.Black
+                        c = c + 0 * 16
+                    Case Color.Navy
+                        c = c + 1 * 16
+                    Case Color.Green
+                        c = c + 2 * 16
+                    Case Color.Teal
+                        c = c + 3 * 16
+                    Case Color.Maroon
+                        c = c + 4 * 16
+                    Case Color.Purple
+                        c = c + 5 * 16
+                    Case Color.Olive
+                        c = c + 6 * 16
+                    Case LightGrayToolStripMenuItem.ForeColor
+                        c = c + 7 * 16
+                    Case DarkGrayToolStripMenuItem.ForeColor
+                        c = c + 8 * 16
+                    Case Color.Blue
+                        c = c + 9 * 16
+                    Case Color.Lime
+                        c = c + 10 * 16
+                    Case Color.Cyan
+                        c = c + 11 * 16
+                    Case Color.Red
+                        c = c + 12 * 16
+                    Case Color.Magenta
+                        c = c + 13 * 16
+                    Case Color.Yellow
+                        c = c + 14 * 16
+                    Case Color.White
+                        c = c + 15 * 16
+                End Select
+                If c.ToString.Length = 1 Then
+                    GenColor = GenColor + "00" + c.ToString + "00" + c.ToString
+                ElseIf c.ToString.Length = 2 Then
+                    GenColor = GenColor + "0" + c.ToString + "0" + c.ToString
+                Else
+                    GenColor = GenColor + c.ToString + c.ToString
+                End If
+            Next
+            GenColor = GenColor + vbNewLine
+        Next
+        Form6.TextBox1.Text = map_x
+        Form6.TextBox2.Text = map_y
+        Form6.TextBox3.Text = GenText
+        Form6.TextBox4.Text = GenColor
+        Form6.Show()
     End Sub
 End Class

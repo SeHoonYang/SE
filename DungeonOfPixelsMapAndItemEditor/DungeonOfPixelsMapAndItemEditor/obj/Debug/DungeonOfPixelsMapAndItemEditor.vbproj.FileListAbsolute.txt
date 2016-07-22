@@ -21,3 +21,6 @@ C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixel
 C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form2.resources
 C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.vbprojResolveAssemblyReference.cache
 C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form3.resources
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form4.resources
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form5.resources
+C:\Users\root\Documents\GitHub\SE\DungeonOfPixelsMapAndItemEditor\DungeonOfPixelsMapAndItemEditor\obj\Debug\DungeonOfPixelsMapAndItemEditor.Form6.resources

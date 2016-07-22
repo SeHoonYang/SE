@@ -278,7 +278,7 @@ void start_server(SOCKET s)
       {
         /* Create new thread */
         create_new_thread = 1;
-        printf("New thread has been created, total %d threads(could be inaccurate by race condition)\n", ++total_thread);
+        printf("New thread has been created, total %d + 2 threads(inaccurate)\n", ++total_thread);
       }
     }
 
