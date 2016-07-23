@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include "usr.h"
 #include "direct.h"
-#include "../lib/list.h"
 #include "../game/map_data.h"
 
 static int _min(int l, int r)
@@ -39,6 +38,15 @@ void release_user_data(int uid)
     if(((struct user_data*)e->conts)->user_index == uid)
     {
       prev->next = e->next;
+      
+      struct list_elem *e2;
+
+      /* Free items */
+      for(e2 = list_begin(&(((struct user_data*)e->conts)->inventory)); e2 != list_end(&(((struct user_data*)e->conts)->inventory)); e = list_next(e))
+        free(e2->conts);
+
+      clear_list(&(((struct user_data*)e->conts)->inventory));
+
       free(e->conts);
       free(e);
       break;
@@ -95,8 +103,7 @@ int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned
   d->max_hp = m % 65536;
   d->max_mp = m / 65536;
   d->money = money;
-
-  printf("User data has been loaded : map #%d (%d, %d) hp:%d / %d mp:%d / %d\n", d->map_id, d->x, d->y, d->hp, d->max_hp, d->mp, d->max_mp);
+  init_list(&d->inventory);
 
   /* Add to the list */
   push_list(&user_list, d);

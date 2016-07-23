@@ -22,6 +22,9 @@ int main()
   printf("Loading map data to the memory\n");
   load_maps();
 
+  printf("Initializing monster data\n");
+  init_mob();
+
   /* Add thread to properly stop the server */
   init_socket(sizeof(struct packet));
   init_server(&server_socket, 2033);
@@ -38,6 +41,11 @@ int main()
 
   /* Release user data */
   clear_user_data();
+
+  /* Release map data */
+
+  /* Release monster data */
+  clear_mob_data();
 
   /* Terminate the server */
   close_socket(server_socket);

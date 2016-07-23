@@ -1,5 +1,6 @@
 #ifndef _USR_H_
 #define _USR_H_
+#include "../lib/list.h"
 
 struct user_data
 {
@@ -15,7 +16,8 @@ struct user_data
   unsigned short max_hp;
   unsigned short max_mp;
   int money;
-  /* inventroy */
+
+  struct list inventory;
 };
 
 int create_account(char *, char *);

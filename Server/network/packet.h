@@ -12,12 +12,12 @@
    1 : Registration request
        -buffer[0-9] : ID
        -buffer[10-19] : Password
-   2 : Server quick responce
+   2 : Server quick response
        -buffer[0] : 1 for success, 0 for failure
    6 : Login request
        -buffer[0-10] : ID
        -buffer[11-21] : Password
-   7 : Server login responce
+   7 : Server login response
        -buffer[0] : 1 for success, 0 for failure
        -bufer[1-4] : user index
 
@@ -25,7 +25,7 @@
    3 : User input
        -buffer[0] : char
        -bufer[1-4] : user index
-   4 : Server responce
+   4 : Server response
        -buffer[0] : # of object
        -buffer[1 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]
    
@@ -38,7 +38,7 @@
    9 : Menu request
        -buffer[0-3] : user index
 
-   10 : Menu responce
+   10 : Menu response
         -buffer[0-1] : current hp
         -buffer[2-3] : max hp
         -buffer[4-5] : current mp

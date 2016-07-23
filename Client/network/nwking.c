@@ -7,6 +7,8 @@
 #include "../game/map.h"
 #include "../menu/menu.h"
 
+#define PERIOD 40
+
 static int _min(int r, int l)
 {
   return r < l ? r : l;
@@ -17,11 +19,8 @@ static int _max(int r, int l)
   return r < l ? l : r;
 }
 
-#define PERIOD 40
-
 static char map_buffer[32*20*2+1];
 static color color_buffer[32*20*2*sizeof(color)+1];
-
 static int user_index;
 static SOCKET client_socket;
 static int port;
@@ -107,7 +106,7 @@ void send_input()
     send(client_socket, (char *)p, sizeof(struct packet), 0);
     recv(client_socket, (char *)p, sizeof(struct packet), 0);
 
-    /* Analyze the server responce */
+    /* Analyze the server response */
     if(p->header == 4 && pkt_isvalid(p))
     {
       int map_id = (int)p->buffer[0];
@@ -163,7 +162,7 @@ void send_input()
           int name_len = strlen(other_name);
 
           /* Display user name */
-/*
+/* buggy yet;
           for(int i = 0; i < name_len; ++i)
             if(o_x <= other_x -  name_len / 2 + 1 + i && other_x -  name_len / 2 + 1 + i < o_x + 32
             && o_y <= other_y - 1 && o_y + 20 > other_y - 1)
