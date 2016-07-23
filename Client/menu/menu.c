@@ -7,6 +7,22 @@
 #include "../conf.inc"
 #include "../network/nwking.h"
 
+static int hp;
+static int max_hp;
+static int mp;
+static int max_mp;
+static char ingame_menu_buffer[32*20*2+1];
+static int updated;
+
+void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp)
+{
+  hp = _hp;
+  max_hp = _max_hp;
+  mp = _mp;
+  max_mp = _max_mp;
+  updated = 1;
+}
+
 static int _max(int r, int l)
 {
   return r < l ? l : r;
@@ -295,4 +311,66 @@ static show_login_menu(void)
   }
 
   return 0;
+}
+
+void show_game_menu()
+{
+  while(1)
+  {
+    /* Synchronize does not needed since file system does it internally */
+
+    while(!updated);
+
+    /* show menu screen */
+    colormap_from_string(32, 20, ingame_menu_cstring, colormap);
+    memcpy(ingame_menu_buffer, ingame_menu, 32*20*2);
+    update_screen(ingame_menu_buffer, colormap);
+
+    char* hp_str = (char *)int_to_str(hp);
+    char* max_hp_str = (char *)int_to_str(max_hp);
+    char* mp_str = (char *)int_to_str(mp);
+    char* max_mp_str = (char *)int_to_str(max_mp);
+
+    /* Show HP/MP string */
+    memcpy(ingame_menu_buffer + 153, hp_str, strlen(hp_str));
+    memcpy(ingame_menu_buffer + 187 - strlen(max_hp_str), max_hp_str, strlen(max_hp_str));
+    memcpy(ingame_menu_buffer + 217, mp_str, strlen(mp_str));
+    memcpy(ingame_menu_buffer + 251 - strlen(max_mp_str), max_mp_str, strlen(max_mp_str));
+
+    /* HP/MP color */
+    int n_hp = 18 * hp / max_hp;
+    int n_mp = 18 * mp / max_mp;
+
+    for(int i = 0; i < n_hp; ++i)
+    {
+      colormap[187 - 2 * i].bgcolor = 12;
+      colormap[186 - 2 * i].bgcolor = 12;
+    }
+    for(int i = n_hp; i < 18; ++i)
+    {
+      colormap[187 - 2 * i].bgcolor = 4;
+      colormap[186 - 2 * i].bgcolor = 4;
+    }
+    for(int i = 0; i < n_mp; ++i)
+    {
+      colormap[251 - 2 * i].bgcolor = 9;
+      colormap[250 - 2 * i].bgcolor = 9;
+    }
+    for(int i = n_mp; i < 18; ++i)
+    {
+      colormap[251 - 2 * i].bgcolor = 1;
+      colormap[250 - 2 * i].bgcolor = 1;
+    }
+
+    free(hp_str);
+    free(max_hp_str);
+    free(mp_str);
+    free(max_mp_str);
+
+    if(getch() == 27)
+    {
+      updated = 0;
+      return;
+    }
+  }
 }

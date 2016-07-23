@@ -54,17 +54,14 @@ int create_account(char * ID, char * PWD)
   /* ID already exists */
   FILE* f;
   if(f = fopen(ID,"r") != NULL)
-  {
-    fclose(f);
     return 0;
-  }
 
   /* Create an account */
   f = fopen(ID, "w");
 
   /* Write basic user data */
   fwrite(PWD, 1, strlen(PWD), f);
-  fwrite("\n0\n10 11\n10 5\n", 1, 14, f);
+  fwrite("\n0\n10 11\n10 5\n10 5\n0\n", 1, 22, f);
   
   fclose(f);
   chdir("../../");
@@ -77,15 +74,13 @@ void init_user_data()
   init_list(&user_list);
 }
 
-int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h)
+int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money)
 {
   /* Actually, we need to check whether the player has already logged in or not */
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
-  {
     if(!strcmp(((struct user_data*)e->conts)->id,ID))
       return -1;
-  }
 
   /* Create user data */
   struct user_data *d = (struct user_data *)malloc(sizeof(struct user_data));
@@ -97,8 +92,11 @@ int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned
   d->y = pos / 65536;
   d->hp = h % 65536;
   d->mp = h / 65536;
+  d->max_hp = m % 65536;
+  d->max_mp = m / 65536;
+  d->money = money;
 
-  printf("User data has been loaded : map #%d (%d, %d) hp:%d mp:%d\n", d->map_id, d->x, d->y, d->hp, d->mp);
+  printf("User data has been loaded : map #%d (%d, %d) hp:%d / %d mp:%d / %d\n", d->map_id, d->x, d->y, d->hp, d->max_hp, d->mp, d->max_mp);
 
   /* Add to the list */
   push_list(&user_list, d);
@@ -151,6 +149,24 @@ void save_user_data(int uid)
   free(hp_str);
   free(mp_str);
 
+  /* Write HP/MP */
+  char* max_hp_str = int_to_str((int)(d->max_hp));
+  char* max_mp_str = int_to_str((int)(d->max_mp));
+  fwrite(max_hp_str, 1, strlen(max_hp_str), f);
+  fwrite(" ", 1, 1, f);
+  fwrite(max_mp_str, 1, strlen(max_mp_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(max_hp_str);
+  free(max_mp_str);
+
+  /* Write money */
+  char* money_str = int_to_str((int)(d->money));
+  fwrite(money_str, 1, strlen(money_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(money_str);
+
   fclose(f);
 
   chdir("../../");
@@ -159,6 +175,11 @@ void save_user_data(int uid)
 void save_users_data()
 {
   /* Save entire user data to the file system */
+
+  /* Close entire server (every thread) */
+
+  /* Save each user data */
+
   return;
 }
 
@@ -221,12 +242,8 @@ int get_user_map_id(int idx)
 {
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
-  {
     if(((struct user_data*)e->conts)->user_index == idx)
-    {
       return ((struct user_data*)e->conts)->map_id;
-    }
-  }
 
   return -1;
 }
@@ -235,12 +252,8 @@ struct user_data* get_user_data(int idx)
 {
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
-  {
     if(((struct user_data*)e->conts)->user_index == idx)
-    {
       return (struct user_data*)e->conts;
-    }
-  }
 
   return NULL;
 }

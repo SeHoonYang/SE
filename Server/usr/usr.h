@@ -12,11 +12,14 @@ struct user_data
   unsigned short y;
   unsigned short hp;
   unsigned short mp;
+  unsigned short max_hp;
+  unsigned short max_mp;
+  int money;
   /* inventroy */
 };
 
 int create_account(char *, char *);
-int load_user_data(char *, char *, int, int, unsigned, unsigned);
+int load_user_data(char *, char *, int, int, unsigned, unsigned, unsigned, int);
 void init_user_data(void);
 void save_users_data(void);
 void release_user_data(int);

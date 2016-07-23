@@ -58,6 +58,8 @@ void data_rs_loop(SOCKET c)
         to_send = init_packet(7);
       else if(pkt_header == 3)
         to_send = init_packet(4);
+      else if(pkt_header == 9)
+        to_send = init_packet(10);
     }
 
     /* Server operation */
@@ -85,6 +87,16 @@ void data_rs_loop(SOCKET c)
         char server_data_buffer[BUFFER_SIZE];
         get_map_status(get_user_map_id(sent_user), server_data_buffer);
         marshal_packet(to_send, server_data_buffer, BUFFER_SIZE, 0);
+      }
+      else if(pkt_header == 9)
+      {
+        /* General menu request */
+        struct user_data* d = get_user_data(sent_user);
+
+        marshal_packet(to_send, (char *)&d->hp, 2, 0);
+        marshal_packet(to_send, (char *)&d->max_hp, 2, 2);
+        marshal_packet(to_send, (char *)&d->mp, 2, 4);
+        marshal_packet(to_send, (char *)&d->max_mp, 2, 6);
       }
     }
 
@@ -228,9 +240,9 @@ void start_server(SOCKET s)
         if(success)
         {
           /* Load user data to the map data cache */
-          int mid;
-          unsigned short x,y,hp,mp;
-          unsigned pos, h;
+          int mid, money;
+          unsigned short x,y,hp,mp, max_hp, max_mp;
+          unsigned pos, h, m;
           char* token;
 
           fgets(buf,12,user_file);
@@ -253,8 +265,21 @@ void start_server(SOCKET s)
           mp = (unsigned short)strn_to_int(token,5);
           h = 65536 * mp + hp;
 
+          fgets(buf,12,user_file);
+          token = strtok(buf," ");
+          max_hp = (unsigned short)strn_to_int(token,5);
+          token = strtok(NULL," ");
+          token[strlen(token)-1] = 0;
+          max_mp = (unsigned short)strn_to_int(token,5);
+          m = 65536 * max_mp + max_hp;
+
+          fgets(buf,12,user_file);
+          token = strtok(buf," ");
+          token[strlen(token)-1] = 0;
+          money = strn_to_int(token,20);
+
           /* Load user data to the cache. Not yet overlapped login handled */
-          if(load_user_data(id, pwd, user_index, mid, pos, h) == 0)
+          if(load_user_data(id, pwd, user_index, mid, pos, h, m, money) == 0)
             add_user_to_map(mid, user_index);
           else
             success = 0;

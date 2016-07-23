@@ -26,12 +26,23 @@
        -buffer[0] : char
        -bufer[1-4] : user index
    4 : Server responce
-       -buffer[0] : map id
-       -buffer[1] : # of object
-       -buffer[2 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]
+       -buffer[0] : # of object
+       -buffer[1 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]
    
    // object data : coordinate(2),direction(1),HP(4) ...
    5 : Data
+
+   // After the login //
+   8 : New thread creation request
+
+   9 : Menu request
+       -buffer[0-3] : user index
+
+   10 : Menu responce
+        -buffer[0-1] : current hp
+        -buffer[2-3] : max hp
+        -buffer[4-5] : current mp
+        -buffer[6-7] : max mp
 
 */
 

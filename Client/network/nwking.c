@@ -5,6 +5,7 @@
 #include "../console/color.h"
 #include "../lib/list.h"
 #include "../game/map.h"
+#include "../menu/menu.h"
 
 static int _min(int r, int l)
 {
@@ -69,6 +70,31 @@ void send_input()
 {
   while(!closed)
   {
+    /* Enter : show menu */
+    if(*data == 13)
+    {
+      struct packet *p = init_packet(9);
+      marshal_packet(p, (char *)&user_index, 4, 0);
+
+      send(client_socket, (char *)p, sizeof(struct packet), 0);
+      recv(client_socket, (char *)p, sizeof(struct packet), 0);
+
+      if(p->header == 10 && pkt_isvalid(p))
+      {
+        int hp = (int)*(unsigned short *)(p->buffer);
+        int max_hp = (int)*(unsigned short *)(p->buffer+2);
+        int mp = (int)*(unsigned short *)(p->buffer+4);
+        int max_mp = (int)*(unsigned short *)(p->buffer+6);
+
+        set_user_data_menu(hp,max_hp,mp,max_mp);
+      }
+
+      free(p);
+
+      Sleep(PERIOD * 3);
+      continue;
+    }
+
     /* Keys to send are specified */
     if(*data != 75 && *data != 80 && *data != 72 && *data != 77)
       *data = 0;
@@ -91,7 +117,7 @@ void send_input()
       struct list others;
       init_list(&others);
 
-      /* Not implemented yet */
+      /* Split packet by each object */
       for(int i = 0; i < obj_num; ++i)
       {
         if(*(int *)(p->buffer+13+i*19) == user_index)
@@ -107,13 +133,16 @@ void send_input()
       int x = (int)(*(unsigned short *)(p->buffer+17+id*19));
       int y = (int)(*(unsigned short *)(p->buffer+19+id*19));
 
+      /* Set camera origin point */
       struct map* map = load_map(map_id);
       int o_x = _min(map->width-32,_max(0,x-15));
       int o_y = _min(map->height-20,_max(0,y-9));
 
+      /* User position on the camera coordinate */
       int delta_x = x - o_x;
       int delta_y = y - o_y;
 
+      /* Set up background layer */
       for(int n = 0; n < 20; ++n)
         memcpy(map_buffer + n * 64, map->geo + (o_x + (o_y + n) * map->width) * 2, 64);
 
@@ -124,11 +153,24 @@ void send_input()
       struct list_elem* e;
       for(e = list_begin(&others); e != list_end(&others); e = list_next(e))
       {
+        int other_x = (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19));
+        int other_y = (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19));
+
         /* If others in the screen */
-        if(o_x <= (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) && o_x + 32 > (int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) &&
-           o_y <= (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)) && o_y + 20 > (int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)))
+        if(o_x <= other_x && o_x + 32 > other_x && o_y <= other_y && o_y + 20 > other_y)
         {
-          memcpy(map_buffer + ((int)(*(unsigned short *)(p->buffer+19+(*(int *)(e->conts))*19)) - o_y) * 32 * 2 + ((int)(*(unsigned short *)(p->buffer+17+(*(int *)(e->conts))*19)) - o_x) * 2, "¡ß",2);
+          char* other_name = p->buffer+2+(*(int *)(e->conts))*19;
+          int name_len = strlen(other_name);
+
+          /* Display user name */
+/*
+          for(int i = 0; i < name_len; ++i)
+            if(o_x <= other_x -  name_len / 2 + 1 + i && other_x -  name_len / 2 + 1 + i < o_x + 32
+            && o_y <= other_y - 1 && o_y + 20 > other_y - 1)
+              memcpy(map_buffer + (other_y - 1 - o_y) * 32 * 2 + (other_x - o_x) * 2 - name_len / 2  + 1 + i, other_name + i, 1);
+*/
+          
+          memcpy(map_buffer + (other_y - o_y) * 32 * 2 + (other_x - o_x) * 2, "¡ß", 2);
         }
       }
 
@@ -142,6 +184,7 @@ void send_input()
       }
       clear_list(&others);
 
+      /* Update screen, actually do nothing except first call of this function */
       update_screen(map_buffer, color_buffer);
     }
 

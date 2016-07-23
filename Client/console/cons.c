@@ -7,6 +7,8 @@ static HANDLE buffer1, buffer2;
 static HANDLE current_buffer;
 static char* last_screen;
 static color* last_colormap;
+static color* initial_last_colormap;
+static char* initial_last_screen;
 static int printing = 0;
 
 static int init_buffer(HANDLE b)
@@ -40,6 +42,9 @@ int init_console()
   /* Initialize initial screen. !Free later! */
   last_colormap = (color *)malloc(W*H*2*sizeof(color) + 1);
   last_screen = (char *)malloc(W*H*2 + 1);
+
+  initial_last_colormap = last_colormap;
+  initial_last_screen = last_screen;
 
   current_buffer = buffer1;
 
@@ -104,10 +109,8 @@ void show_screen()
 
 void end_console()
 {
-  /* Stop referencing last_~ */
   printing = 0;
 
-  /* Freeing resources */
-  free(last_screen);
-  free(last_colormap);
+  free(initial_last_colormap);
+  free(initial_last_screen);
 }

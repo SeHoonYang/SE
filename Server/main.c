@@ -29,7 +29,7 @@ int main()
   printf("Server has been opened\n");
 
   /* Networking thread */
-  _beginthread(&_start_server,0,NULL);
+  _beginthread(_start_server,0,NULL);
 
   while(getch() != 27);
 

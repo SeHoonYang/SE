@@ -43,6 +43,12 @@ int main(int argc, char** argv)
   while(input != 27)
   {
     input = getch();
+
+    if(input == 13)
+    {
+      show_game_menu();
+      input = 0;
+    }
   }
 
   /* Release resources */
