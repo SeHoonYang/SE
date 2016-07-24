@@ -2,6 +2,7 @@
 #include "usr.h"
 #include "direct.h"
 #include "../game/map_data.h"
+#include "../network/ysock.h"
 
 static int _min(int l, int r)
 {
@@ -60,8 +61,8 @@ int create_account(char * ID, char * PWD)
   chdir("./data/userdata");
 
   /* ID already exists */
-  FILE* f;
-  if(f = fopen(ID,"r") != NULL)
+  FILE* f = fopen(ID, "r");
+  if(f != NULL)
     return 0;
 
   /* Create an account */
@@ -127,7 +128,7 @@ void save_user_data(int uid)
   fwrite("\n", 1, 1, f);
 
   /* Write map */
-  char* map_str = int_to_str((int)(d->map_id));
+  char* map_str = (char *)int_to_str((int)(d->map_id));
 
   fwrite(map_str, 1, strlen(map_str), f);
   fwrite("\n", 1, 1, f);
@@ -135,8 +136,8 @@ void save_user_data(int uid)
   free(map_str);  
 
   /* Write coordinate */
-  char* x_str = int_to_str((int)(d->x));
-  char* y_str = int_to_str((int)(d->y));
+  char* x_str = (char *)int_to_str((int)(d->x));
+  char* y_str = (char *)int_to_str((int)(d->y));
   fwrite(x_str, 1, strlen(x_str), f);
   fwrite(" ", 1, 1, f);
   fwrite(y_str, 1, strlen(y_str), f);
@@ -146,8 +147,8 @@ void save_user_data(int uid)
   free(y_str);
 
   /* Write HP/MP */
-  char* hp_str = int_to_str((int)(d->hp));
-  char* mp_str = int_to_str((int)(d->mp));
+  char* hp_str = (char *)int_to_str((int)(d->hp));
+  char* mp_str = (char *)int_to_str((int)(d->mp));
   fwrite(hp_str, 1, strlen(hp_str), f);
   fwrite(" ", 1, 1, f);
   fwrite(mp_str, 1, strlen(mp_str), f);
@@ -157,8 +158,8 @@ void save_user_data(int uid)
   free(mp_str);
 
   /* Write HP/MP */
-  char* max_hp_str = int_to_str((int)(d->max_hp));
-  char* max_mp_str = int_to_str((int)(d->max_mp));
+  char* max_hp_str = (char *)int_to_str((int)(d->max_hp));
+  char* max_mp_str = (char *)int_to_str((int)(d->max_mp));
   fwrite(max_hp_str, 1, strlen(max_hp_str), f);
   fwrite(" ", 1, 1, f);
   fwrite(max_mp_str, 1, strlen(max_mp_str), f);
@@ -168,7 +169,7 @@ void save_user_data(int uid)
   free(max_mp_str);
 
   /* Write money */
-  char* money_str = int_to_str((int)(d->money));
+  char* money_str = (char *)int_to_str((int)(d->money));
   fwrite(money_str, 1, strlen(money_str), f);
   fwrite("\n", 1, 1, f);
 
@@ -181,11 +182,18 @@ void save_user_data(int uid)
 
 void save_users_data()
 {
-  /* Save entire user data to the file system */
-
   /* Close entire server (every thread) */
+  stop_data_loop();
 
-  /* Save each user data */
+  printf("Terminating threads\n");
+
+  /* Wait until every threads terminate */
+  Sleep(1000);
+
+  /* Save entire user data to the file system */
+  struct list_elem* e;
+  for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
+    save_user_data(((struct user_data *)(e->conts))->user_index);
 
   return;
 }

@@ -26,11 +26,14 @@ struct map_data
   struct list user_data;
 };
 
+void stop_mob_manager(void);
+void mob_manager(void);
 struct portal* on_portal(int, int, int);
 int movable(int, int, int);
 void load_maps(void);
 void get_map_status(int, char *);
 void add_user_to_map(int, int);
 void rem_user_from_map(int, int);
+void clear_map_data(void);
 
 #endif

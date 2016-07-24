@@ -2,7 +2,7 @@
 #include "mob.h"
 #include "../lib/list.h"
 
-static list mob_list;
+static struct list mob_list;
 
 void init_mob()
 {
@@ -23,20 +23,20 @@ struct mob* load_mob_data(int mid)
 {
   struct list_elem* e;
 
-  for(e = list_begin(&mob_list); e != list_end(&mob_list); e = list_next(e)
+  for(e = list_begin(&mob_list); e != list_end(&mob_list); e = list_next(e))
   {
-    if((struct mob *)(e->conts)->id == mid)
+    if(((struct mob *)(e->conts))->id == mid)
       return (struct mob *)(e->conts);
   }
 
   /* Load mob data from the file system */
-  char* file_name = int_to_str(mid);
+  char* file_name = (char *)int_to_str(mid);
   struct mob* m = (struct mob *)malloc(sizeof(struct mob));
   char buffer[20];
 
   m->id = mid;
 
-  FIlE* f = fopen(file_name , "r");
+  FILE* f = fopen(file_name , "r");
 
   /* Mob name */
   fgets(buffer, 20, f);
@@ -68,5 +68,6 @@ struct mob* load_mob_data(int mid)
 
   free(file_name);
 
+  push_list(&mob_list, m);
   return m;
 }

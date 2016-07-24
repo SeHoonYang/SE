@@ -112,12 +112,15 @@ void send_input()
       int map_id = (int)p->buffer[0];
       int obj_num = (int)p->buffer[1];
 
+      int user_num = obj_num % 16;
+      int mob_num = obj_num / 16;
+
       int id = 0;
       struct list others;
       init_list(&others);
 
       /* Split packet by each object */
-      for(int i = 0; i < obj_num; ++i)
+      for(int i = 0; i < user_num; ++i)
       {
         if(*(int *)(p->buffer+13+i*19) == user_index)
           id = i;

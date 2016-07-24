@@ -1,5 +1,5 @@
 #ifndef _MOB_H_
-#define _MOH_H_
+#define _MOB_H_
 
 struct mob
 {

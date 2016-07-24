@@ -3,6 +3,7 @@
 
 #include <winsock2.h>
 
+void stop_data_loop(void);
 int init_socket(int);
 int init_server(SOCKET*, int);
 int connect_client(SOCKET*, int, char*);

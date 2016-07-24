@@ -6,7 +6,6 @@
 #include "../lib/list.h"
 
 #define ELEM_NUM 5
-/* W * H < 5700; */
 #define MAX_STRLEN 1800
 #define MAX_MAP_SIZE 200*200*2*5
 
@@ -57,6 +56,7 @@ struct map* map_load_data(char *map_id)
 
   /* Allocate memory for map data */
   struct map *map = (struct map *)malloc(sizeof(struct map));
+  map->map_id = strn_to_int(map_id, 5);
 
   /* While meet last line of the map */
   while(mode != 6)

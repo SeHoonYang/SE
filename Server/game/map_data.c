@@ -1,9 +1,43 @@
 #include <stdio.h>
+#include <time.h>
 #include "map_data.h"
 #include "../lib/lib.h"
 #include "../usr/usr.h"
 
 static struct map_data map_data_array[MAX_MAP];
+static int closed;
+
+void stop_mob_manager()
+{
+  closed = 1;
+}
+
+/* Thread that manage monsters */
+void mob_manager()
+{
+  while(!closed)
+  {
+    int current_tick = (int)clock();
+
+    for(int i = 0; i < MAX_MAP; ++i)
+    {
+      int max_mobs = map_data_array[i].map->monster_num;
+      for(int j = 0; j < max_mobs; ++j)
+      {
+        struct monster_spwn* mob = &map_data_array[i].monster_spawned[j];
+
+        if(mob->spawned == 0 && current_tick - mob->timer > 10000)
+        {
+          /* Spawn mob */
+          mob->spawned = 1;
+          mob->x_pos = mob->base_x_pos;
+          mob->y_pos = mob->base_y_pos;
+          mob->current_hp = mob->max_hp;
+        }
+      }
+    }
+  }
+}
 
 struct portal* on_portal(int mid, int x, int y)
 {
@@ -79,9 +113,12 @@ void rem_user_from_map(int mid, int uid)
 void get_map_status(int mid, char* buff)
 {
   struct list* user_list = &map_data_array[mid].user_data;
-  struct list_elem* e;
+  int max_mobs = map_data_array[mid].map->monster_num;
 
+  struct list_elem* e;
   char num_obj = 0;
+
+  /* Add users to packet */
   for(e = list_begin(user_list); e != list_end(user_list); e = list_next(e))
   {
     struct user_data* d = get_user_data(*(int *)(e->conts));
@@ -93,6 +130,28 @@ void get_map_status(int mid, char* buff)
 
     num_obj = num_obj + 1;
   }
+
+  /* Add monsters to packet */
+  for(int i = 0; i < max_mobs; ++i)
+  {
+    
+    num_obj = num_obj + 16;
+  }
+
   buff[0] = (char)mid;
   buff[1] = num_obj;
+}
+
+void clear_map_data()
+{
+  for(int i = 0; i < MAX_MAP; ++i)
+  {
+    free(map_data_array[i].map);
+    struct list_elem* e;
+
+    for(e = list_begin(&map_data_array[i].user_data); e != list_end(&map_data_array[i].user_data); e = list_next(e))
+      free(e->conts);
+
+    clear_list(&map_data_array[i].user_data);
+  }
 }

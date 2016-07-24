@@ -8,6 +8,12 @@
 static int buffer_size;
 static int user_index;
 static int total_thread;
+static int closed;
+
+void stop_data_loop()
+{
+  closed = 1;
+}
 
 void data_rs_loop(SOCKET c)
 {
@@ -15,7 +21,7 @@ void data_rs_loop(SOCKET c)
   int error_count = 0;
   int sent_user = -1;
 
-  while(1)
+  while(!closed)
   {
     /* Receive a packet.
        Note that we will use large buffer to
@@ -106,6 +112,8 @@ void data_rs_loop(SOCKET c)
     /* Free the packet */
     free_packet(to_send);
   }
+
+  close(c);
 }
 
 int init_socket(int s)
@@ -128,6 +136,8 @@ int init_server(SOCKET* s, int port)
 
   if(bind(*s, (struct sockaddr *)&server, sizeof(struct sockaddr)) == SOCKET_ERROR)
     return WSAGetLastError();
+
+  closed = 0;
 
   return 0;
 }

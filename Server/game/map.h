@@ -20,9 +20,20 @@ struct portal
 
 struct monster_spwn
 {
-  int x_pos;
-  int y_pos;
-  int monster_id;
+  int id;
+  int timer;
+  char name[11];
+  char sprite[2];
+  char spawned;
+  unsigned short color;
+  unsigned short base_x_pos;
+  unsigned short base_y_pos;
+  unsigned short x_pos;
+  unsigned short y_pos;
+  unsigned short current_hp;
+  unsigned short max_hp;
+  unsigned short str;
+  unsigned short def;
 };
 
 struct map

@@ -1,8 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 #include "map.h"
 #include "../lib/lib.h"
+#include "mob.h"
 
 #define MAX_STRLEN 1500
 
@@ -81,11 +83,25 @@ struct map* map_load_data(char *map_id)
     else if(mode == 5)
     {
       char* token = strtok(line_buffer, ",");
+      map->spwn_pts[monster_index].base_x_pos = strn_to_int(token, 3);
       map->spwn_pts[monster_index].x_pos = strn_to_int(token, 3);
       token = strtok(NULL, ",");
+      map->spwn_pts[monster_index].base_y_pos = strn_to_int(token, 3);
       map->spwn_pts[monster_index].y_pos = strn_to_int(token, 3);
       token = strtok(NULL, ",");
-      map->spwn_pts[monster_index].monster_id = strn_to_int(token, 4);
+      map->spwn_pts[monster_index].id = strn_to_int(token, 4);
+      map->spwn_pts[monster_index].spawned = 0;
+      map->spwn_pts[monster_index].timer = (int)clock();
+
+      struct mob* m = load_mob_data(map->spwn_pts[monster_index].id);
+      memcpy(map->spwn_pts[monster_index].name, m->name, 11);
+      memcpy(map->spwn_pts[monster_index].sprite, m->sprite, 2);
+      map->spwn_pts[monster_index].color = m->color;
+      map->spwn_pts[monster_index].current_hp = m->hp;
+      map->spwn_pts[monster_index].max_hp = m->hp;
+      map->spwn_pts[monster_index].str = m->str;
+      map->spwn_pts[monster_index].def = m->def;
+
       monster_index++;
     }
   }
