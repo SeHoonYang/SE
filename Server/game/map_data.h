@@ -27,6 +27,7 @@ struct map_data
 
 void stop_mob_manager(void);
 void mob_manager(void);
+struct monster_spwn* on_monster(int, int, int);
 struct portal* on_portal(int, int, int);
 int movable(int, int, int);
 void load_maps(void);

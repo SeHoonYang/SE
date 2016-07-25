@@ -108,7 +108,7 @@ void send_input()
     recv(client_socket, (char *)p, sizeof(struct packet), 0);
 
     /* Analyze the server response */
-    if(p->header == 4 && pkt_isvalid(p))
+    if((p->header == 4 || p->header == 5) && pkt_isvalid(p))
     {
       int map_id = (int)p->buffer[0];
       int obj_num = (int)p->buffer[1];
@@ -210,6 +210,11 @@ void send_input()
         free(e->conts);
       }
       clear_list(&others);
+
+      if(p->header == 5)
+      {
+        SetConsoleTitle((char *)int_to_str((int)*(unsigned short *)(p->buffer + BUFFER_SIZE - 2)));
+      }
 
       /* Update screen, actually do nothing except first call of this function */
       update_screen(map_buffer, color_buffer);

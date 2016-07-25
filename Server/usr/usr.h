@@ -15,19 +15,21 @@ struct user_data
   unsigned short mp;
   unsigned short max_hp;
   unsigned short max_mp;
+  unsigned short str;
+  unsigned short def;
   int money;
 
   struct list inventory;
 };
 
 int create_account(char *, char *);
-int load_user_data(char *, char *, int, int, unsigned, unsigned, unsigned, int);
+int load_user_data(char *, char *, int, int, unsigned, unsigned, unsigned, int, unsigned short, unsigned short);
 void init_user_data(void);
 void save_users_data(void);
 void release_user_data(int);
 void save_user_data(int);
 void clear_user_data(void);
-void update_user_location(int, char);
+unsigned short update_user_location(int, char);
 int get_user_map_id(int);
 struct user_data* get_user_data(int);
 

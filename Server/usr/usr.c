@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <time.h>
 #include "usr.h"
 #include "direct.h"
 #include "../game/map_data.h"
@@ -70,7 +71,7 @@ int create_account(char * ID, char * PWD)
 
   /* Write basic user data */
   fwrite(PWD, 1, strlen(PWD), f);
-  fwrite("\n0\n10 11\n10 5\n10 5\n0\n", 1, 22, f);
+  fwrite("\n0\n10 11\n10 5\n10 5\n0\n4 2\n", 1, 26, f);
   
   fclose(f);
   chdir("../../");
@@ -83,7 +84,7 @@ void init_user_data()
   init_list(&user_list);
 }
 
-int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money)
+int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money, unsigned short str, unsigned short def)
 {
   /* Actually, we need to check whether the player has already logged in or not */
   struct list_elem* e;
@@ -104,6 +105,8 @@ int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned
   d->max_hp = m % 65536;
   d->max_mp = m / 65536;
   d->money = money;
+  d->str = str;
+  d->def = def;
   init_list(&d->inventory);
 
   /* Add to the list */
@@ -175,6 +178,16 @@ void save_user_data(int uid)
 
   free(money_str);
 
+  /* Write str,def */
+  char* str_str = (char *)int_to_str((int)(d->str));
+  char* def_str = (char *)int_to_str((int)(d->def));
+  fwrite(str_str, 1, strlen(str_str), f);
+  fwrite(" ", 1, 1, f);
+  fwrite(def_str, 1, strlen(def_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(str_str);
+  free(def_str);
   fclose(f);
 
   chdir("../../");
@@ -208,49 +221,89 @@ void clear_user_data()
   clear_list(&user_list);
 }
 
-void update_user_location(int idx, char key)
+unsigned short update_user_location(int idx, char key)
 {
+  /* Return remaining monster's HP */
+  unsigned short return_value = 0;
+
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
   {
     struct user_data* d = ((struct user_data*)e->conts);
+    unsigned short temp_x, temp_y;
 
-    if(d->user_index == idx)
+    switch(key)
     {
-      switch(key)
+      case 75:
+        if(movable(d->map_id, d->x-1, d->y))
+        {
+          temp_x = d->x - 1;
+          temp_y = d->y;
+        }
+        break;
+      case 77:
+        if(movable(d->map_id, d->x+1, d->y))
+        {
+          temp_x = d->x + 1;
+          temp_y = d->y;
+        }
+        break;
+      case 72:
+        if(movable(d->map_id, d->x, d->y-1))
+        {
+          temp_x = d->x;
+          temp_y = d->y - 1;
+        }
+        break;
+      case 80:
+        if(movable(d->map_id, d->x, d->y+1))
+        {
+          temp_x = d->x;
+          temp_y = d->y + 1;
+        }
+       break;
+    }
+
+    struct monster_spwn* monster = on_monster(d->map_id, temp_x, temp_y);
+
+    if(monster != NULL)
+    {
+      d->hp = _min(d->hp, d->hp + d->def - monster->str);
+      monster->current_hp = _min(monster->current_hp, monster->current_hp + monster->def - d->str);
+
+      /* If monster got 65536 damage, it can be a buggy code */
+      if(monster->current_hp == 0 || monster->current_hp > monster->max_hp)
       {
-        case 75:
-          if(movable(d->map_id, d->x-1, d->y))
-            d->x--;
-          break;
-        case 77:
-          if(movable(d->map_id, d->x+1, d->y))
-            d->x++;
-          break;
-        case 72:
-          if(movable(d->map_id, d->x, d->y-1))
-            d->y--;
-          break;
-        case 80:
-          if(movable(d->map_id, d->x, d->y+1))
-            d->y++;
-          break;
+        monster->spawned = 0;
+        monster->timer = clock();
       }
-
-      struct portal* next_map = on_portal(d->map_id, d->x, d->y);
-
-      if(next_map != NULL)
+      else
+        return_value = monster->current_hp;
+    }
+    else
+    {
+      if(d->user_index == idx)
       {
-        rem_user_from_map(d->map_id, d->user_index);
-        add_user_to_map(next_map->dest_map_id, d->user_index);
+        d->x = temp_x;
+        d->y = temp_y;
 
-        d->map_id = next_map->dest_map_id;
-        d->x =  next_map->dest_x_pos;
-        d->y =  next_map->dest_y_pos;
+        struct portal* next_map = on_portal(d->map_id, d->x, d->y);
+
+        if(next_map != NULL)
+        {
+          rem_user_from_map(d->map_id, d->user_index);
+          add_user_to_map(next_map->dest_map_id, d->user_index);
+
+          d->map_id = next_map->dest_map_id;
+          d->x =  next_map->dest_x_pos;
+          d->y =  next_map->dest_y_pos;
+        }
+        break;
       }
-      break;
     }
   }
+
+  return return_value;
 }
 
 int get_user_map_id(int idx)

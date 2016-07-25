@@ -1,7 +1,7 @@
 #ifndef _PACKET_H_
 #define _PACKET_H_
 
-#define BUFFER_SIZE 407
+#define BUFFER_SIZE 409
 
 /*
   Packet header
@@ -26,11 +26,15 @@
        -buffer[0] : char
        -bufer[1-4] : user index
    4 : Server response
-       -buffer[0] : # of object
+       -buffer[0] : map id
+       -buffer[1] : # of object
        -buffer[1 + i*sizeof_object_data ~ (i+1)*sizeof_object_data]
+       
+       user object data : name : 11 index : 4 position : 4 (total 19)
+       monster object data : id : 4 position : 4 (total 8)
    
-   // object data : coordinate(2),direction(1),HP(4) ...
-   5 : Data
+   5 : Monster combat responce
+       -Same as 4 + current hp for last 2 byte
 
    // After the login //
    8 : New thread creation request

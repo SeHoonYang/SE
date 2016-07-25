@@ -64,6 +64,18 @@ struct portal* on_portal(int mid, int x, int y)
   return NULL;
 }
 
+struct monster_spwn* on_monster(int mid, int x, int y)
+{
+  int max_monster = map_data_array[mid].map->monster_num;
+  for(int i = 0; i < max_monster; ++i)
+  {
+    if(map_data_array[mid].map->spwn_pts[i].spawned && map_data_array[mid].map->spwn_pts[i].x_pos == x && map_data_array[mid].map->spwn_pts[i].y_pos == y)
+      return &map_data_array[mid].map->spwn_pts[i];
+  }
+
+  return NULL;
+}
+
 int movable(int mid, int x, int y)
 {
   /* Check boundary */
@@ -147,11 +159,14 @@ void get_map_status(int mid, char* buff)
   /* Add monsters to packet */
   for(int i = 0; i < max_mobs; ++i)
   {
-    memcpy(buff + 2 + 16 * 19 + i * 8, (char *)&map_data_array[mid].map->spwn_pts[i].id, 4);
-    memcpy(buff + 2 + 16 * 19 + 4 + i * 8, (char *)&map_data_array[mid].map->spwn_pts[i].x_pos, 2);
-    memcpy(buff + 2 + 16 * 19 + 6 + i * 8, (char *)&map_data_array[mid].map->spwn_pts[i].y_pos, 2);
+    if(map_data_array[mid].map->spwn_pts[i].spawned == 1)
+    {
+      memcpy(buff + 2 + 16 * 19 + (num_obj / 16) * 8, (char *)&map_data_array[mid].map->spwn_pts[i].id, 4);
+      memcpy(buff + 2 + 16 * 19 + 4 + (num_obj / 16) * 8, (char *)&map_data_array[mid].map->spwn_pts[i].x_pos, 2);
+      memcpy(buff + 2 + 16 * 19 + 6 + (num_obj / 16) * 8, (char *)&map_data_array[mid].map->spwn_pts[i].y_pos, 2);
 
-    num_obj = num_obj + 16;
+      num_obj = num_obj + 16;
+    }
   }
 
   buff[0] = (char)mid;

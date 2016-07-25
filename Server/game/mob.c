@@ -21,6 +21,8 @@ void clear_mob_data()
 
 struct mob* load_mob_data(int mid)
 {
+  chdir("./../mobs/");
+
   struct list_elem* e;
 
   for(e = list_begin(&mob_list); e != list_end(&mob_list); e = list_next(e))
@@ -50,18 +52,22 @@ struct mob* load_mob_data(int mid)
 
   /* Color */
   fgets(buffer, 20, f);
+  buffer[strlen(buffer)-1] = 0;
   m->color = (unsigned short)strn_to_int(buffer,20);
 
   /* HP */
   fgets(buffer, 20, f);
+  buffer[strlen(buffer)-1] = 0;
   m->hp = (unsigned short)strn_to_int(buffer,20);
 
   /* STR */
   fgets(buffer, 20, f);
+  buffer[strlen(buffer)-1] = 0;
   m->str = (unsigned short)strn_to_int(buffer,20);
 
   /* DEF */
   fgets(buffer, 20, f);
+  buffer[strlen(buffer)-1] = 0;
   m->def = (unsigned short)strn_to_int(buffer,20);
 
   fclose(f);
@@ -69,5 +75,6 @@ struct mob* load_mob_data(int mid)
   free(file_name);
 
   push_list(&mob_list, m);
+  chdir("./../maps/");
   return m;
 }

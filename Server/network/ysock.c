@@ -76,10 +76,11 @@ void data_rs_loop(SOCKET c)
         /* Update server state and give result to the client */
         char key = ((struct packet *)buffer)->buffer[0];
         sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
+        unsigned short current_mob_hp = 0;
 
         /* Arrow keys */
         if(key == 72 || key == 75 || key == 77 || key == 80)
-          update_user_location(sent_user, key);
+          current_mob_hp = update_user_location(sent_user, key);
         else if(key == 0)
         {
           /* Do nothing */
@@ -90,9 +91,15 @@ void data_rs_loop(SOCKET c)
         }
 
         /* Get server state */
-        char server_data_buffer[BUFFER_SIZE];
+        char server_data_buffer[BUFFER_SIZE-2];
         get_map_status(get_user_map_id(sent_user), server_data_buffer);
-        marshal_packet(to_send, server_data_buffer, BUFFER_SIZE, 0);
+        marshal_packet(to_send, server_data_buffer, BUFFER_SIZE-2, 0);
+
+        if(current_mob_hp != 0)
+        {
+          marshal_packet(to_send, (char *)&current_mob_hp, 2, BUFFER_SIZE-2);
+          to_send->header = 5;
+        } 
       }
       else if(pkt_header == 9)
       {
@@ -223,7 +230,7 @@ void start_server(SOCKET s)
       {
         /* Log in request */
 
-        char id[11], pwd[11], buf[12];
+        char id[11], pwd[11], buf[23];
 
         /* Resolve the packet data */
         memcpy(id, ((struct packet *)buffer)->buffer, 11);
@@ -251,7 +258,7 @@ void start_server(SOCKET s)
         {
           /* Load user data to the map data cache */
           int mid, money;
-          unsigned short x,y,hp,mp, max_hp, max_mp;
+          unsigned short x,y,hp,mp, max_hp, max_mp, str, def;
           unsigned pos, h, m;
           char* token;
 
@@ -288,8 +295,15 @@ void start_server(SOCKET s)
           token[strlen(token)-1] = 0;
           money = strn_to_int(token,20);
 
+          fgets(buf,23,user_file);
+          token = strtok(buf," ");
+          str = (unsigned short)strn_to_int(token,5);
+          token = strtok(NULL," ");
+          token[strlen(token)-1] = 0;
+          def = (unsigned short)strn_to_int(token,5);
+
           /* Load user data to the cache. Not yet overlapped login handled */
-          if(load_user_data(id, pwd, user_index, mid, pos, h, m, money) == 0)
+          if(load_user_data(id, pwd, user_index, mid, pos, h, m, money, str, def) == 0)
             add_user_to_map(mid, user_index);
           else
             success = 0;
