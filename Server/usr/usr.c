@@ -279,6 +279,18 @@ unsigned short update_user_location(int idx, char key)
       }
       else
         return_value = monster->current_hp;
+
+      /* Player dead, also could be buggy if got 65536 damage */
+      if(d->hp == 0 || d->hp > d->max_hp)
+      {
+        rem_user_from_map(d->map_id, d->user_index);
+        add_user_to_map(0, d->user_index);
+
+        d->map_id = 0;
+        d->x =  10;
+        d->y =  10;
+        d->hp = d->max_hp;
+      }
     }
     else
     {

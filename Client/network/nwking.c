@@ -213,7 +213,7 @@ void send_input()
 
       if(p->header == 5)
       {
-        SetConsoleTitle((char *)int_to_str((int)*(unsigned short *)(p->buffer + BUFFER_SIZE - 2)));
+        /* Display hp bars */
       }
 
       /* Update screen, actually do nothing except first call of this function */
