@@ -29,9 +29,9 @@ static int port;
 static char* host;
 static char* data;
 static int closed;
-static int timer;
+static int timer = -5001;
 static int enemy_hp;
-static int enemy_index;
+static char* enemy_name;
 
 void set_user_index(int i)
 {
@@ -219,7 +219,9 @@ void send_input()
       {
         timer = clock();
         enemy_hp = (int)*(unsigned short *)(p->buffer + BUFFER_SIZE - 2);
-        enemy_index = *(int *)(p->buffer + BUFFER_SIZE - 6);
+        int enemy_index = *(int *)(p->buffer + BUFFER_SIZE - 6);
+        struct mob* enemy = load_mob_data(enemy_index);
+        enemy_name = enemy->name;
       }
       if(clock() - timer < 5000)
       {
@@ -229,6 +231,10 @@ void send_input()
         memcpy(map_buffer + 128, "¡á¡á¡á¡á¡á¡á¡á",14);
         memcpy(map_buffer + 192, "¡áHP :      ¡á",14);
         memcpy(map_buffer + 256, "¡á¡á¡á¡á¡á¡á¡á",14);
+        memcpy(map_buffer + 66, enemy_name, strlen(enemy_name));
+        char* enemy_hp_str = (char *)int_to_str(enemy_hp);
+        memcpy(map_buffer + 204 - strlen(enemy_hp_str), enemy_hp_str, strlen(enemy_hp_str));
+        free(enemy_hp_str);
       }
 
       /* Update screen, actually do nothing except first call of this function */
