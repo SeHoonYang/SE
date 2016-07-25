@@ -23,7 +23,7 @@ SET /A tcc_errors = 0
 IF %ERRORLEVEL% == 0 (
 ECHO [main]
 ECHO   -release.exe
-tcc -luser32 -lws2_32 -o ../bin/release/release.exe ../main.c ../console/color.c ../console/cons.c ../network/ysock.c ../network/nwking.c ../network/packet.c ../menu/menu.c ../lib/lib.c ../lib/list.c ../game/item.c ../game/map.c
+tcc -luser32 -lws2_32 -o ../bin/release/release.exe ../main.c ../console/color.c ../console/cons.c ../network/ysock.c ../network/nwking.c ../network/packet.c ../menu/menu.c ../lib/lib.c ../lib/list.c ../game/item.c ../game/map.c ../game/mob.c
 SET /A tcc_errors = %tcc_errors% + %ERRORLEVEL%
 )
 

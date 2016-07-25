@@ -1,3 +1,4 @@
+#include <time.h>
 #include <stdio.h>
 #include "network/packet.h"
 #include "network/ysock.h"
@@ -11,6 +12,8 @@ int main()
   /* Get arguments / Make GUI. It depends */
 
   /* Initializing */
+  srand(time(NULL));
+
   printf("Initializing data structures\n");
   init_user_data();
 

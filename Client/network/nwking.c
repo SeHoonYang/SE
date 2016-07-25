@@ -6,6 +6,7 @@
 #include "../lib/list.h"
 #include "../game/map.h"
 #include "../menu/menu.h"
+#include "../game/mob.h"
 
 #define PERIOD 40
 
@@ -144,6 +145,9 @@ void send_input()
       int delta_x = x - o_x;
       int delta_y = y - o_y;
 
+      /* Control concurrency */
+      stop_printing();
+
       /* Set up background layer */
       for(int n = 0; n < 20; ++n)
         memcpy(map_buffer + n * 64, map->geo + (o_x + (o_y + n) * map->width) * 2, 64);
@@ -165,6 +169,7 @@ void send_input()
           int name_len = strlen(other_name);
 
           /* Display user name */
+
 /* buggy yet;
           for(int i = 0; i < name_len; ++i)
             if(o_x <= other_x -  name_len / 2 + 1 + i && other_x -  name_len / 2 + 1 + i < o_x + 32
@@ -173,6 +178,26 @@ void send_input()
 */
           
           memcpy(map_buffer + (other_y - o_y) * 32 * 2 + (other_x - o_x) * 2, "¡ß", 2);
+        }
+      }
+
+      /* Plot mobs */
+
+      for(int n = 0; n < mob_num; ++n)
+      {
+        /* Get mob information */
+        int mob_id = *(int *)(p->buffer + 2 + 16 * 19 + n * 8);
+        int mob_x = (int)(*(unsigned short *)(p->buffer + 2 + 16 * 19 + 4 + n * 8));
+        int mob_y = (int)(*(unsigned short *)(p->buffer + 2 + 16 * 19 + 6 + n * 8));
+
+        if(o_x <= mob_x && o_x + 32 > mob_x && o_y <= mob_y && o_y + 20 > mob_y)
+        {
+          /* Load map data */
+          struct mob* monster = load_mob_data(mob_id);
+
+          memcpy(map_buffer + (mob_y - o_y) * 32 * 2 + (mob_x - o_x) * 2, monster->sprite, 2);
+          color_buffer[(mob_y - o_y) * 32 * 2 + (mob_x - o_x) * 2].textcolor = (char)monster->color;
+          color_buffer[(mob_y - o_y) * 32 * 2 + (mob_x - o_x) * 2 + 1].textcolor = (char)monster->color;
         }
       }
 
@@ -188,6 +213,7 @@ void send_input()
 
       /* Update screen, actually do nothing except first call of this function */
       update_screen(map_buffer, color_buffer);
+      resume_printing();
     }
 
     free(p);

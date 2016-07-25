@@ -17,6 +17,7 @@ void mob_manager()
 {
   while(!closed)
   {
+    Sleep(1000);
     int current_tick = (int)clock();
 
     for(int i = 0; i < MAX_MAP; ++i)
@@ -24,7 +25,19 @@ void mob_manager()
       int max_mobs = map_data_array[i].map->monster_num;
       for(int j = 0; j < max_mobs; ++j)
       {
-        struct monster_spwn* mob = &map_data_array[i].monster_spawned[j];
+        struct monster_spwn* mob = &map_data_array[i].map->spwn_pts[j];
+
+        if(mob->spawned == 1 && rand() % 6 == 0)
+        {
+          int temp_x = mob->x_pos + (rand() % 3  - 1);
+          int temp_y = mob->y_pos + (rand() % 3  - 1);
+
+          if(movable(i,temp_x,temp_y))
+          {
+            mob->x_pos = (unsigned short)temp_x;
+            mob->y_pos = (unsigned short)temp_y;
+          }
+        }
 
         if(mob->spawned == 0 && current_tick - mob->timer > 10000)
         {
@@ -134,7 +147,10 @@ void get_map_status(int mid, char* buff)
   /* Add monsters to packet */
   for(int i = 0; i < max_mobs; ++i)
   {
-    
+    memcpy(buff + 2 + 16 * 19 + i * 8, (char *)&map_data_array[mid].map->spwn_pts[i].id, 4);
+    memcpy(buff + 2 + 16 * 19 + 4 + i * 8, (char *)&map_data_array[mid].map->spwn_pts[i].x_pos, 2);
+    memcpy(buff + 2 + 16 * 19 + 6 + i * 8, (char *)&map_data_array[mid].map->spwn_pts[i].y_pos, 2);
+
     num_obj = num_obj + 16;
   }
 

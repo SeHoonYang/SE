@@ -1,7 +1,7 @@
 #ifndef _PACKET_H_
 #define _PACKET_H_
 
-#define BUFFER_SIZE 140
+#define BUFFER_SIZE 407
 
 /*
   Packet header

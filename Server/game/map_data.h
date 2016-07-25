@@ -22,7 +22,6 @@
 struct map_data
 {
   struct map* map;
-  struct monster_spwn monster_spawned[MAX_MONSTERSPWN];
   struct list user_data;
 };
 

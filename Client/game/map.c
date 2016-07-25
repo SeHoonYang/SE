@@ -1,3 +1,4 @@
+#include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -40,7 +41,7 @@ void init_map_list()
 struct map* map_load_data(char *map_id)
 {
   /* Change directory */
-  chdir("./data/maps");
+  chdir("./data/maps/");
 
   /* Parsing buffers */
   char line_buffer[MAX_STRLEN];
@@ -119,7 +120,7 @@ struct map* map_load_data(char *map_id)
   fclose(map_file);
 
   /* Change directory */
-  chdir("../../");
+  chdir("./../../");
 
   return map;
 }
