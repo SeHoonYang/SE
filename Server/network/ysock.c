@@ -76,11 +76,11 @@ void data_rs_loop(SOCKET c)
         /* Update server state and give result to the client */
         char key = ((struct packet *)buffer)->buffer[0];
         sent_user = *(int *)(((struct packet *)buffer)->buffer+1);
-        unsigned short current_mob_hp = 0;
 
+        struct enemy_info* info = NULL;
         /* Arrow keys */
         if(key == 72 || key == 75 || key == 77 || key == 80)
-          current_mob_hp = update_user_location(sent_user, key);
+          info = update_user_location(sent_user, key);
         else if(key == 0)
         {
           /* Do nothing */
@@ -95,11 +95,17 @@ void data_rs_loop(SOCKET c)
         get_map_status(get_user_map_id(sent_user), server_data_buffer);
         marshal_packet(to_send, server_data_buffer, BUFFER_SIZE-2, 0);
 
-        if(current_mob_hp != 0)
+        /* Page fault with info; have to be fixed */
+        if(info != NULL && info->current_mob_id != -1)
         {
-          marshal_packet(to_send, (char *)&current_mob_hp, 2, BUFFER_SIZE-2);
+          marshal_packet(to_send, (char *)&(info->current_mob_id), 4, BUFFER_SIZE-6);
+          marshal_packet(to_send, (char *)&(info->current_mob_hp), 2, BUFFER_SIZE-2);
           to_send->header = 5;
-        } 
+        }
+
+        if(info != NULL)
+          free(info);
+
       }
       else if(pkt_header == 9)
       {

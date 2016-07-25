@@ -1,7 +1,7 @@
 #ifndef _PACKET_H_
 #define _PACKET_H_
 
-#define BUFFER_SIZE 409
+#define BUFFER_SIZE 413
 
 /*
   Packet header
@@ -34,7 +34,7 @@
        monster object data : id : 4 position : 4 (total 8)
    
    5 : Monster combat responce
-       -Same as 4 + current hp for last 2 byte
+       -Same as 4 + enemy index 4, enemy current hp for last 2 byte
 
    // After the login //
    8 : New thread creation request

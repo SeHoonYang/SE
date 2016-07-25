@@ -221,16 +221,17 @@ void clear_user_data()
   clear_list(&user_list);
 }
 
-unsigned short update_user_location(int idx, char key)
+struct enemy_info* update_user_location(int idx, char key)
 {
-  /* Return remaining monster's HP */
-  unsigned short return_value = 0;
+  /* Return remaining monster's info */
+  struct enemy_info* return_value = (struct enemy_info *)malloc(sizeof(struct enemy_info));
+  return_value->current_mob_id = -1;
 
   struct list_elem* e;
   for(e = list_begin(&user_list); e != list_end(&user_list); e = list_next(e))
   {
     struct user_data* d = ((struct user_data*)e->conts);
-    unsigned short temp_x, temp_y;
+    unsigned short temp_x = d->x, temp_y = d->y;
 
     switch(key)
     {
@@ -261,7 +262,7 @@ unsigned short update_user_location(int idx, char key)
           temp_x = d->x;
           temp_y = d->y + 1;
         }
-       break;
+        break;
     }
 
     struct monster_spwn* monster = on_monster(d->map_id, temp_x, temp_y);
@@ -278,7 +279,10 @@ unsigned short update_user_location(int idx, char key)
         monster->timer = clock();
       }
       else
-        return_value = monster->current_hp;
+      {
+        return_value->current_mob_hp = monster->current_hp;
+        return_value->current_mob_id = monster->id;
+      }
 
       /* Player dead, also could be buggy if got 65536 damage */
       if(d->hp == 0 || d->hp > d->max_hp)

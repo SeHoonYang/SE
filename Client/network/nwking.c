@@ -1,3 +1,4 @@
+#include <time.h>
 #include "nwking.h"
 #include "ysock.h"
 #include "packet.h"
@@ -28,6 +29,9 @@ static int port;
 static char* host;
 static char* data;
 static int closed;
+static int timer;
+static int enemy_hp;
+static int enemy_index;
 
 void set_user_index(int i)
 {
@@ -213,7 +217,18 @@ void send_input()
 
       if(p->header == 5)
       {
+        timer = clock();
+        enemy_hp = (int)*(unsigned short *)(p->buffer + BUFFER_SIZE - 2);
+        enemy_index = *(int *)(p->buffer + BUFFER_SIZE - 6);
+      }
+      if(clock() - timer < 5000)
+      {
         /* Display hp bars */
+        memcpy(map_buffer      , "¡á¡á¡á¡á¡á¡á¡á",14);
+        memcpy(map_buffer +  64, "¡á          ¡á",14);
+        memcpy(map_buffer + 128, "¡á¡á¡á¡á¡á¡á¡á",14);
+        memcpy(map_buffer + 192, "¡áHP :      ¡á",14);
+        memcpy(map_buffer + 256, "¡á¡á¡á¡á¡á¡á¡á",14);
       }
 
       /* Update screen, actually do nothing except first call of this function */

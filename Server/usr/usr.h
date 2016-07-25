@@ -22,6 +22,12 @@ struct user_data
   struct list inventory;
 };
 
+struct enemy_info
+{
+  unsigned short current_mob_hp;
+  int current_mob_id;
+};
+
 int create_account(char *, char *);
 int load_user_data(char *, char *, int, int, unsigned, unsigned, unsigned, int, unsigned short, unsigned short);
 void init_user_data(void);
@@ -29,7 +35,7 @@ void save_users_data(void);
 void release_user_data(int);
 void save_user_data(int);
 void clear_user_data(void);
-unsigned short update_user_location(int, char);
+struct enemy_info* update_user_location(int, char);
 int get_user_map_id(int);
 struct user_data* get_user_data(int);
 
