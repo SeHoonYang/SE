@@ -21,6 +21,7 @@ static void level_up(struct user_data* d)
   {
     d->exp -= d->level * d->level * 10;
     d->level += 1;
+    d->stat_point += 3;
   }
 }
 
@@ -80,7 +81,7 @@ int create_account(char * ID, char * PWD)
 
   /* Write basic user data */
   fwrite(PWD, 1, strlen(PWD), f);
-  fwrite("\n0\n10 11\n10 5\n10 5\n0\n4 2\n1 0\n", 1, 30, f);
+  fwrite("\n0\n10 11\n10 5\n10 5\n0\n4 2 0\n1 0\n", 1, 32, f);
   
   fclose(f);
   chdir("../../");
@@ -93,7 +94,7 @@ void init_user_data()
   init_list(&user_list);
 }
 
-int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money, unsigned short str, unsigned short def, unsigned short level, int exp)
+int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money, unsigned short str, unsigned short def, unsigned short level, int exp, unsigned short stat_point)
 {
   /* Actually, we need to check whether the player has already logged in or not */
   struct list_elem* e;
@@ -118,6 +119,7 @@ int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned
   d->def = def;
   d->level = level;
   d->exp = exp;
+  d->stat_point = stat_point;
   init_list(&d->inventory);
 
   /* Add to the list */
@@ -163,6 +165,7 @@ void save_user_data(int uid)
   /* Write HP/MP */
   char* hp_str = (char *)int_to_str((int)(d->hp));
   char* mp_str = (char *)int_to_str((int)(d->mp));
+
   fwrite(hp_str, 1, strlen(hp_str), f);
   fwrite(" ", 1, 1, f);
   fwrite(mp_str, 1, strlen(mp_str), f);
@@ -192,11 +195,16 @@ void save_user_data(int uid)
   /* Write str,def */
   char* str_str = (char *)int_to_str((int)(d->str));
   char* def_str = (char *)int_to_str((int)(d->def));
+  char* stat_point_str = (char *)int_to_str((int)(d->stat_point));
+
   fwrite(str_str, 1, strlen(str_str), f);
   fwrite(" ", 1, 1, f);
   fwrite(def_str, 1, strlen(def_str), f);
+  fwrite(" ", 1, 1, f);
+  fwrite(stat_point_str, 1, strlen(stat_point_str), f);
   fwrite("\n", 1, 1, f);
 
+  free(stat_point_str);
   free(str_str);
   free(def_str);
 
@@ -308,22 +316,23 @@ struct enemy_info* update_user_location(int idx, char key)
 
         /* Level up if enough exp gained */
         level_up(d);
+
+        return_value->current_mob_hp = 0;
       }
       else
-      {
         return_value->current_mob_hp = monster->current_hp;
-        return_value->current_mob_id = monster->id;
-      }
+
+      return_value->current_mob_id = monster->id;
 
       /* Player dead, also could be buggy if got 65536 damage */
       if(d->hp == 0 || d->hp > d->max_hp)
       {
         rem_user_from_map(d->map_id, d->user_index);
-        add_user_to_map(0, d->user_index);
+        add_user_to_map(4, d->user_index);
 
-        d->map_id = 0;
-        d->x =  10;
-        d->y =  10;
+        d->map_id = 4;
+        d->x = 24;
+        d->y = 7;
         d->hp = d->max_hp;
       }
     }

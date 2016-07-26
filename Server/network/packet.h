@@ -51,7 +51,7 @@
         -buffer[10-11] : def
         -buffer[12-15] : money
         -buffer[16-17] : level
-        -buffer[18-21] : exp
+        -buffer[22-23] : stat_point
 */
 
 struct packet

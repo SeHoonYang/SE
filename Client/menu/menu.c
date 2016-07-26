@@ -16,10 +16,11 @@ static int def;
 static int money;
 static int level;
 static int exp;
+static int stat_point;
 static char ingame_menu_buffer[32*20*2+1];
 static int updated;
 
-void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, int _def, int _money, int _level, int _exp)
+void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, int _def, int _money, int _level, int _exp, int _stat_point)
 {
   hp = _hp;
   max_hp = _max_hp;
@@ -30,6 +31,7 @@ void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, in
   money = _money;
   level = _level;
   exp = _exp;
+  stat_point = _stat_point;
   updated = 1;
 }
 
@@ -323,13 +325,20 @@ static show_login_menu(void)
   return 0;
 }
 
-void show_game_menu()
+int show_game_menu()
 {
+  int menu_index = 0;
+  char* ingame_menu;
+  char* ingame_menu_cstring;
+
   while(1)
   {
     /* Synchronize does not needed since file system does it internally */
 
     while(!updated);
+
+    ingame_menu = menu_index == 0 ? ingame_menu0 : menu_index == 1 ? ingame_menu1 : ingame_menu2;
+    ingame_menu_cstring = menu_index == 0 ? ingame_menu_cstring0 : menu_index == 1 ? ingame_menu_cstring1 : ingame_menu_cstring2;
 
     /* show menu screen */
     colormap_from_string(32, 20, ingame_menu_cstring, colormap);
@@ -419,10 +428,34 @@ void show_game_menu()
     free(exp_str);
     free(max_exp_str);
 
-    if(getch() == 27)
+    char key = getch();
+    if(key == 27)
     {
       updated = 0;
       return;
+    }
+    else if(key == 72)
+    {
+      menu_index = _max(0, menu_index - 1);
+    }
+    else if(key == 80)
+    {
+      menu_index = _min(2, menu_index + 1);
+    }
+    else if(key == 13)
+    {
+      if(menu_index == 0)
+      {
+        /* Inventory */
+      }
+      else if(menu_index == 1)
+      {
+        /* Stat */
+      }
+      else if(menu_index == 2)
+      {
+        return 1;
+      }
     }
   }
 }

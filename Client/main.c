@@ -47,7 +47,8 @@ int main(int argc, char** argv)
 
     if(input == 13)
     {
-      show_game_menu();
+      if(show_game_menu())
+        break;
       input = 0;
     }
   }

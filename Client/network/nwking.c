@@ -29,7 +29,7 @@ static int port;
 static char* host;
 static char* data;
 static int closed;
-static int timer = -5001;
+static int timer = -1001;
 static int enemy_hp;
 static char* enemy_name;
 static unsigned short enemy_color;
@@ -95,8 +95,9 @@ void send_input()
         int money = (int)*(int *)(p->buffer+12);
         int level = (int)*(unsigned short *)(p->buffer+16);
         int exp = (int)*(int *)(p->buffer+18);
+        int stat_point = (int)*(unsigned short *)(p->buffer+22);
 
-        set_user_data_menu(hp,max_hp,mp,max_mp,str,def,money,level,exp);
+        set_user_data_menu(hp,max_hp,mp,max_mp,str,def,money,level,exp,stat_point);
       }
 
       free(p);
@@ -231,7 +232,7 @@ void send_input()
         enemy_color = enemy->color;
       }
 
-      if(clock() - timer < 5000)
+      if(clock() - timer < 1000)
       {
         /* Display hp bars */
         memcpy(map_buffer      , "¡á¡á¡á¡á¡á¡á¡á",14);
