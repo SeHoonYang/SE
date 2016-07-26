@@ -35,6 +35,7 @@ struct monster_spwn
   unsigned short str;
   unsigned short def;
   unsigned short reward;
+  int exp;
 };
 
 struct map

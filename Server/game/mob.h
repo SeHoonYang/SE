@@ -1,6 +1,19 @@
 #ifndef _MOB_H_
 #define _MOB_H_
 
+/* MOB file structure
+
+#MOB NAME (10 byte, char)
+#MOB SPRITE (2 byte, char)
+#COLOR (2 byte, int)
+#HP (2 byte, int)
+#STR (2 byte, int)
+#DEF (2 byte, int)
+#REWARD (2 byte, int)
+#EXP (4 byte, int)
+
+*/
+
 struct mob
 {
   int id;
@@ -11,6 +24,7 @@ struct mob
   unsigned short str;
   unsigned short def;
   unsigned short reward;
+  int exp;
 };
 
 void init_mob(void);

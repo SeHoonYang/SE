@@ -14,10 +14,12 @@ static int max_mp;
 static int str;
 static int def;
 static int money;
+static int level;
+static int exp;
 static char ingame_menu_buffer[32*20*2+1];
 static int updated;
 
-void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, int _def, int _money)
+void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, int _def, int _money, int _level, int _exp)
 {
   hp = _hp;
   max_hp = _max_hp;
@@ -26,6 +28,8 @@ void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, in
   str = _str;
   def = _def;
   money = _money;
+  level = _level;
+  exp = _exp;
   updated = 1;
 }
 
@@ -339,6 +343,8 @@ void show_game_menu()
     char* money_str = (char *)int_to_str(money);
     char* str_str = (char *)int_to_str(str);
     char* def_str = (char *)int_to_str(def);
+    char* level_str = (char *)int_to_str(level);
+    char* exp_str = (char *)int_to_str(exp);
 
     /* Show HP/MP string */
     memcpy(ingame_menu_buffer + 153, hp_str, strlen(hp_str));
@@ -378,6 +384,30 @@ void show_game_menu()
     memcpy(ingame_menu_buffer + 508 - strlen(def_str), def_str, strlen(def_str));
     memcpy(ingame_menu_buffer + 487 - strlen(str_str), str_str, strlen(str_str));
 
+    /* Show level string */
+    memcpy(ingame_menu_buffer + 1115 - strlen(level_str), level_str, strlen(level_str));
+
+    /* Show exp string */
+    memcpy(ingame_menu_buffer + 1119, exp_str, strlen(exp_str));
+
+    char* max_exp_str = (char *)int_to_str(level * level * 10);    
+
+    memcpy(ingame_menu_buffer + 1147 - strlen(max_exp_str), max_exp_str, strlen(max_exp_str));
+
+    /* Color for exp */
+    int n_exp = 15 * exp / (level * level * 10);
+
+    for(int i = 0; i < 15 - n_exp; ++i)
+    {
+      colormap[1118 + 2 * i].bgcolor = 2;
+      colormap[1119 + 2 * i].bgcolor = 2;
+    }
+    for(int i = 15 - n_exp; i < 15; ++i)
+    {
+      colormap[1118 + 2 * i].bgcolor = 10;
+      colormap[1119 + 2 * i].bgcolor = 10;
+    }
+
     free(hp_str);
     free(max_hp_str);
     free(mp_str);
@@ -385,6 +415,9 @@ void show_game_menu()
     free(money_str);
     free(str_str);
     free(def_str);
+    free(level_str);
+    free(exp_str);
+    free(max_exp_str);
 
     if(getch() == 27)
     {

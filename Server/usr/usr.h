@@ -18,6 +18,8 @@ struct user_data
   unsigned short str;
   unsigned short def;
   int money;
+  unsigned short level;
+  int exp;
 
   struct list inventory;
 };
@@ -29,7 +31,7 @@ struct enemy_info
 };
 
 int create_account(char *, char *);
-int load_user_data(char *, char *, int, int, unsigned, unsigned, unsigned, int, unsigned short, unsigned short);
+int load_user_data(char *, char *, int, int, unsigned, unsigned, unsigned, int, unsigned short, unsigned short, unsigned short, int);
 void init_user_data(void);
 void save_users_data(void);
 void release_user_data(int);

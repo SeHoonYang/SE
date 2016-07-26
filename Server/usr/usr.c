@@ -15,6 +15,15 @@ static int _max(int l, int r)
   return r < l ? l : r;
 }
 
+static void level_up(struct user_data* d)
+{
+  while(d->exp >= (int)d->level * (int)d->level * 10)
+  {
+    d->exp -= d->level * d->level * 10;
+    d->level += 1;
+  }
+}
+
 /* It would be better with hash */
 static struct list user_list;
 
@@ -71,7 +80,7 @@ int create_account(char * ID, char * PWD)
 
   /* Write basic user data */
   fwrite(PWD, 1, strlen(PWD), f);
-  fwrite("\n0\n10 11\n10 5\n10 5\n0\n4 2\n", 1, 26, f);
+  fwrite("\n0\n10 11\n10 5\n10 5\n0\n4 2\n1 0\n", 1, 30, f);
   
   fclose(f);
   chdir("../../");
@@ -84,7 +93,7 @@ void init_user_data()
   init_list(&user_list);
 }
 
-int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money, unsigned short str, unsigned short def)
+int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned h, unsigned m, int money, unsigned short str, unsigned short def, unsigned short level, int exp)
 {
   /* Actually, we need to check whether the player has already logged in or not */
   struct list_elem* e;
@@ -107,6 +116,8 @@ int load_user_data(char* ID, char* PWD, int idx, int mid, unsigned pos, unsigned
   d->money = money;
   d->str = str;
   d->def = def;
+  d->level = level;
+  d->exp = exp;
   init_list(&d->inventory);
 
   /* Add to the list */
@@ -188,6 +199,18 @@ void save_user_data(int uid)
 
   free(str_str);
   free(def_str);
+
+  /* Write level, exp */
+  char* level_str = (char *)int_to_str((int)(d->level));
+  char* exp_str = (char *)int_to_str((int)(d->exp));
+  fwrite(level_str, 1, strlen(level_str), f);
+  fwrite(" ", 1, 1, f);
+  fwrite(exp_str, 1, strlen(exp_str), f);
+  fwrite("\n", 1, 1, f);
+
+  free(level_str);
+  free(exp_str);
+
   fclose(f);
 
   chdir("../../");
@@ -281,6 +304,10 @@ struct enemy_info* update_user_location(int idx, char key)
 
         /* Give reward to player */
         d->money += (int)monster->reward;
+        d->exp += monster->exp;
+
+        /* Level up if enough exp gained */
+        level_up(d);
       }
       else
       {

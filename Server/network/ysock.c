@@ -119,6 +119,8 @@ void data_rs_loop(SOCKET c)
         marshal_packet(to_send, (char *)&d->str, 2, 8);
         marshal_packet(to_send, (char *)&d->def, 2, 10);
         marshal_packet(to_send, (char *)&d->money, 4, 12);
+        marshal_packet(to_send, (char *)&d->level, 2, 16);
+        marshal_packet(to_send, (char *)&d->exp, 4, 18);
       }
     }
 
@@ -266,8 +268,8 @@ void start_server(SOCKET s)
         if(success)
         {
           /* Load user data to the map data cache */
-          int mid, money;
-          unsigned short x,y,hp,mp, max_hp, max_mp, str, def;
+          int mid, money, exp;
+          unsigned short x,y,hp,mp, max_hp, max_mp, str, def, level;
           unsigned pos, h, m;
           char* token;
 
@@ -311,8 +313,15 @@ void start_server(SOCKET s)
           token[strlen(token)-1] = 0;
           def = (unsigned short)strn_to_int(token,5);
 
+          fgets(buf,23,user_file);
+          token = strtok(buf," ");
+          level = (unsigned short)strn_to_int(token,5);
+          token = strtok(NULL," ");
+          token[strlen(token)-1] = 0;
+          exp = strn_to_int(token,12);
+
           /* Load user data to the cache. Not yet overlapped login handled */
-          if(load_user_data(id, pwd, user_index, mid, pos, h, m, money, str, def) == 0)
+          if(load_user_data(id, pwd, user_index, mid, pos, h, m, money, str, def, level, exp) == 0)
             add_user_to_map(mid, user_index);
           else
             success = 0;

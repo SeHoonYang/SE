@@ -93,8 +93,10 @@ void send_input()
         int str = (int)*(unsigned short *)(p->buffer+8);
         int def = (int)*(unsigned short *)(p->buffer+10);
         int money = (int)*(int *)(p->buffer+12);
+        int level = (int)*(unsigned short *)(p->buffer+16);
+        int exp = (int)*(int *)(p->buffer+18);
 
-        set_user_data_menu(hp,max_hp,mp,max_mp,str,def,money);
+        set_user_data_menu(hp,max_hp,mp,max_mp,str,def,money,level,exp);
       }
 
       free(p);
