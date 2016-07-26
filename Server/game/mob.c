@@ -70,6 +70,11 @@ struct mob* load_mob_data(int mid)
   buffer[strlen(buffer)-1] = 0;
   m->def = (unsigned short)strn_to_int(buffer,20);
 
+  /* Reward */
+  fgets(buffer, 20, f);
+  buffer[strlen(buffer)-1] = 0;
+  m->reward = (unsigned short)strn_to_int(buffer,20);
+
   fclose(f);
 
   free(file_name);

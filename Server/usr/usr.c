@@ -275,8 +275,12 @@ struct enemy_info* update_user_location(int idx, char key)
       /* If monster got 65536 damage, it can be a buggy code */
       if(monster->current_hp == 0 || monster->current_hp > monster->max_hp)
       {
+        /* Reset monster */
         monster->spawned = 0;
         monster->timer = clock();
+
+        /* Give reward to player */
+        d->money += (int)monster->reward;
       }
       else
       {

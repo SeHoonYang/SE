@@ -10,6 +10,7 @@ struct mob
   unsigned short hp;
   unsigned short str;
   unsigned short def;
+  unsigned short reward;
 };
 
 void init_mob(void);

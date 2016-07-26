@@ -11,15 +11,21 @@ static int hp;
 static int max_hp;
 static int mp;
 static int max_mp;
+static int str;
+static int def;
+static int money;
 static char ingame_menu_buffer[32*20*2+1];
 static int updated;
 
-void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp)
+void set_user_data_menu(int _hp, int _max_hp, int _mp, int _max_mp, int _str, int _def, int _money)
 {
   hp = _hp;
   max_hp = _max_hp;
   mp = _mp;
   max_mp = _max_mp;
+  str = _str;
+  def = _def;
+  money = _money;
   updated = 1;
 }
 
@@ -330,6 +336,9 @@ void show_game_menu()
     char* max_hp_str = (char *)int_to_str(max_hp);
     char* mp_str = (char *)int_to_str(mp);
     char* max_mp_str = (char *)int_to_str(max_mp);
+    char* money_str = (char *)int_to_str(money);
+    char* str_str = (char *)int_to_str(str);
+    char* def_str = (char *)int_to_str(def);
 
     /* Show HP/MP string */
     memcpy(ingame_menu_buffer + 153, hp_str, strlen(hp_str));
@@ -362,10 +371,20 @@ void show_game_menu()
       colormap[250 - 2 * i].bgcolor = 1;
     }
 
+    /* Show money string */
+    memcpy(ingame_menu_buffer + 378 - strlen(money_str), money_str, strlen(money_str));
+
+    /* Show str/def string */
+    memcpy(ingame_menu_buffer + 508 - strlen(def_str), def_str, strlen(def_str));
+    memcpy(ingame_menu_buffer + 487 - strlen(str_str), str_str, strlen(str_str));
+
     free(hp_str);
     free(max_hp_str);
     free(mp_str);
     free(max_mp_str);
+    free(money_str);
+    free(str_str);
+    free(def_str);
 
     if(getch() == 27)
     {

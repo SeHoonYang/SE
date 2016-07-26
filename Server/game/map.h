@@ -34,6 +34,7 @@ struct monster_spwn
   unsigned short max_hp;
   unsigned short str;
   unsigned short def;
+  unsigned short reward;
 };
 
 struct map

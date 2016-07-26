@@ -32,6 +32,7 @@ static int closed;
 static int timer = -5001;
 static int enemy_hp;
 static char* enemy_name;
+static unsigned short enemy_color;
 
 void set_user_index(int i)
 {
@@ -89,13 +90,16 @@ void send_input()
         int max_hp = (int)*(unsigned short *)(p->buffer+2);
         int mp = (int)*(unsigned short *)(p->buffer+4);
         int max_mp = (int)*(unsigned short *)(p->buffer+6);
+        int str = (int)*(unsigned short *)(p->buffer+8);
+        int def = (int)*(unsigned short *)(p->buffer+10);
+        int money = (int)*(int *)(p->buffer+12);
 
-        set_user_data_menu(hp,max_hp,mp,max_mp);
+        set_user_data_menu(hp,max_hp,mp,max_mp,str,def,money);
       }
 
       free(p);
 
-      Sleep(PERIOD * 3);
+      Sleep(PERIOD * 2);
       continue;
     }
 
@@ -222,7 +226,9 @@ void send_input()
         int enemy_index = *(int *)(p->buffer + BUFFER_SIZE - 6);
         struct mob* enemy = load_mob_data(enemy_index);
         enemy_name = enemy->name;
+        enemy_color = enemy->color;
       }
+
       if(clock() - timer < 5000)
       {
         /* Display hp bars */
@@ -232,8 +238,26 @@ void send_input()
         memcpy(map_buffer + 192, "¡áHP :      ¡á",14);
         memcpy(map_buffer + 256, "¡á¡á¡á¡á¡á¡á¡á",14);
         memcpy(map_buffer + 66, enemy_name, strlen(enemy_name));
+
+        /* Display hp */
         char* enemy_hp_str = (char *)int_to_str(enemy_hp);
         memcpy(map_buffer + 204 - strlen(enemy_hp_str), enemy_hp_str, strlen(enemy_hp_str));
+
+        /* Change color, frame : white, enemy name : enemy color */
+        for(int i = 0; i < 5; ++i)
+        {
+          for(int j = 0; j < 7; ++j)
+          {
+            color_buffer[i*64 + j * 2].textcolor = 15;
+            color_buffer[i*64 + j * 2 + 1].textcolor = 15;
+            if(0 < j && j < 6 && i == 1)
+            {
+              color_buffer[i*64 + j * 2].textcolor = enemy_color;
+              color_buffer[i*64 + j * 2 + 1].textcolor = enemy_color;
+            }
+          }
+        }
+
         free(enemy_hp_str);
       }
 

@@ -116,6 +116,9 @@ void data_rs_loop(SOCKET c)
         marshal_packet(to_send, (char *)&d->max_hp, 2, 2);
         marshal_packet(to_send, (char *)&d->mp, 2, 4);
         marshal_packet(to_send, (char *)&d->max_mp, 2, 6);
+        marshal_packet(to_send, (char *)&d->str, 2, 8);
+        marshal_packet(to_send, (char *)&d->def, 2, 10);
+        marshal_packet(to_send, (char *)&d->money, 4, 12);
       }
     }
 

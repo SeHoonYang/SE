@@ -47,7 +47,9 @@
         -buffer[2-3] : max hp
         -buffer[4-5] : current mp
         -buffer[6-7] : max mp
-
+        -buffer[8-9] : str
+        -buffer[10-11] : def
+        -buffer[12-15] : money
 */
 
 struct packet

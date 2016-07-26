@@ -101,6 +101,7 @@ struct map* map_load_data(char *map_id)
       map->spwn_pts[monster_index].max_hp = m->hp;
       map->spwn_pts[monster_index].str = m->str;
       map->spwn_pts[monster_index].def = m->def;
+      map->spwn_pts[monster_index].reward = m->reward;
 
       monster_index++;
     }
