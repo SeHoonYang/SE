@@ -1,4 +1,4 @@
 CHCP 949
 CLS
 
-release.exe 169.233.219.232 2033
+release.exe 127.0.0.1 2033
