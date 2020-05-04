@@ -29,4 +29,8 @@ IF NOT %ERRORLEVEL% == 0 (
 ECHO %ERRORLEVEL% Errors occured.
 )ELSE (ECHO Done.)
 
+CD ..
+CD bin\release\data
+IF NOT EXIST userdata (mkdir userdata)
+
 PAUSE
